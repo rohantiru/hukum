@@ -14,10 +14,13 @@ import {
   Play,
 } from 'lucide-react';
 import gamesData from '../data/games.json';
-import type { Game, YahtzeeGame, PokerGame, RideBusGame } from '../types/game';
+import type { Game, YahtzeeGame, PokerGame, RideBusGame, TeenPattiGame, BlackjackGame, CrapsGame } from '../types/game';
 import YahtzeeSimulation from '../components/YahtzeeSimulation';
 import PokerSimulation from '../components/PokerSimulation';
 import RideBusSimulation from '../components/RideBusSimulation';
+import TeenPattiSimulation from '../components/TeenPattiSimulation';
+import BlackjackSimulation from '../components/BlackjackSimulation';
+import CrapsSimulation from '../components/CrapsSimulation';
 
 const games = gamesData.games as Game[];
 
@@ -427,6 +430,524 @@ function RideBusContent({ game, activeTab }: { game: RideBusGame; activeTab: Tab
   return null;
 }
 
+function VariationCards({ variations }: { variations: { name: string; description: string }[] }) {
+  return (
+    <div className="space-y-3">
+      {variations.map((v) => (
+        <div key={v.name} className="border border-stone-200 rounded-xl p-4">
+          <h4 className="font-semibold text-stone-800 mb-1">{v.name}</h4>
+          <p className="text-sm text-stone-600">{v.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function StrategyTips({ tips }: { tips: string[] }) {
+  return (
+    <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+      <h4 className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-3">Strategy Tips</h4>
+      <ul className="space-y-2">
+        {tips.map((tip, i) => (
+          <li key={i} className="text-sm text-blue-700 flex gap-2">
+            <span className="shrink-0 mt-0.5">•</span>
+            <span>{tip}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function TeenPattiContent({ game, activeTab }: { game: TeenPattiGame; activeTab: TabId }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+          <h3 className="font-semibold text-amber-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-amber-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+
+        <CollapsibleSection title="Cultural Notes">
+          <ul className="space-y-2">
+            {game.culturalNotes.map((note, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0">🇮🇳</span>
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Sample Hand">
+          <p className="text-sm text-stone-500 mb-3 italic">{game.sampleHand.description}</p>
+          <div className="mb-3 flex items-center gap-2 text-sm text-stone-500">
+            <span>Boot:</span>
+            <span className="font-bold text-amber-700">₹{game.sampleHand.boot}</span>
+            <span>|</span>
+            <span>Pot:</span>
+            <span className="font-bold text-amber-700">₹{game.sampleHand.potSize}</span>
+          </div>
+          <div className="space-y-2 mb-3">
+            {game.sampleHand.players.map((p) => (
+              <div key={p.name} className="bg-stone-50 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-stone-700">{p.name}</span>
+                  <span className="text-xs text-amber-600 font-medium">{p.hand}</span>
+                </div>
+                <div className="flex gap-1 mb-1">
+                  {p.cards.map((c, i) => (
+                    <span key={i} className={`text-xs px-1.5 py-0.5 rounded font-mono font-bold border ${
+                      c === 'Hidden' ? 'bg-stone-800 text-stone-100 border-stone-700' :
+                      c.endsWith('♥') || c.endsWith('♦') ? 'text-red-600 border-red-200 bg-red-50' :
+                      'text-stone-800 border-stone-200 bg-white'
+                    }`}>{c}</span>
+                  ))}
+                </div>
+                <p className="text-xs text-stone-500">{p.action}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-amber-50 rounded-lg p-3 border border-amber-100 text-sm font-semibold text-amber-800">
+            {game.sampleHand.outcome}
+          </div>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Set up Teen Patti in 5 steps:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">The four phases of a Teen Patti hand:</p>
+        <div className="space-y-3">
+          {game.gameplay.map((phase, i) => (
+            <div key={i} className="border border-stone-200 rounded-xl overflow-hidden">
+              <div className="bg-amber-50 px-4 py-2.5 border-b border-amber-100">
+                <h4 className="font-semibold text-amber-800">{phase.phase}</h4>
+              </div>
+              <div className="p-4 space-y-2">
+                <p className="text-sm text-stone-600">{phase.description}</p>
+                {phase.rules && (
+                  <ul className="mt-2 space-y-1">
+                    {phase.rules.map((r, j) => (
+                      <li key={j} className="text-xs text-stone-500 flex gap-2">
+                        <span className="shrink-0 text-amber-500">›</span>
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {phase.note && (
+                  <p className="text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2 border border-amber-100 mt-2">
+                    💡 {phase.note}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        <CollapsibleSection title="General Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.rules.map((r, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-amber-500">›</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-3">
+        <p className="text-stone-500 text-sm">Hand rankings from strongest to weakest:</p>
+        {game.handRankings.map((h) => (
+          <div key={h.rank} className="flex items-start gap-4 border border-stone-200 rounded-xl p-4">
+            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+              h.rank <= 2 ? 'bg-amber-100 text-amber-700' : 'bg-stone-100 text-stone-500'
+            }`}>
+              {h.rank}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between gap-2 mb-0.5 flex-wrap">
+                <h4 className="font-bold text-stone-800">{h.name}</h4>
+                <code className="text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded font-mono">{h.example}</code>
+              </div>
+              <p className="text-sm text-stone-600">{h.description}</p>
+              {h.note && <p className="text-xs text-stone-400 mt-1">{h.note}</p>}
+            </div>
+          </div>
+        ))}
+        <CollapsibleSection title="Betting Terms" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.betting.map((b, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-amber-500 font-bold">›</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+        <StrategyTips tips={game.strategyTips} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return (
+      <div className="space-y-3">
+        <TeenPattiSimulation />
+        <p className="text-xs text-stone-400 leading-relaxed px-1">
+          <strong className="text-stone-500">Simulation assumes:</strong> 4-player table · Boot ₹10/player (₹40 starting pot) · Chaal (current stake) ₹20 · Seen costs ₹30 total (boot + chaal), Blind costs ₹20 (boot + half chaal) · Dealer always plays seen and calls at ₹20. Win = collect the full pot.
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+function BlackjackContent({ game, activeTab }: { game: BlackjackGame; activeTab: TabId }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+          <h3 className="font-semibold text-emerald-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-emerald-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+
+        <CollapsibleSection title="Card Values">
+          <ul className="space-y-2">
+            {game.cardValues.map((v, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2 items-start">
+                <span className="shrink-0 text-emerald-500 font-bold mt-0.5">›</span>
+                {v}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Sample Hand">
+          <p className="text-sm text-stone-500 mb-3 italic">{game.sampleHand.description}</p>
+          <div className="mb-3 bg-stone-800 rounded-lg p-3">
+            <p className="text-stone-400 text-xs mb-2">Dealer</p>
+            <div className="flex gap-2 items-center">
+              <span className="text-white font-mono text-sm font-bold">{game.sampleHand.dealer.upCard}</span>
+              <span className="text-stone-500">+</span>
+              <span className="text-stone-500 font-mono text-sm">{game.sampleHand.dealer.holeCard}</span>
+              <span className="text-stone-400 text-xs ml-auto">= {game.sampleHand.dealer.total}</span>
+            </div>
+            <p className="text-stone-400 text-xs mt-1">{game.sampleHand.dealer.action}</p>
+          </div>
+          <div className="space-y-2">
+            {game.sampleHand.players.map((p, i) => (
+              <div key={i} className="bg-stone-50 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-stone-700">{p.name}</span>
+                  {p.total && <span className="text-xs font-mono text-emerald-700">{p.total}</span>}
+                </div>
+                <div className="flex gap-1 mb-1">
+                  {p.initialCards.map((c, j) => (
+                    <span key={j} className={`text-xs px-1.5 py-0.5 rounded font-mono font-bold border ${
+                      c.endsWith('♥') || c.endsWith('♦') ? 'text-red-600 border-red-200 bg-red-50' : 'text-stone-800 border-stone-200 bg-white'
+                    }`}>{c}</span>
+                  ))}
+                </div>
+                <p className="text-xs text-stone-500 mb-1">{p.action}</p>
+                <p className="text-xs font-semibold text-stone-700">{p.outcome}</p>
+              </div>
+            ))}
+          </div>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Setting up a Blackjack game:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">How a round of Blackjack flows:</p>
+        <div className="space-y-3">
+          {game.gameplay.map((phase, i) => (
+            <div key={i} className="border border-stone-200 rounded-xl overflow-hidden">
+              <div className="bg-emerald-50 px-4 py-2.5 border-b border-emerald-100">
+                <h4 className="font-semibold text-emerald-800">{phase.phase}</h4>
+              </div>
+              <div className="p-4 space-y-2">
+                <p className="text-sm text-stone-600">{phase.description}</p>
+                {phase.actions && (
+                  <div className="mt-2 space-y-2">
+                    {phase.actions.map((a) => (
+                      <div key={a.name} className="flex gap-3 items-start">
+                        <span className="text-xs font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded shrink-0">{a.name}</span>
+                        <p className="text-xs text-stone-500">{a.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {phase.rules && (
+                  <ul className="mt-2 space-y-1">
+                    {phase.rules.map((r, j) => (
+                      <li key={j} className="text-xs text-stone-500 flex gap-2">
+                        <span className="shrink-0 text-emerald-500">›</span>
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {phase.outcomes && (
+                  <ul className="mt-2 space-y-1">
+                    {phase.outcomes.map((o, j) => (
+                      <li key={j} className="text-xs text-stone-500 flex gap-2">
+                        <span className="shrink-0 text-emerald-500">›</span>
+                        {o}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {phase.note && (
+                  <p className="text-xs text-emerald-700 bg-emerald-50 rounded-lg px-3 py-2 border border-emerald-100 mt-2">
+                    💡 {phase.note}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Basic strategy — the mathematically optimal play for every situation:</p>
+        {game.basicStrategy.map((section) => (
+          <div key={section.situation} className="border border-stone-200 rounded-xl overflow-hidden">
+            <div className="bg-emerald-50 px-4 py-2.5 border-b border-emerald-100">
+              <h4 className="font-semibold text-emerald-800">{section.situation}</h4>
+            </div>
+            <ul className="p-4 space-y-1.5">
+              {section.rules.map((r, i) => (
+                <li key={i} className="text-sm text-stone-600 flex gap-2">
+                  <span className="shrink-0 text-emerald-500">›</span>
+                  {r}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <StrategyTips tips={game.strategyTips} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return <BlackjackSimulation />;
+  }
+
+  return null;
+}
+
+function CrapsContent({ game, activeTab }: { game: CrapsGame; activeTab: TabId }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-violet-50 rounded-xl p-4 border border-violet-100">
+          <h3 className="font-semibold text-violet-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-violet-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+
+        <CollapsibleSection title="Dice Probabilities">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {game.diceRollProbabilities.map((p, i) => (
+              <div key={i} className="bg-stone-50 rounded-lg p-2 text-center">
+                <p className="text-xs text-stone-500 leading-snug">{p}</p>
+              </div>
+            ))}
+          </div>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Sample Round">
+          <p className="text-sm text-stone-500 mb-3 italic">{game.sampleRound.description}</p>
+          <div className="mb-2 flex gap-3 text-sm text-stone-500">
+            <span>Shooter: <strong className="text-stone-700">{game.sampleRound.shooter}</strong></span>
+            <span>|</span>
+            <span>Bet: <strong className="text-stone-700">{game.sampleRound.bet}</strong></span>
+          </div>
+          <div className="space-y-2">
+            {game.sampleRound.rolls.map((r) => (
+              <div key={r.rollNumber} className="bg-stone-50 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-stone-500">Roll #{r.rollNumber} — {r.phase}</span>
+                  <span className="font-mono text-sm font-bold text-stone-800">{r.dice[0]}+{r.dice[1]}={r.total}</span>
+                </div>
+                <p className="text-xs text-stone-600">{r.result}</p>
+                <p className="text-xs text-stone-400 mt-0.5">{r.betStatus}</p>
+              </div>
+            ))}
+          </div>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Etiquette & Terminology" defaultOpen={false}>
+          <div className="space-y-1.5">
+            {game.etiquette.slice(0, 4).map((e, i) => (
+              <p key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0">🎲</span>
+                {e}
+              </p>
+            ))}
+          </div>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Getting a craps game started:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">How dice outcomes determine wins and losses:</p>
+        <div className="space-y-4">
+          {game.gameplay.map((phase, i) => (
+            <div key={i} className="border border-stone-200 rounded-xl overflow-hidden">
+              <div className="bg-violet-50 px-4 py-2.5 border-b border-violet-100">
+                <h4 className="font-semibold text-violet-800">{phase.phase}</h4>
+              </div>
+              <div className="p-4">
+                <p className="text-sm text-stone-600 mb-3">{phase.description}</p>
+                {phase.outcomes && (
+                  <div className="space-y-2">
+                    {phase.outcomes.map((o, j) => (
+                      <div key={j} className="flex gap-3 items-start bg-stone-50 rounded-lg p-3">
+                        <span className="text-xs font-bold bg-violet-100 text-violet-700 px-2 py-0.5 rounded shrink-0 whitespace-nowrap">{o.roll}</span>
+                        <p className="text-xs text-stone-600">{o.result}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        <CollapsibleSection title="General Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.rules.map((r, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-violet-500">›</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-semibold text-stone-700 mb-3">Core Bets — Start Here</h3>
+          <div className="space-y-3">
+            {game.basicBets.map((bet) => (
+              <div key={bet.name} className="border border-stone-200 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+                  <h4 className="font-bold text-stone-800">{bet.name}</h4>
+                  <div className="flex gap-2">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium">{bet.payout}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${bet.houseEdge === '0%' ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-100 text-stone-600'}`}>
+                      HE: {bet.houseEdge}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-sm text-stone-600 mb-1">{bet.description}</p>
+                {bet.strategy && <p className="text-xs text-blue-700 bg-blue-50 rounded px-2 py-1">{bet.strategy}</p>}
+                {bet.note && <p className="text-xs text-stone-400 mt-1">{bet.note}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-stone-700 mb-3">Advanced Bets — Know the Odds</h3>
+          <div className="space-y-3">
+            {game.advancedBets.map((bet) => (
+              <div key={bet.name} className="border border-stone-200 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+                  <h4 className="font-bold text-stone-800">{bet.name}</h4>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-medium">
+                    HE: {bet.houseEdge}
+                  </span>
+                </div>
+                <p className="text-sm text-stone-600 mb-1">{bet.description}</p>
+                <p className="text-xs text-stone-400">Pays: {bet.payout}</p>
+                {bet.strategy && <p className="text-xs text-red-700 bg-red-50 rounded px-2 py-1 mt-1">{bet.strategy}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <StrategyTips tips={game.strategyTips.slice(0, 5)} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return <CrapsSimulation />;
+  }
+
+  return null;
+}
+
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>();
   const game = games.find((g) => g.id === id);
@@ -456,7 +977,7 @@ export default function GameDetailPage() {
     { id: 'overview', label: 'Overview', icon: <BookOpen size={14} /> },
     { id: 'setup', label: 'Setup', icon: <Package size={14} /> },
     { id: 'rules', label: 'Rules', icon: <BookOpen size={14} /> },
-    { id: 'scoring', label: game.id === 'texas-holdem' ? 'Hand Rankings' : game.id === 'ride-the-bus' ? 'Scoring & Tips' : 'Scoring', icon: <Trophy size={14} /> },
+    { id: 'scoring', label: ({ 'texas-holdem': 'Hand Rankings', 'teen-patti': 'Hand Rankings', 'ride-the-bus': 'Scoring & Tips', 'blackjack': 'Basic Strategy', 'craps': 'Bets' } as Record<string, string>)[game.id] ?? 'Scoring', icon: <Trophy size={14} /> },
     { id: 'variations', label: 'Variations', icon: <Shuffle size={14} /> },
     { id: 'simulate', label: 'Try It', icon: <Play size={14} /> },
   ];
@@ -535,6 +1056,15 @@ export default function GameDetailPage() {
         )}
         {game.id === 'ride-the-bus' && (
           <RideBusContent game={game as RideBusGame} activeTab={activeTab} />
+        )}
+        {game.id === 'teen-patti' && (
+          <TeenPattiContent game={game as TeenPattiGame} activeTab={activeTab} />
+        )}
+        {game.id === 'blackjack' && (
+          <BlackjackContent game={game as BlackjackGame} activeTab={activeTab} />
+        )}
+        {game.id === 'craps' && (
+          <CrapsContent game={game as CrapsGame} activeTab={activeTab} />
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@
     {
       "id": "yahtzee",
       "name": "Yahtzee",
+      "tagline": "Five dice, thirteen shots at glory",
       "type": "dice",
       "players": "1–10",
       "playersMin": 1,
@@ -62,130 +63,33 @@
         }
       ],
       "scoring": [
-        {
-          "name": "Aces",
-          "description": "Count and add only the dice showing 1",
-          "points": "Sum of all 1s",
-          "example": "Roll: 1,1,3,4,1 → Score: 3"
-        },
-        {
-          "name": "Twos",
-          "description": "Count and add only the dice showing 2",
-          "points": "Sum of all 2s",
-          "example": "Roll: 2,2,3,4,5 → Score: 4"
-        },
-        {
-          "name": "Threes",
-          "description": "Count and add only the dice showing 3",
-          "points": "Sum of all 3s",
-          "example": "Roll: 3,3,3,1,2 → Score: 9"
-        },
-        {
-          "name": "Fours",
-          "description": "Count and add only the dice showing 4",
-          "points": "Sum of all 4s",
-          "example": "Roll: 4,4,2,3,5 → Score: 8"
-        },
-        {
-          "name": "Fives",
-          "description": "Count and add only the dice showing 5",
-          "points": "Sum of all 5s",
-          "example": "Roll: 5,5,5,1,2 → Score: 15"
-        },
-        {
-          "name": "Sixes",
-          "description": "Count and add only the dice showing 6",
-          "points": "Sum of all 6s",
-          "example": "Roll: 6,6,1,2,3 → Score: 12"
-        },
-        {
-          "name": "Upper Section Bonus",
-          "description": "If your total for the Upper Section is 63 or more, you earn a bonus",
-          "points": "+35 bonus points",
-          "example": "Score 63+ in Aces–Sixes to earn 35 extra points (equivalent to scoring 3 of each number)"
-        },
-        {
-          "name": "Three of a Kind",
-          "description": "At least three dice showing the same number",
-          "points": "Sum of ALL five dice",
-          "example": "Roll: 4,4,4,2,3 → Score: 17"
-        },
-        {
-          "name": "Four of a Kind",
-          "description": "At least four dice showing the same number",
-          "points": "Sum of ALL five dice",
-          "example": "Roll: 5,5,5,5,2 → Score: 22"
-        },
-        {
-          "name": "Full House",
-          "description": "Three of one number AND two of another number",
-          "points": "25 points (fixed)",
-          "example": "Roll: 3,3,3,6,6 → Score: 25"
-        },
-        {
-          "name": "Small Straight",
-          "description": "Four sequential dice (1-2-3-4, 2-3-4-5, or 3-4-5-6)",
-          "points": "30 points (fixed)",
-          "example": "Roll: 1,2,3,4,6 → Score: 30"
-        },
-        {
-          "name": "Large Straight",
-          "description": "Five sequential dice (1-2-3-4-5 or 2-3-4-5-6)",
-          "points": "40 points (fixed)",
-          "example": "Roll: 2,3,4,5,6 → Score: 40"
-        },
-        {
-          "name": "Yahtzee",
-          "description": "All five dice showing the same number",
-          "points": "50 points (first); 100-point bonus for each additional Yahtzee",
-          "example": "Roll: 6,6,6,6,6 → Score: 50 (or 100 bonus if already scored)"
-        },
-        {
-          "name": "Chance",
-          "description": "Any combination—no requirements",
-          "points": "Sum of ALL five dice",
-          "example": "Roll: 1,2,3,4,5 → Score: 15. Use this as a dump for bad rolls."
-        }
+        { "name": "Aces", "description": "Count and add only the dice showing 1", "points": "Sum of all 1s", "example": "Roll: 1,1,3,4,1 → Score: 3" },
+        { "name": "Twos", "description": "Count and add only the dice showing 2", "points": "Sum of all 2s", "example": "Roll: 2,2,3,4,5 → Score: 4" },
+        { "name": "Threes", "description": "Count and add only the dice showing 3", "points": "Sum of all 3s", "example": "Roll: 3,3,3,1,2 → Score: 9" },
+        { "name": "Fours", "description": "Count and add only the dice showing 4", "points": "Sum of all 4s", "example": "Roll: 4,4,2,3,5 → Score: 8" },
+        { "name": "Fives", "description": "Count and add only the dice showing 5", "points": "Sum of all 5s", "example": "Roll: 5,5,5,1,2 → Score: 15" },
+        { "name": "Sixes", "description": "Count and add only the dice showing 6", "points": "Sum of all 6s", "example": "Roll: 6,6,1,2,3 → Score: 12" },
+        { "name": "Upper Section Bonus", "description": "If your total for the Upper Section is 63 or more, you earn a bonus", "points": "+35 bonus points", "example": "Score 63+ in Aces–Sixes to earn 35 extra points" },
+        { "name": "Three of a Kind", "description": "At least three dice showing the same number", "points": "Sum of ALL five dice", "example": "Roll: 4,4,4,2,3 → Score: 17" },
+        { "name": "Four of a Kind", "description": "At least four dice showing the same number", "points": "Sum of ALL five dice", "example": "Roll: 5,5,5,5,2 → Score: 22" },
+        { "name": "Full House", "description": "Three of one number AND two of another number", "points": "25 points (fixed)", "example": "Roll: 3,3,3,6,6 → Score: 25" },
+        { "name": "Small Straight", "description": "Four sequential dice (1-2-3-4, 2-3-4-5, or 3-4-5-6)", "points": "30 points (fixed)", "example": "Roll: 1,2,3,4,6 → Score: 30" },
+        { "name": "Large Straight", "description": "Five sequential dice (1-2-3-4-5 or 2-3-4-5-6)", "points": "40 points (fixed)", "example": "Roll: 2,3,4,5,6 → Score: 40" },
+        { "name": "Yahtzee", "description": "All five dice showing the same number", "points": "50 points (first); 100-point bonus for each additional Yahtzee", "example": "Roll: 6,6,6,6,6 → Score: 50" },
+        { "name": "Chance", "description": "Any combination—no requirements", "points": "Sum of ALL five dice", "example": "Roll: 1,2,3,4,5 → Score: 15. Use this as a dump for bad rolls." }
       ],
       "variations": [
-        {
-          "name": "Double Yahtzee Bonus",
-          "description": "Some house rules award 200 points (instead of 100) for each Yahtzee after the first."
-        },
-        {
-          "name": "Forced Joker Rule",
-          "description": "If you roll a Yahtzee but already scored 50 in the Yahtzee box, you can use it as a joker in the Upper Section or Lower Section, scoring it normally."
-        },
-        {
-          "name": "Triple Yahtzee",
-          "description": "Play three rounds simultaneously using three separate scorecards. Scores from column 2 are doubled, column 3 are tripled."
-        },
-        {
-          "name": "Painted Dice",
-          "description": "Replace standard dice with colored dice — each color has unique rules. A fun variant for experienced players."
-        }
+        { "name": "Double Yahtzee Bonus", "description": "Some house rules award 200 points (instead of 100) for each Yahtzee after the first." },
+        { "name": "Forced Joker Rule", "description": "If you roll a Yahtzee but already scored 50 in the Yahtzee box, you can use it as a joker in the Upper or Lower Section." },
+        { "name": "Triple Yahtzee", "description": "Play three rounds simultaneously using three separate scorecards. Scores from column 2 are doubled, column 3 are tripled." },
+        { "name": "Painted Dice", "description": "Replace standard dice with colored dice — each color has unique rules. A fun variant for experienced players." }
       ],
       "sampleTurn": {
         "description": "Aiming for Yahtzee (five of a kind). Player starts with a lucky opening roll.",
         "rolls": [
-          {
-            "roll": 1,
-            "dice": [5, 3, 5, 5, 2],
-            "kept": [5, 5, 5],
-            "note": "Three 5s already! Keep them all, re-roll the 3 and 2."
-          },
-          {
-            "roll": 2,
-            "dice": [5, 5, 5, 5, 1],
-            "kept": [5, 5, 5, 5],
-            "note": "Four 5s! Keep all four, re-roll the 1 for one last shot at Yahtzee."
-          },
-          {
-            "roll": 3,
-            "dice": [5, 5, 5, 5, 5],
-            "kept": [5, 5, 5, 5, 5],
-            "note": "YAHTZEE! All five dice show 5. Score 50 points in the Yahtzee box!"
-          }
+          { "roll": 1, "dice": [5, 3, 5, 5, 2], "kept": [5, 5, 5], "note": "Three 5s already! Keep them all, re-roll the 3 and 2." },
+          { "roll": 2, "dice": [5, 5, 5, 5, 1], "kept": [5, 5, 5, 5], "note": "Four 5s! Keep all four, re-roll the 1 for one last shot." },
+          { "roll": 3, "dice": [5, 5, 5, 5, 5], "kept": [5, 5, 5, 5, 5], "note": "YAHTZEE! All five dice show 5. Score 50 points!" }
         ],
         "combination": "Yahtzee",
         "points": 50
@@ -194,6 +98,7 @@
     {
       "id": "texas-holdem",
       "name": "Texas Hold'em Poker",
+      "tagline": "Two cards. Your poker face. The rest is luck (and nerve).",
       "type": "card",
       "deck": "standard-52",
       "players": "2–10",
@@ -204,185 +109,59 @@
       "timeMinutes": 60,
       "objective": "Win chips by making the best 5-card poker hand using any combination of your 2 hole cards and 5 community cards, or by forcing all opponents to fold.",
       "setup": [
-        {
-          "step": 1,
-          "title": "Set up the table",
-          "description": "Use a standard 52-card deck. Each player starts with an equal number of chips. Assign a dealer button (a small disc or chip marker)."
-        },
-        {
-          "step": 2,
-          "title": "Post the blinds",
-          "description": "The player to the left of the dealer posts the Small Blind (usually half the minimum bet). The player to their left posts the Big Blind (the minimum bet). Blinds start the pot and create action."
-        },
-        {
-          "step": 3,
-          "title": "Deal hole cards",
-          "description": "The dealer deals 2 cards face-down to each player, starting from the small blind going clockwise. These private cards are your 'hole cards'—never show them to opponents."
-        }
+        { "step": 1, "title": "Set up the table", "description": "Use a standard 52-card deck. Each player starts with an equal number of chips. Assign a dealer button." },
+        { "step": 2, "title": "Post the blinds", "description": "The player to the left of the dealer posts the Small Blind. The player to their left posts the Big Blind. Blinds start the pot." },
+        { "step": 3, "title": "Deal hole cards", "description": "The dealer deals 2 cards face-down to each player. These private cards are your 'hole cards'—never show them to opponents." }
       ],
       "gameplay": [
-        {
-          "step": 1,
-          "title": "Pre-Flop betting",
-          "description": "Starting with the player left of the big blind, each player can: CALL (match the big blind), RAISE (increase the bet), or FOLD (discard cards). The small and big blind also get a chance to act."
-        },
-        {
-          "step": 2,
-          "title": "The Flop",
-          "description": "The dealer burns one card (discards face-down) then deals 3 community cards face-up in the center of the table. These are shared by all players. A new betting round begins from the first active player left of the dealer."
-        },
-        {
-          "step": 3,
-          "title": "The Turn",
-          "description": "The dealer burns another card and deals 1 more community card face-up (the 4th community card). Another betting round follows the same pattern."
-        },
-        {
-          "step": 4,
-          "title": "The River",
-          "description": "The dealer burns a final card and deals the 5th and last community card face-up. The final betting round takes place."
-        },
-        {
-          "step": 5,
-          "title": "The Showdown",
-          "description": "If two or more players remain after the final betting round, they reveal their hole cards. The player who makes the best 5-card hand using any combination of their 2 hole cards and the 5 community cards wins the pot."
-        },
-        {
-          "step": 6,
-          "title": "Next hand",
-          "description": "The dealer button moves one position clockwise. New blinds are posted and a new hand begins. Continue until agreed stopping time or one player has all the chips."
-        }
+        { "step": 1, "title": "Pre-Flop betting", "description": "Starting with the player left of the big blind, each player can: CALL (match the big blind), RAISE (increase the bet), or FOLD (discard cards)." },
+        { "step": 2, "title": "The Flop", "description": "The dealer burns one card then deals 3 community cards face-up. These are shared by all players. A new betting round begins." },
+        { "step": 3, "title": "The Turn", "description": "The dealer burns another card and deals 1 more community card face-up (the 4th). Another betting round follows." },
+        { "step": 4, "title": "The River", "description": "The dealer burns a final card and deals the 5th and last community card. The final betting round takes place." },
+        { "step": 5, "title": "The Showdown", "description": "If two or more players remain, they reveal their hole cards. Best 5-card hand using any combination of hole cards and community cards wins the pot." },
+        { "step": 6, "title": "Next hand", "description": "The dealer button moves one position clockwise. New blinds are posted and a new hand begins." }
       ],
       "handRankings": [
-        {
-          "rank": 1,
-          "name": "Royal Flush",
-          "description": "The highest possible hand — five highest cards of the same suit",
-          "example": "A♠ K♠ Q♠ J♠ 10♠"
-        },
-        {
-          "rank": 2,
-          "name": "Straight Flush",
-          "description": "Five consecutive cards of the same suit",
-          "example": "7♥ 8♥ 9♥ 10♥ J♥"
-        },
-        {
-          "rank": 3,
-          "name": "Four of a Kind",
-          "description": "Four cards of the same rank",
-          "example": "K♠ K♥ K♦ K♣ 2♠"
-        },
-        {
-          "rank": 4,
-          "name": "Full House",
-          "description": "Three of a kind plus a pair",
-          "example": "Q♠ Q♥ Q♦ 9♣ 9♥"
-        },
-        {
-          "rank": 5,
-          "name": "Flush",
-          "description": "Any five cards of the same suit (not consecutive)",
-          "example": "A♣ J♣ 8♣ 6♣ 3♣"
-        },
-        {
-          "rank": 6,
-          "name": "Straight",
-          "description": "Five consecutive cards of any suits",
-          "example": "6♠ 7♥ 8♦ 9♣ 10♠"
-        },
-        {
-          "rank": 7,
-          "name": "Three of a Kind",
-          "description": "Three cards of the same rank",
-          "example": "J♠ J♥ J♦ 4♣ 7♠"
-        },
-        {
-          "rank": 8,
-          "name": "Two Pair",
-          "description": "Two different pairs",
-          "example": "A♠ A♥ 8♦ 8♣ K♠"
-        },
-        {
-          "rank": 9,
-          "name": "One Pair",
-          "description": "Two cards of the same rank",
-          "example": "K♠ K♥ 9♦ 4♣ 2♠"
-        },
-        {
-          "rank": 10,
-          "name": "High Card",
-          "description": "No combination — highest card plays",
-          "example": "A♠ Q♥ 9♦ 5♣ 2♠"
-        }
+        { "rank": 1, "name": "Royal Flush", "description": "The highest possible hand — five highest cards of the same suit", "example": "A♠ K♠ Q♠ J♠ 10♠" },
+        { "rank": 2, "name": "Straight Flush", "description": "Five consecutive cards of the same suit", "example": "7♥ 8♥ 9♥ 10♥ J♥" },
+        { "rank": 3, "name": "Four of a Kind", "description": "Four cards of the same rank", "example": "K♠ K♥ K♦ K♣ 2♠" },
+        { "rank": 4, "name": "Full House", "description": "Three of a kind plus a pair", "example": "Q♠ Q♥ Q♦ 9♣ 9♥" },
+        { "rank": 5, "name": "Flush", "description": "Any five cards of the same suit (not consecutive)", "example": "A♣ J♣ 8♣ 6♣ 3♣" },
+        { "rank": 6, "name": "Straight", "description": "Five consecutive cards of any suits", "example": "6♠ 7♥ 8♦ 9♣ 10♠" },
+        { "rank": 7, "name": "Three of a Kind", "description": "Three cards of the same rank", "example": "J♠ J♥ J♦ 4♣ 7♠" },
+        { "rank": 8, "name": "Two Pair", "description": "Two different pairs", "example": "A♠ A♥ 8♦ 8♣ K♠" },
+        { "rank": 9, "name": "One Pair", "description": "Two cards of the same rank", "example": "K♠ K♥ 9♦ 4♣ 2♠" },
+        { "rank": 10, "name": "High Card", "description": "No combination — highest card plays", "example": "A♠ Q♥ 9♦ 5♣ 2♠" }
       ],
       "bettingRounds": [
-        {
-          "name": "Pre-Flop",
-          "cards": "2 hole cards (private)",
-          "description": "First round of betting. Action starts left of the big blind. Players must at least call the big blind to stay in the hand."
-        },
-        {
-          "name": "Flop",
-          "cards": "3 community cards revealed",
-          "description": "Second round. First 3 shared cards are dealt. Action starts from the first active player left of the dealer button."
-        },
-        {
-          "name": "Turn",
-          "cards": "4th community card revealed",
-          "description": "Third round. One more shared card. Bets often double in limit games. Players narrow down their hand possibilities."
-        },
-        {
-          "name": "River",
-          "cards": "5th community card revealed",
-          "description": "Final round. Last shared card is dealt. This is the last chance to bet, bluff, or extract value before showdown."
-        }
+        { "name": "Pre-Flop", "cards": "2 hole cards (private)", "description": "First round. Action starts left of the big blind. Players must at least call the big blind to stay in." },
+        { "name": "Flop", "cards": "3 community cards revealed", "description": "Second round. First 3 shared cards are dealt. Action starts from the first active player left of the dealer." },
+        { "name": "Turn", "cards": "4th community card revealed", "description": "Third round. One more shared card. Bets often double in limit games." },
+        { "name": "River", "cards": "5th community card revealed", "description": "Final round. Last shared card. Last chance to bet, bluff, or extract value before showdown." }
       ],
       "variations": [
-        {
-          "name": "No-Limit Texas Hold'em",
-          "description": "Players can bet any amount up to all their chips at any time ('all-in'). This is the most popular variant, used in the World Series of Poker Main Event."
-        },
-        {
-          "name": "Pot-Limit Hold'em",
-          "description": "Players can only bet up to the current size of the pot. Builds more slowly than No-Limit but still allows large bets."
-        },
-        {
-          "name": "Limit Hold'em",
-          "description": "Bets and raises are fixed amounts. Pre-flop and flop bets equal the big blind; turn and river bets are doubled."
-        },
-        {
-          "name": "Short Deck Hold'em",
-          "description": "Played with a 36-card deck (2s-5s removed). Hand rankings shift — a flush beats a full house."
-        }
+        { "name": "No-Limit Texas Hold'em", "description": "Players can bet any amount up to all their chips at any time ('all-in'). Used in the World Series of Poker Main Event." },
+        { "name": "Pot-Limit Hold'em", "description": "Players can only bet up to the current size of the pot. Builds more slowly than No-Limit." },
+        { "name": "Limit Hold'em", "description": "Bets and raises are fixed amounts. Pre-flop and flop bets equal the big blind; turn and river bets are doubled." },
+        { "name": "Short Deck Hold'em", "description": "Played with a 36-card deck (2s-5s removed). Hand rankings shift — a flush beats a full house." }
       ],
       "sampleHand": {
         "description": "A classic strong hand scenario showing how community cards change the game.",
         "holeCards": ["A♠", "K♠"],
         "communityCards": ["K♦", "K♥", "7♣", "2♦", "A♦"],
         "action": [
-          {
-            "street": "Pre-Flop",
-            "description": "You're dealt A♠ K♠ (Big Slick). You raise 3x the big blind. One opponent calls."
-          },
-          {
-            "street": "Flop (K♦ K♥ 7♣)",
-            "description": "You flop three Kings! You have trip Kings. You bet half the pot to extract value. Opponent calls."
-          },
-          {
-            "street": "Turn (2♦)",
-            "description": "The 2♦ doesn't help your opponent. You bet again — building the pot with your strong hand. Opponent raises! You call."
-          },
-          {
-            "street": "River (A♦)",
-            "description": "The Ace gives you a Full House: Kings full of Aces (K-K-K-A-A). You move all-in. Opponent calls with K♣ 7♦ (full house K-K-K-7-7). Your Aces beat their Sevens!"
-          }
+          { "street": "Pre-Flop", "description": "You're dealt A♠ K♠ (Big Slick). You raise 3x the big blind. One opponent calls." },
+          { "street": "Flop (K♦ K♥ 7♣)", "description": "You flop three Kings! You bet half the pot to extract value. Opponent calls." },
+          { "street": "Turn (2♦)", "description": "The 2♦ doesn't help your opponent. You bet again. Opponent raises! You call." },
+          { "street": "River (A♦)", "description": "The Ace gives you a Full House: Kings full of Aces. You move all-in. Opponent calls with K♣ 7♦ — your Aces beat their Sevens!" }
         ],
         "result": "You win with Kings full of Aces (K♠ K♦ K♥ A♠ A♦)"
       }
-    }
-  ,
+    },
     {
       "id": "ride-the-bus",
       "name": "Ride the Bus",
+      "tagline": "The only game where losing is part of the fun",
       "type": "card",
       "deck": "standard-52",
       "players": "4–10",
@@ -395,116 +174,439 @@
       "ageWarning": "This is a drinking game — play responsibly, 21+ only.",
       "objective": "Avoid being the player with the most wrong guesses across 4 rounds, or you'll 'ride the bus' — a 10-card gauntlet where you must guess red or black in sequence without a single mistake.",
       "setup": [
-        {
-          "step": 1,
-          "title": "Prepare the deck",
-          "description": "Remove jokers from a standard 52-card deck and shuffle thoroughly. Aces are HIGH throughout the game (above King)."
-        },
-        {
-          "step": 2,
-          "title": "Choose a dealer",
-          "description": "Designate one player as the dealer. The dealer flips and manages all cards but does not participate in guessing rounds. The role rotates each game."
-        },
-        {
-          "step": 3,
-          "title": "Sit in a circle",
-          "description": "All players sit in a circle with their drinks ready. Each player will collect one card per round, building a 4-card hand by the end of the guessing rounds."
-        },
-        {
-          "step": 4,
-          "title": "Understand the flow",
-          "description": "The game has 4 guessing rounds (one card per round), followed by a Pyramid phase, followed by a 'Ride the Bus' penalty round for the player with the most wrong guesses."
-        }
+        { "step": 1, "title": "Prepare the deck", "description": "Remove jokers from a standard 52-card deck and shuffle thoroughly. Aces are HIGH throughout the game." },
+        { "step": 2, "title": "Choose a dealer", "description": "Designate one player as the dealer. The dealer flips and manages all cards but does not participate in guessing rounds." },
+        { "step": 3, "title": "Sit in a circle", "description": "All players sit in a circle with their drinks ready. Each player collects one card per round, building a 4-card hand by the end." },
+        { "step": 4, "title": "Understand the flow", "description": "The game has 4 guessing rounds, followed by a Pyramid phase, followed by a 'Ride the Bus' penalty for the most wrong guesses." }
       ],
       "gameplay": [
-        {
-          "step": 1,
-          "title": "Round 1 — Red or Black?",
-          "description": "Going around the circle, each player guesses if their next card will be red (♥♦) or black (♠♣). The dealer flips the top card face-up in front of each player. Wrong guess = 1 drink."
-        },
-        {
-          "step": 2,
-          "title": "Round 2 — Higher or Lower?",
-          "description": "Using their Round 1 card as reference, each player guesses if the next card will be higher or lower. Ace is the highest value. Wrong guess = 2 drinks. If the new card exactly matches, drink and guess again."
-        },
-        {
-          "step": 3,
-          "title": "Round 3 — Inside or Outside?",
-          "description": "Players guess if the next card falls between (inside) or outside the range of their two existing cards. Example: with a 3 and 9, 'inside' means you expect a 4–8. Wrong guess = 3 drinks. Matching either card = drink and re-guess."
-        },
-        {
-          "step": 4,
-          "title": "Round 4 — Guess the Suit",
-          "description": "Players guess which suit (♠ ♥ ♦ ♣) their next card will be. It's a pure 25% chance. Wrong guess = 4 drinks."
-        },
-        {
-          "step": 5,
-          "title": "The Pyramid",
-          "description": "Dealer builds a 5-4-3-2-1 pyramid of face-down cards. Flipping from bottom to top, any player who holds a matching rank in their hand can assign drinks to any other player — 1 drink per card on the bottom row, up to 5 drinks for the top card. Cards can be used multiple times across different flips."
-        },
-        {
-          "step": 6,
-          "title": "Ride the Bus",
-          "description": "The player with the most wrong guesses (or most total drinks) across rounds 1–4 must 'ride the bus'. The dealer lays 10 cards face-down in a row. The rider guesses red or black for each card sequentially. Correct = advance to the next card. Wrong = take a drink and restart from card 1. You must get all 10 correct in a row without a single mistake to get off the bus!"
-        }
+        { "step": 1, "title": "Round 1 — Red or Black?", "description": "Each player guesses red (♥♦) or black (♠♣). The dealer flips the top card for each player. Wrong = 1 drink." },
+        { "step": 2, "title": "Round 2 — Higher or Lower?", "description": "Using Round 1 card as reference, guess if the next card is higher or lower. Ace is highest. Wrong = 2 drinks." },
+        { "step": 3, "title": "Round 3 — Inside or Outside?", "description": "Guess if the next card falls between or outside the range of your two existing cards. Wrong = 3 drinks." },
+        { "step": 4, "title": "Round 4 — Guess the Suit", "description": "Guess which suit (♠ ♥ ♦ ♣) your next card will be. Pure 25% chance. Wrong = 4 drinks." },
+        { "step": 5, "title": "The Pyramid", "description": "Dealer builds a 5-4-3-2-1 pyramid of face-down cards. Any player holding a matching rank can assign drinks to anyone else." },
+        { "step": 6, "title": "Ride the Bus", "description": "The player with the most wrong guesses must ride the bus: guess red or black for 10 cards in a row. Wrong = drink and restart from card 1. Get all 10 right to escape!" }
       ],
       "scoring": [
         "Track wrong guesses per player across all 4 rounds",
         "The player with the most wrong guesses rides the bus",
-        "If two or more players tie, all tied players ride the bus — taking turns guessing sequentially",
+        "If two or more players tie, all tied players ride the bus — taking turns guessing",
         "There is no traditional winner — the game is about fun and avoiding the bus!"
       ],
       "strategyTips": [
-        "Round 2: If your card is very high (Q, K, A) guess Lower; if very low (2, 3) guess Higher — the odds are in your favor.",
+        "Round 2: If your card is very high (Q, K, A) guess Lower; if very low (2, 3) guess Higher.",
         "Round 3: The wider the gap between your two cards, the better your 'Inside' odds are.",
-        "Round 4: Pure 25% luck. Some players always pick their favorite suit and commit to it.",
+        "Round 4: Pure 25% luck. Some players always pick their favorite suit and commit.",
         "Pyramid: Pay attention to what ranks other players hold so you know who can dish out drinks.",
         "Bus phase: There's no strategy — just stay calm and hope the cards cooperate!"
       ],
       "variations": [
-        {
-          "name": "Irish Poker",
-          "description": "Skip the pyramid and bus phases entirely. Just play the 4 guessing rounds as a simpler standalone drinking game."
-        },
-        {
-          "name": "Mercy Rule",
-          "description": "If the bus rider fails to complete the bus after 5 full restart attempts, the group may show mercy and end the phase."
-        },
-        {
-          "name": "Team Ride",
-          "description": "Players pair up into teams of 2. If one teammate is sent to ride the bus, their partner joins them and they alternate guesses."
-        },
-        {
-          "name": "Double or Nothing",
-          "description": "During the bus, the rider can call 'double or nothing' before a guess. Correct = skip ahead 2 cards. Wrong = go back 2 cards (if possible)."
-        },
-        {
-          "name": "No Pyramid",
-          "description": "Skip the pyramid phase entirely and determine who rides the bus solely based on wrong guess counts from Rounds 1–4."
-        }
+        { "name": "Irish Poker", "description": "Skip the pyramid and bus phases entirely. Just play the 4 guessing rounds as a simpler standalone drinking game." },
+        { "name": "Mercy Rule", "description": "If the bus rider fails to complete the bus after 5 full restart attempts, the group may show mercy and end the phase." },
+        { "name": "Team Ride", "description": "Players pair up into teams of 2. If one teammate rides the bus, their partner joins and they alternate guesses." },
+        { "name": "Double or Nothing", "description": "During the bus, the rider can call 'double or nothing' before a guess. Correct = skip ahead 2 cards. Wrong = go back 2 cards." },
+        { "name": "No Pyramid", "description": "Skip the pyramid phase entirely and determine who rides the bus solely based on wrong guess counts from Rounds 1–4." }
       ],
       "sampleHand": {
-        "description": "One player's unlucky journey through all 4 rounds — a tough night that leads straight to the bus.",
+        "description": "One player's unlucky journey through all 4 rounds — straight to the bus.",
         "holeCards": ["7♣", "3♥", "J♠", "K♦"],
         "action": [
-          {
-            "street": "Round 1",
-            "description": "Guessed Black → flipped 7♣. Correct! No drinks. Starting strong."
-          },
-          {
-            "street": "Round 2",
-            "description": "Had 7♣. Guessed Higher → flipped 3♥. Wrong! 3 is lower than 7. Drink 2."
-          },
-          {
-            "street": "Round 3",
-            "description": "Had 7♣ and 3♥. Guessed Inside (between 3–7) → flipped J♠. Jack is outside the range! Drink 3."
-          },
-          {
-            "street": "Round 4",
-            "description": "Guessed ♥ → flipped K♦. Wrong suit. Drink 4. A brutal round."
-          }
+          { "street": "Round 1", "description": "Guessed Black → flipped 7♣. Correct! No drinks. Starting strong." },
+          { "street": "Round 2", "description": "Had 7♣. Guessed Higher → flipped 3♥. Wrong! Drink 2." },
+          { "street": "Round 3", "description": "Had 7♣ and 3♥. Guessed Inside → flipped J♠. Outside the range! Drink 3." },
+          { "street": "Round 4", "description": "Guessed ♥ → flipped K♦. Wrong suit. Drink 4. A brutal round." }
         ],
-        "result": "Total: 9 drinks, 3 wrong guesses — you're definitely riding the bus tonight! 🚌"
+        "result": "Total: 9 drinks, 3 wrong guesses — you're definitely riding the bus tonight!"
+      }
+    },
+    {
+      "id": "teen-patti",
+      "name": "Teen Patti",
+      "tagline": "India's poker — where bluffing is an art form",
+      "type": "card",
+      "deck": "standard-52",
+      "players": "3–7",
+      "playersMin": 3,
+      "playersMax": 7,
+      "categories": ["gambling", "strategy", "betting", "indian"],
+      "difficulty": "medium",
+      "timeMinutes": 45,
+      "equipment": "Standard 52-card deck, chips or coins for betting",
+      "objective": "Win the pot by having the best 3-card hand or by forcing all other players to fold.",
+      "setup": [
+        { "step": 1, "title": "Set the boot (ante)", "description": "Agree on a minimum and maximum bet (the boot amount). Everyone must put in the boot to create the initial pot." },
+        { "step": 2, "title": "Place the boot", "description": "Each player puts in the boot (ante) to create the initial pot before any cards are dealt." },
+        { "step": 3, "title": "Choose the dealer", "description": "Designate a dealer — this role rotates clockwise each hand." },
+        { "step": 4, "title": "Prepare the deck", "description": "Remove jokers and shuffle thoroughly. Aces are HIGH in standard Teen Patti." },
+        { "step": 5, "title": "Deal three cards", "description": "Dealer deals 3 cards face-down to each player, one at a time, going clockwise." }
+      ],
+      "gameplay": [
+        {
+          "phase": "Seen or Blind?",
+          "description": "Each player decides whether to play 'seen' (look at your cards) or 'blind' (don't look). Blind players bet half the amount of seen players and can switch to seen at any time.",
+          "note": "Playing blind gives you a betting cost advantage — you pay half — but you're flying blind on your hand."
+        },
+        {
+          "phase": "Betting Round",
+          "description": "Starting left of the dealer, each player can: CALL (match current bet), RAISE (increase bet), or FOLD (pack/quit). Betting continues clockwise until all active players match the highest bet or fold.",
+          "rules": [
+            "Seen players must bet at least the current stake (chaal)",
+            "Blind players bet half the current stake",
+            "Maximum raise is typically 2x the current stake (varies by house rules)",
+            "Once seen, you cannot go back to blind"
+          ]
+        },
+        {
+          "phase": "Sideshow",
+          "description": "A seen player can request a private comparison (sideshow) with the previous player, if that player is also seen. The weaker hand must fold. The requested player can accept or deny.",
+          "note": "Sideshow costs the current stake and is a strategic tool to eliminate players without going to full showdown."
+        },
+        {
+          "phase": "Showdown",
+          "description": "When only 2 players remain, either can force a show by paying double the current stake. The best 3-card hand wins the entire pot. If only 1 player remains (all others folded), they win without showing cards.",
+          "note": "If a blind player and seen player remain, the blind player can ask for show at the current stake; the seen player pays double."
+        }
+      ],
+      "handRankings": [
+        { "rank": 1, "name": "Trail / Trio (Three of a Kind)", "description": "Three cards of the same rank", "example": "A♠ A♥ A♦", "note": "A-A-A is highest, 2-2-2 is lowest trail" },
+        { "rank": 2, "name": "Pure Sequence (Straight Flush)", "description": "Three consecutive cards of the same suit", "example": "A♠ K♠ Q♠", "note": "A-K-Q is highest; A-2-3 is second highest; 4-3-2 is lowest" },
+        { "rank": 3, "name": "Sequence / Run (Straight)", "description": "Three consecutive cards of different suits", "example": "A♠ K♥ Q♦", "note": "A-K-Q is highest; A-2-3 is second highest (wraparound)" },
+        { "rank": 4, "name": "Color (Flush)", "description": "Three cards of the same suit, not in sequence", "example": "A♠ J♠ 9♠", "note": "Compare highest card, then second, then third. A-K-J of a suit is the best flush." },
+        { "rank": 5, "name": "Pair", "description": "Two cards of the same rank", "example": "K♠ K♥ 5♦", "note": "A-A-X is the highest pair; 2-2-X is the lowest" },
+        { "rank": 6, "name": "High Card", "description": "No combination — highest card wins", "example": "A♠ J♥ 3♦", "note": "Compare highest card, then second, then third. A-K-J is the best high card hand." }
+      ],
+      "betting": [
+        "Boot: Initial ante all players pay before the deal",
+        "Chaal: The current bet amount players must match",
+        "Blind bet: Half the current chaal (if playing blind)",
+        "Seen bet: Full current chaal (if playing seen)",
+        "Raise: Typically limited to 2x the current chaal",
+        "Show: Costs 2x the current chaal (if you force a comparison)"
+      ],
+      "rules": [
+        "Aces are HIGH in standard Teen Patti",
+        "A-2-3 is a valid sequence (wraparound) and is the second-best sequence after A-K-Q",
+        "Blind players can look at their cards at any time and become seen players",
+        "Once seen, you cannot go back to blind",
+        "Sideshow can only be requested after a minimum number of betting rounds (house rules)",
+        "The player requesting a sideshow pays the current stake; the requested player can accept or deny",
+        "Pack / Fold: Forfeiting cards and exiting the hand; your boot contribution stays in the pot",
+        "The player who wins without showing cards does not have to reveal their hand"
+      ],
+      "strategyTips": [
+        "Playing blind gives you cost advantage — consider staying blind with medium hands to save chips",
+        "Aggressive betting as a blind player can force folds even if you're bluffing",
+        "Position matters — acting last gives you information advantage over early bettors",
+        "Use sideshow strategically to eliminate players cheaply when you're confident in your hand",
+        "Trail (three of a kind) is rare — if you have it, bet heavily and don't tip your hand too early",
+        "Pure sequence beats regular sequence — don't confuse them when evaluating your hand",
+        "Watch betting patterns — sudden aggression after staying calm often signals a strong hand",
+        "Mix up your seen/blind play style so opponents can't read you"
+      ],
+      "culturalNotes": [
+        "Teen Patti means 'three cards' in Hindi",
+        "Extremely popular during Diwali celebrations across India",
+        "Considered a social game — often played for hours at family gatherings",
+        "Many regional variations exist across different states of India",
+        "Traditionally played with real stakes, but can be played with chips or points",
+        "Similar to the British game 'Three Card Brag' and some poker variants"
+      ],
+      "variations": [
+        { "name": "Muflis (Lowball)", "description": "Hand rankings are reversed — worst hand wins. High card beats a trail. Great for mixing things up." },
+        { "name": "AK47", "description": "A, K, 4, and 7 of any suit are wild/joker cards and can complete any hand." },
+        { "name": "Best of Four", "description": "Each player gets 4 cards and makes the best 3-card hand from them, adding one decision point." },
+        { "name": "Community Cards", "description": "3 community cards dealt face-up that all players combine with their hole cards, similar to Texas Hold'em." },
+        { "name": "Sudden Death", "description": "No sideshows allowed. Betting continues until only one player remains or a showdown is forced." },
+        { "name": "Rotating Jokers", "description": "After each round, a different rank becomes wild (first round 2s are wild, then 3s, and so on)." }
+      ],
+      "sampleHand": {
+        "description": "Example hand with 4 players — a tense round that ends in a showdown.",
+        "boot": 10,
+        "players": [
+          { "name": "Player 1", "cards": ["K♠", "K♥", "7♦"], "hand": "Pair of Kings", "action": "Played seen, bet 20, stayed in to showdown" },
+          { "name": "Player 2", "cards": ["Hidden", "Hidden", "Hidden"], "hand": "Unknown (playing blind)", "action": "Played blind, bet 10, stayed in" },
+          { "name": "Player 3", "cards": ["9♣", "7♣", "2♣"], "hand": "Color (Flush)", "action": "Played seen, folded after Player 1 raised" },
+          { "name": "Player 4", "cards": ["A♠", "Q♥", "3♦"], "hand": "High Card (Ace-high)", "action": "Played seen, folded early" }
+        ],
+        "outcome": "Player 1 forces show against Player 2. Player 2 reveals 8♠ 5♥ 2♦ (high card). Player 1's pair of Kings wins the pot!",
+        "potSize": 100
+      }
+    },
+    {
+      "id": "blackjack",
+      "name": "Blackjack",
+      "tagline": "Beat the dealer to 21 — math optional, nerve required",
+      "type": "card",
+      "deck": "standard-52",
+      "players": "1–7",
+      "playersMin": 1,
+      "playersMax": 7,
+      "categories": ["gambling", "strategy"],
+      "difficulty": "easy",
+      "timeMinutes": 20,
+      "equipment": "1–8 standard decks, chips for betting",
+      "objective": "Beat the dealer by getting a hand value closer to 21 without going over (busting). Ties push (your bet is returned).",
+      "cardValues": [
+        "Number cards (2–10): Face value",
+        "Face cards (J, Q, K): Worth 10 each",
+        "Ace: Worth 1 or 11 — whichever is more favorable",
+        "Soft hand: Contains an Ace counted as 11 (e.g., A-6 = soft 17)",
+        "Hard hand: No Ace, or Ace counted as 1 (e.g., 10-7 = hard 17)"
+      ],
+      "setup": [
+        { "step": 1, "title": "Designate a dealer", "description": "One player is the dealer (in a casino, this is the house). The dealer follows fixed rules — no player decisions." },
+        { "step": 2, "title": "Shuffle the decks", "description": "Shuffle 1 or more decks together. Casinos typically use 6–8 decks in a shoe to prevent card counting." },
+        { "step": 3, "title": "Place your bet", "description": "Each player places their bet in the designated betting circle before any cards are dealt." },
+        { "step": 4, "title": "Deal initial cards", "description": "Dealer gives each player 2 cards face-up, then deals themselves 2 cards (1 face-up, 1 face-down/hole card)." },
+        { "step": 5, "title": "Check for Blackjack", "description": "If any player or the dealer has Blackjack (Ace + 10-value card) on the first 2 cards, it's announced immediately." }
+      ],
+      "gameplay": [
+        {
+          "phase": "Blackjack Check",
+          "description": "If dealer's up card is an Ace or 10-value card, dealer checks the hole card for Blackjack. If dealer has Blackjack, all player bets lose (unless player also has Blackjack — that's a push).",
+          "note": "Player Blackjack typically pays 3:2 (bet $10, win $15). Avoid tables that pay 6:5!"
+        },
+        {
+          "phase": "Player Decisions",
+          "description": "Starting from dealer's left, each player decides their action. The goal is to get as close to 21 as possible without busting.",
+          "actions": [
+            { "name": "HIT", "description": "Take another card. Can hit multiple times until you're satisfied or bust (exceed 21)." },
+            { "name": "STAND", "description": "Keep your current hand and take no more cards. Pass to the next player." },
+            { "name": "DOUBLE DOWN", "description": "Double your bet and receive exactly one more card, then you must stand. Usually only allowed on your first 2 cards." },
+            { "name": "SPLIT", "description": "If your first 2 cards are the same value, split into 2 separate hands with equal bets on each. Play each independently." },
+            { "name": "SURRENDER", "description": "Forfeit half your bet and end the hand immediately. Not available in all games — check table rules first." }
+          ]
+        },
+        {
+          "phase": "Dealer's Turn",
+          "description": "After all players finish, the dealer reveals their hole card and must follow fixed rules — no choices allowed.",
+          "rules": [
+            "Dealer must HIT on 16 or less",
+            "Dealer must STAND on 17 or more",
+            "Some casinos require dealer to hit soft 17 (A-6) — check table rules",
+            "Dealer has no choices — always plays by the house rules"
+          ]
+        },
+        {
+          "phase": "Settlement",
+          "description": "Compare each player's hand to the dealer's hand to determine winners.",
+          "outcomes": [
+            "Player busts (over 21): Lose bet immediately, regardless of dealer's hand",
+            "Dealer busts: All remaining players win even money (1:1)",
+            "Player total higher than dealer: Win even money",
+            "Dealer total higher: Player loses bet",
+            "Same total: Push (tie) — bet is returned",
+            "Player Blackjack vs dealer non-Blackjack: Win 3:2",
+            "Both have Blackjack: Push"
+          ]
+        }
+      ],
+      "basicStrategy": [
+        {
+          "situation": "Hard Totals (no Ace, or Ace counted as 1)",
+          "rules": [
+            "17 or higher: Always STAND",
+            "13–16: STAND if dealer shows 2–6, HIT if dealer shows 7–Ace",
+            "12: STAND if dealer shows 4–6, HIT otherwise",
+            "11: DOUBLE if dealer shows 2–10, HIT vs Ace",
+            "10: DOUBLE if dealer shows 2–9, HIT vs 10 or Ace",
+            "9: DOUBLE if dealer shows 3–6, HIT otherwise",
+            "8 or less: Always HIT (can't bust)"
+          ]
+        },
+        {
+          "situation": "Soft Totals (Ace counted as 11)",
+          "rules": [
+            "Soft 19–20 (A-8, A-9): Always STAND",
+            "Soft 18 (A-7): STAND vs dealer 2, 7, 8; DOUBLE vs 3–6; HIT vs 9, 10, Ace",
+            "Soft 17 (A-6): DOUBLE vs dealer 3–6, HIT otherwise",
+            "Soft 16 or less: HIT (or DOUBLE vs dealer 4–6)"
+          ]
+        },
+        {
+          "situation": "Pairs (to Split or Not)",
+          "rules": [
+            "Always SPLIT: Aces and 8s",
+            "Never SPLIT: 10s (20 is a great hand), 5s (treat as 10 — Double instead), 4s",
+            "SPLIT 2s, 3s, 6s, 7s if dealer shows 2–7",
+            "SPLIT 9s if dealer shows 2–6 or 8–9 (stand against 7, 10, or Ace)"
+          ]
+        }
+      ],
+      "rules": [
+        "Dealer must follow fixed rules — hit on 16 or less, stand on 17 or more",
+        "Player Blackjack beats dealer 21 made with 3 or more cards",
+        "After splitting Aces, you usually only get one additional card per Ace",
+        "21 made after splitting Aces is not Blackjack and pays 1:1, not 3:2",
+        "Double down is usually only allowed on your initial 2 cards",
+        "Surrender forfeits half your bet and must be your first action (late surrender = after dealer checks for BJ)",
+        "Insurance is a side bet that dealer has Blackjack — it pays 2:1 but is generally a bad bet",
+        "Dealer Blackjack takes all player bets except player Blackjacks (those push)"
+      ],
+      "strategyTips": [
+        "Never take insurance (the house edge on insurance is over 7%)",
+        "Always split Aces and 8s — no exceptions",
+        "Never split 10s — standing on 20 is almost always the right move",
+        "Double down on 11 when dealer shows 2–10",
+        "Dealer is most likely to bust when showing 4, 5, or 6 (weak upcards)",
+        "Never hit on 17 or higher (hard total)",
+        "Memorize the basic strategy chart — it reduces the house edge to under 0.5%",
+        "House edge with perfect basic strategy is typically around 0.5%",
+        "Surrender 16 against dealer 9, 10, or Ace (if surrender is available)",
+        "Hit soft 17 or lower — you can't bust on the first hit since the Ace can drop to 1"
+      ],
+      "casinoRules": [
+        "Minimum and maximum bets are posted at each table",
+        "Most casinos use 6 or 8 decks in a shoe",
+        "Blackjack pays 3:2 at good tables — avoid tables that pay 6:5",
+        "Dealer stands on all 17s OR hits soft 17, depending on casino",
+        "A cut card signals when to reshuffle",
+        "Tipping the dealer is customary after a winning session"
+      ],
+      "variations": [
+        { "name": "European Blackjack", "description": "Dealer receives only 1 card initially, gets hole card after all players finish. No early Blackjack check." },
+        { "name": "Spanish 21", "description": "All 10s removed from the deck (48-card deck). Player 21 always wins. Bonus payouts for special hands like 6-7-8 or 7-7-7." },
+        { "name": "Double Exposure", "description": "Both dealer cards are dealt face-up. Blackjacks pay even money. Dealer wins all ties except player Blackjack." },
+        { "name": "Blackjack Switch", "description": "Play 2 hands simultaneously and can switch the second card dealt to each hand. Blackjacks pay 1:1. Dealer 22 pushes all." },
+        { "name": "Pontoon", "description": "British version. Both dealer cards face-down. 'Pontoon' pays 2:1. 5-card trick (5 cards without busting) beats everything except Pontoon." }
+      ],
+      "sampleHand": {
+        "description": "Three players, three different outcomes against the dealer.",
+        "players": [
+          { "name": "Player 1", "initialCards": ["K♠", "8♥"], "total": 18, "action": "STAND on 18", "outcome": "Dealer has 20. Player loses." },
+          { "name": "Player 2", "initialCards": ["7♦", "7♣"], "action": "SPLIT 7s — first hand gets 10♠ (17), second hand hits 4♥ then 9♠ (20)", "outcome": "First hand (17) loses to dealer 20. Second hand (20) pushes. Net: lose 1 unit." },
+          { "name": "Player 3", "initialCards": ["A♠", "9♦"], "total": "Blackjack!", "action": "No decision needed — instant Blackjack", "outcome": "Wins 3:2 payout immediately." }
+        ],
+        "dealer": { "upCard": "10♣", "holeCard": "Q♥", "total": 20, "action": "Stands on 20" }
+      }
+    },
+    {
+      "id": "craps",
+      "name": "Craps",
+      "tagline": "The most social game in the casino, two dice at a time",
+      "type": "dice",
+      "players": "2–20",
+      "playersMin": 2,
+      "playersMax": 20,
+      "categories": ["gambling", "betting", "party"],
+      "difficulty": "medium",
+      "timeMinutes": 60,
+      "equipment": "Two standard 6-sided dice, chips for betting, craps table (or any flat surface for Street Craps)",
+      "objective": "Bet on the outcome of dice rolls. On the Pass Line: win if the shooter rolls 7 or 11 on the first roll, or hits their point number before rolling a 7.",
+      "setup": [
+        { "step": 1, "title": "Choose the shooter", "description": "Designate the first shooter (the player rolling the dice). The shooter rotates clockwise after each 'seven out'." },
+        { "step": 2, "title": "Select the dice", "description": "The shooter selects 2 dice from a set offered by the stickman (in casino) or from available dice." },
+        { "step": 3, "title": "Place your bets", "description": "All players place their bets before the shooter throws. Shooter must bet Pass Line or Don't Pass to roll." },
+        { "step": 4, "title": "Start with Come Out roll", "description": "When the puck is OFF, it's a Come Out roll — the start of a new round. This establishes whether a point is set." },
+        { "step": 5, "title": "Track the point", "description": "If a point is set (4, 5, 6, 8, 9, or 10), the dealer places the puck ON that number on the table layout." }
+      ],
+      "gameplay": [
+        {
+          "phase": "Come Out Roll",
+          "description": "The first roll of a new round determines the outcome immediately or sets a point number.",
+          "outcomes": [
+            { "roll": "7 or 11 (Natural)", "result": "Pass Line bets WIN instantly. Don't Pass bets LOSE. New come out roll begins." },
+            { "roll": "2, 3, or 12 (Craps)", "result": "Pass Line bets LOSE instantly. Don't Pass bets WIN (except 12 is a push in most casinos). New come out roll." },
+            { "roll": "4, 5, 6, 8, 9, or 10", "result": "This number becomes the POINT. Dealer marks it with the puck (flipped to ON). Enter Point Phase." }
+          ]
+        },
+        {
+          "phase": "Point Phase",
+          "description": "After a point is established, the shooter keeps rolling until they hit the point number again (win) or roll a 7 (seven out, lose).",
+          "outcomes": [
+            { "roll": "The Point number again", "result": "Pass Line WIN. Don't Pass LOSE. Point is made — new come out roll with same shooter." },
+            { "roll": "7 (Seven Out)", "result": "Pass Line LOSE. Don't Pass WIN. Shooter loses the dice. New shooter, new come out roll." },
+            { "roll": "Any other number", "result": "No effect on Pass/Don't Pass. Other bets (Place, Field, Come) may resolve. Shooter rolls again." }
+          ]
+        }
+      ],
+      "basicBets": [
+        { "name": "Pass Line", "description": "Bet that the shooter will win (make their point before rolling 7). Place before the come out roll.", "payout": "1:1 even money", "houseEdge": "1.41%", "strategy": "Best bet for beginners. You're cheering for the shooter with the table." },
+        { "name": "Don't Pass", "description": "Bet against the shooter — you win if they seven out. Note: 12 on come out is a push, not a win.", "payout": "1:1 even money", "houseEdge": "1.36%", "strategy": "Slightly better odds than Pass Line but socially awkward at a hot table (you're rooting against everyone)." },
+        { "name": "Come Bet", "description": "Same as Pass Line but placed after a point is established. The next roll becomes your personal point.", "payout": "1:1 even money", "houseEdge": "1.41%", "strategy": "Great for continuous action and covering multiple numbers." },
+        { "name": "Don't Come", "description": "Opposite of Come bet. Placed after a point is established — you win if a 7 rolls before your come point.", "payout": "1:1 even money", "houseEdge": "1.36%", "strategy": "Combine with Don't Pass for a consistent 'dark side' strategy." },
+        { "name": "Odds Bet", "description": "An additional bet placed behind your Pass/Don't Pass after a point is set. This bet has ZERO house edge — it pays true mathematical odds.", "payout": "2:1 on point 4 or 10 | 3:2 on point 5 or 9 | 6:5 on point 6 or 8", "houseEdge": "0%", "strategy": "ALWAYS take maximum odds. This is the single best bet in any casino — the house has no edge on it.", "note": "Casinos allow 1x, 2x, 3x, 5x, or even 100x odds depending on their rules." }
+      ],
+      "advancedBets": [
+        { "name": "Place Bets (6 or 8)", "description": "Bet that 6 or 8 will roll before a 7. Available any time, on any number (4, 5, 6, 8, 9, 10).", "payout": "7:6 on 6/8 | 7:5 on 5/9 | 9:5 on 4/10", "houseEdge": "1.52% on 6/8 (acceptable)", "strategy": "Place 6 and 8 are solid bets. Avoid Place 4/10 — the house edge jumps to 6.67%." },
+        { "name": "Field Bet", "description": "One-roll bet that the next roll is 2, 3, 4, 9, 10, 11, or 12 (7 out of 11 numbers).", "payout": "1:1 on most numbers; 2:1 on 2; 2:1 or 3:1 on 12 (varies)", "houseEdge": "2.78% to 5.56%", "strategy": "Popular with newer players but the 7 has six ways to roll — it's not as good as it looks." },
+        { "name": "Big 6 / Big 8", "description": "Bet that 6 or 8 will roll before a 7. Looks simple but pays only 1:1.", "payout": "1:1", "houseEdge": "9.09%", "strategy": "NEVER make this bet — Place bets on 6/8 pay 7:6 for the same outcome. Big 6/8 is a sucker bet." },
+        { "name": "Hardways (4, 6, 8, 10)", "description": "Bet that the number rolls as doubles (e.g., 3-3 for hard 6) before a 7 or an 'easy' combination.", "payout": "7:1 for hard 4/10 | 9:1 for hard 6/8", "houseEdge": "9.09% to 11.11%", "strategy": "Fun to watch but bad for your bankroll. Think of it as entertainment, not strategy." },
+        { "name": "Any 7", "description": "One-roll bet that the next roll is a 7. Simple, but terrible value.", "payout": "4:1", "houseEdge": "16.67%", "strategy": "The worst bet on the table. Avoid completely." },
+        { "name": "Any Craps", "description": "One-roll bet that the next roll is 2, 3, or 12.", "payout": "7:1", "houseEdge": "11.11%", "strategy": "Sometimes used as insurance on the come out roll but long-term it's a losing proposition." },
+        { "name": "Horn Bet", "description": "One-roll bet split equally on 2, 3, 11, and 12 simultaneously.", "payout": "15:1 on 3/11 | 30:1 on 2/12", "houseEdge": "12.5%", "strategy": "Flashy and exciting — and terrible for your wallet. Dealers love taking these bets for their tips." }
+      ],
+      "diceRollProbabilities": [
+        "2 or 12: 1 way to roll (2.78%) — Snake eyes or Midnight",
+        "3 or 11: 2 ways to roll each (5.56%) — Ace-deuce or Yo-eleven",
+        "4 or 10: 3 ways to roll each (8.33%)",
+        "5 or 9: 4 ways to roll each (11.11%)",
+        "6 or 8: 5 ways to roll each (13.89%) — Most common non-7",
+        "7: 6 ways to roll (16.67%) — Most likely single outcome"
+      ],
+      "rules": [
+        "The shooter must have a Pass or Don't Pass bet to roll",
+        "Dice must hit the back wall of the table to be a valid roll",
+        "If dice leave the table, they're inspected before re-use (or replaced)",
+        "The shooter keeps rolling until they seven out (roll 7 after point is set)",
+        "Pass Line and Come bets cannot be removed once placed after a point is set",
+        "Don't Pass and Don't Come bets can be removed anytime (but you shouldn't — you have the edge)",
+        "Puck OFF = come out roll; Puck ON = point is established",
+        "Bets can be placed, changed, or removed between rolls (except Pass/Come after point)"
+      ],
+      "strategyTips": [
+        "Stick to Pass Line + maximum Odds bet for the best mathematical edge",
+        "Place 6 and 8 are acceptable if you want action on multiple numbers",
+        "Avoid all proposition bets in the middle of the table — they have terrible house edges",
+        "Never bet Any 7 — it's the worst bet in the casino at 16.67% house edge",
+        "Don't Pass + Odds is mathematically slightly better than Pass + Odds but will make you unpopular",
+        "Take the maximum odds allowed — it's the only true 0% house edge bet in the casino",
+        "Field bets look attractive (covering 7 numbers) but the 7 alone has more ways to roll than 2+12",
+        "Hardways and Horn bets are entertainment money — budget for them separately",
+        "Craps has some of the best odds in the casino if you stick to Pass/Don't Pass + Odds",
+        "Come bets are great for spreading action across multiple point numbers"
+      ],
+      "etiquette": [
+        "Never say 'seven' at the craps table — it's considered extremely bad luck",
+        "Keep hands out of the table when dice are rolling — stickman calls 'dice are out'",
+        "Tip the dealers by placing a bet for them on the Pass Line",
+        "Don't pass dice from hand to hand — use one hand when handling them",
+        "Have your bets ready between rolls — don't delay the game",
+        "Cheer for the shooter (unless you're on the Don't side)",
+        "Don't touch your chips once dice are rolling",
+        "Late bets after the dice are thrown are refused — bet between rolls"
+      ],
+      "terminology": [
+        "Shooter: The player currently rolling the dice",
+        "Come Out Roll: The first roll of a new round (puck is OFF)",
+        "Point: The number (4, 5, 6, 8, 9, or 10) that must be rolled again to win",
+        "Seven Out: Rolling a 7 after the point is established — shooter loses the dice",
+        "Natural: Rolling 7 or 11 on come out — automatic Pass Line win",
+        "Craps: Rolling 2, 3, or 12 on come out — automatic Pass Line loss",
+        "Stickman: Casino employee who controls the dice with a long stick",
+        "Boxman: Casino supervisor seated at the table",
+        "Puck: Disc marker showing whether a point is On or Off",
+        "Snake Eyes: Rolling two 1s (total of 2)",
+        "Yo / Yo-leven: How dealers call 11 (to avoid confusion with 7)",
+        "Easy Way: Making an even number without doubles (e.g., 5-3 for 8)"
+      ],
+      "variations": [
+        { "name": "Street Craps", "description": "Casual version without a table. Only Pass/Don't Pass bets. Shooter rolls against a wall. Popular in informal settings — just dice and betting." },
+        { "name": "Crapless Craps", "description": "2, 3, 11, and 12 all become point numbers on come out roll — you can't 'crap out'. Higher house edge but no instant losses." },
+        { "name": "High Point Craps", "description": "2 and 3 are ignored on come out. 11 and 12 win automatically. Point must be 4 or higher." },
+        { "name": "New York Craps", "description": "No Come/Don't Come bets. House takes a 5% commission on winning bets. Common on the East Coast." },
+        { "name": "Die Rich Craps", "description": "Single-die variation. Roll 6 to start, then try to roll 6 again before rolling 1. Simple but tense." }
+      ],
+      "sampleRound": {
+        "description": "One player's Pass Line bet through a complete round.",
+        "shooter": "Player 1",
+        "bet": "$10 on Pass Line",
+        "rolls": [
+          { "rollNumber": 1, "dice": [4, 2], "total": 6, "phase": "Come Out Roll", "result": "Point is 6! Dealer flips puck to ON.", "betStatus": "Still active" },
+          { "rollNumber": 2, "dice": [3, 5], "total": 8, "phase": "Point Phase", "result": "Rolled 8 — not the point. Keep rolling!", "betStatus": "Still active" },
+          { "rollNumber": 3, "dice": [1, 2], "total": 3, "phase": "Point Phase", "result": "Rolled 3 — not the point. Keep rolling!", "betStatus": "Still active" },
+          { "rollNumber": 4, "dice": [3, 4], "total": 7, "phase": "Point Phase", "result": "Seven Out! Pass Line loses.", "betStatus": "Lost $10", "shooterStatus": "Loses dice — next player becomes the new shooter" }
+        ]
       }
     }
   ]

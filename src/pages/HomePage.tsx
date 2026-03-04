@@ -70,10 +70,10 @@ export default function HomePage() {
             <span className="text-amber-700 font-semibold text-sm tracking-wide uppercase">Hukum · Game Reference</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-800 mb-2">
-            Card & Dice Game Rules
+            Master the rules. Own the table.
           </h1>
           <p className="text-stone-500 text-lg max-w-xl">
-            Learn rules, explore strategies, and simulate gameplay for classic card and dice games.
+            From bluffing in Teen Patti to rolling craps — every game explained, with interactive simulations so you can practice before you play.
           </p>
 
           {/* Search */}

@@ -18,6 +18,7 @@ const CATEGORIES: { value: Category; label: string }[] = [
   { value: 'betting', label: 'Betting' },
   { value: 'drinking', label: 'Drinking' },
   { value: 'party', label: 'Party' },
+  { value: 'indian', label: 'Indian' },
 ];
 
 const DIFFICULTIES: { value: Difficulty; label: string; color: string }[] = [

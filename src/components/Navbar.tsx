@@ -27,7 +27,7 @@ export default function Navbar() {
               All Games
             </Link>
             <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full font-semibold border border-amber-200">
-              3 games
+              6 games
             </span>
           </div>
         </div>
