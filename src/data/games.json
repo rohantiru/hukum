@@ -1,0 +1,383 @@
+{
+  "games": [
+    {
+      "id": "yahtzee",
+      "name": "Yahtzee",
+      "type": "dice",
+      "players": "1–10",
+      "playersMin": 1,
+      "playersMax": 10,
+      "categories": ["family", "casual", "strategy"],
+      "difficulty": "easy",
+      "timeMinutes": 30,
+      "equipment": "5 standard dice, scorecard per player, pencil",
+      "objective": "Score points by rolling five dice to make specific combinations across 13 categories. The player with the highest total score wins.",
+      "setup": [
+        {
+          "step": 1,
+          "title": "Gather equipment",
+          "description": "Each player needs a scorecard. You need 5 standard six-sided dice and a cup for rolling (optional but traditional)."
+        },
+        {
+          "step": 2,
+          "title": "Determine turn order",
+          "description": "Each player rolls one die. The highest roller goes first. In case of a tie, those players re-roll."
+        },
+        {
+          "step": 3,
+          "title": "Understand the scorecard",
+          "description": "The scorecard has 13 scoring categories: 6 in the Upper Section (Aces through Sixes) and 7 in the Lower Section (Three of a Kind, Four of a Kind, Full House, Small Straight, Large Straight, Yahtzee, Chance)."
+        }
+      ],
+      "gameplay": [
+        {
+          "step": 1,
+          "title": "Roll all five dice",
+          "description": "On your turn, roll all five dice. This is your first roll. You must roll at least once per turn."
+        },
+        {
+          "step": 2,
+          "title": "Decide which to keep",
+          "description": "After the first roll, set aside any dice you want to keep. You can keep as many or as few as you like—even none."
+        },
+        {
+          "step": 3,
+          "title": "Roll remaining dice (2nd roll)",
+          "description": "Re-roll any dice you didn't keep. You now have up to one more re-roll remaining."
+        },
+        {
+          "step": 4,
+          "title": "Final re-roll (optional)",
+          "description": "Optionally re-roll any dice one last time for your third and final roll. You cannot roll more than 3 times total per turn."
+        },
+        {
+          "step": 5,
+          "title": "Score your dice",
+          "description": "After your final roll, you MUST mark a score in exactly one unfilled category on your scorecard. If no category fits, you must mark a zero in any unused category."
+        },
+        {
+          "step": 6,
+          "title": "Pass to next player",
+          "description": "Play passes clockwise. Each player takes turns until all 13 categories are filled. Then final scores are tallied."
+        }
+      ],
+      "scoring": [
+        {
+          "name": "Aces",
+          "description": "Count and add only the dice showing 1",
+          "points": "Sum of all 1s",
+          "example": "Roll: 1,1,3,4,1 → Score: 3"
+        },
+        {
+          "name": "Twos",
+          "description": "Count and add only the dice showing 2",
+          "points": "Sum of all 2s",
+          "example": "Roll: 2,2,3,4,5 → Score: 4"
+        },
+        {
+          "name": "Threes",
+          "description": "Count and add only the dice showing 3",
+          "points": "Sum of all 3s",
+          "example": "Roll: 3,3,3,1,2 → Score: 9"
+        },
+        {
+          "name": "Fours",
+          "description": "Count and add only the dice showing 4",
+          "points": "Sum of all 4s",
+          "example": "Roll: 4,4,2,3,5 → Score: 8"
+        },
+        {
+          "name": "Fives",
+          "description": "Count and add only the dice showing 5",
+          "points": "Sum of all 5s",
+          "example": "Roll: 5,5,5,1,2 → Score: 15"
+        },
+        {
+          "name": "Sixes",
+          "description": "Count and add only the dice showing 6",
+          "points": "Sum of all 6s",
+          "example": "Roll: 6,6,1,2,3 → Score: 12"
+        },
+        {
+          "name": "Upper Section Bonus",
+          "description": "If your total for the Upper Section is 63 or more, you earn a bonus",
+          "points": "+35 bonus points",
+          "example": "Score 63+ in Aces–Sixes to earn 35 extra points (equivalent to scoring 3 of each number)"
+        },
+        {
+          "name": "Three of a Kind",
+          "description": "At least three dice showing the same number",
+          "points": "Sum of ALL five dice",
+          "example": "Roll: 4,4,4,2,3 → Score: 17"
+        },
+        {
+          "name": "Four of a Kind",
+          "description": "At least four dice showing the same number",
+          "points": "Sum of ALL five dice",
+          "example": "Roll: 5,5,5,5,2 → Score: 22"
+        },
+        {
+          "name": "Full House",
+          "description": "Three of one number AND two of another number",
+          "points": "25 points (fixed)",
+          "example": "Roll: 3,3,3,6,6 → Score: 25"
+        },
+        {
+          "name": "Small Straight",
+          "description": "Four sequential dice (1-2-3-4, 2-3-4-5, or 3-4-5-6)",
+          "points": "30 points (fixed)",
+          "example": "Roll: 1,2,3,4,6 → Score: 30"
+        },
+        {
+          "name": "Large Straight",
+          "description": "Five sequential dice (1-2-3-4-5 or 2-3-4-5-6)",
+          "points": "40 points (fixed)",
+          "example": "Roll: 2,3,4,5,6 → Score: 40"
+        },
+        {
+          "name": "Yahtzee",
+          "description": "All five dice showing the same number",
+          "points": "50 points (first); 100-point bonus for each additional Yahtzee",
+          "example": "Roll: 6,6,6,6,6 → Score: 50 (or 100 bonus if already scored)"
+        },
+        {
+          "name": "Chance",
+          "description": "Any combination—no requirements",
+          "points": "Sum of ALL five dice",
+          "example": "Roll: 1,2,3,4,5 → Score: 15. Use this as a dump for bad rolls."
+        }
+      ],
+      "variations": [
+        {
+          "name": "Double Yahtzee Bonus",
+          "description": "Some house rules award 200 points (instead of 100) for each Yahtzee after the first."
+        },
+        {
+          "name": "Forced Joker Rule",
+          "description": "If you roll a Yahtzee but already scored 50 in the Yahtzee box, you can use it as a joker in the Upper Section or Lower Section, scoring it normally."
+        },
+        {
+          "name": "Triple Yahtzee",
+          "description": "Play three rounds simultaneously using three separate scorecards. Scores from column 2 are doubled, column 3 are tripled."
+        },
+        {
+          "name": "Painted Dice",
+          "description": "Replace standard dice with colored dice — each color has unique rules. A fun variant for experienced players."
+        }
+      ],
+      "sampleTurn": {
+        "description": "Aiming for Yahtzee (five of a kind). Player starts with a lucky opening roll.",
+        "rolls": [
+          {
+            "roll": 1,
+            "dice": [5, 3, 5, 5, 2],
+            "kept": [5, 5, 5],
+            "note": "Three 5s already! Keep them all, re-roll the 3 and 2."
+          },
+          {
+            "roll": 2,
+            "dice": [5, 5, 5, 5, 1],
+            "kept": [5, 5, 5, 5],
+            "note": "Four 5s! Keep all four, re-roll the 1 for one last shot at Yahtzee."
+          },
+          {
+            "roll": 3,
+            "dice": [5, 5, 5, 5, 5],
+            "kept": [5, 5, 5, 5, 5],
+            "note": "YAHTZEE! All five dice show 5. Score 50 points in the Yahtzee box!"
+          }
+        ],
+        "combination": "Yahtzee",
+        "points": 50
+      }
+    },
+    {
+      "id": "texas-holdem",
+      "name": "Texas Hold'em Poker",
+      "type": "card",
+      "deck": "standard-52",
+      "players": "2–10",
+      "playersMin": 2,
+      "playersMax": 10,
+      "categories": ["gambling", "strategy", "betting"],
+      "difficulty": "medium",
+      "timeMinutes": 60,
+      "objective": "Win chips by making the best 5-card poker hand using any combination of your 2 hole cards and 5 community cards, or by forcing all opponents to fold.",
+      "setup": [
+        {
+          "step": 1,
+          "title": "Set up the table",
+          "description": "Use a standard 52-card deck. Each player starts with an equal number of chips. Assign a dealer button (a small disc or chip marker)."
+        },
+        {
+          "step": 2,
+          "title": "Post the blinds",
+          "description": "The player to the left of the dealer posts the Small Blind (usually half the minimum bet). The player to their left posts the Big Blind (the minimum bet). Blinds start the pot and create action."
+        },
+        {
+          "step": 3,
+          "title": "Deal hole cards",
+          "description": "The dealer deals 2 cards face-down to each player, starting from the small blind going clockwise. These private cards are your 'hole cards'—never show them to opponents."
+        }
+      ],
+      "gameplay": [
+        {
+          "step": 1,
+          "title": "Pre-Flop betting",
+          "description": "Starting with the player left of the big blind, each player can: CALL (match the big blind), RAISE (increase the bet), or FOLD (discard cards). The small and big blind also get a chance to act."
+        },
+        {
+          "step": 2,
+          "title": "The Flop",
+          "description": "The dealer burns one card (discards face-down) then deals 3 community cards face-up in the center of the table. These are shared by all players. A new betting round begins from the first active player left of the dealer."
+        },
+        {
+          "step": 3,
+          "title": "The Turn",
+          "description": "The dealer burns another card and deals 1 more community card face-up (the 4th community card). Another betting round follows the same pattern."
+        },
+        {
+          "step": 4,
+          "title": "The River",
+          "description": "The dealer burns a final card and deals the 5th and last community card face-up. The final betting round takes place."
+        },
+        {
+          "step": 5,
+          "title": "The Showdown",
+          "description": "If two or more players remain after the final betting round, they reveal their hole cards. The player who makes the best 5-card hand using any combination of their 2 hole cards and the 5 community cards wins the pot."
+        },
+        {
+          "step": 6,
+          "title": "Next hand",
+          "description": "The dealer button moves one position clockwise. New blinds are posted and a new hand begins. Continue until agreed stopping time or one player has all the chips."
+        }
+      ],
+      "handRankings": [
+        {
+          "rank": 1,
+          "name": "Royal Flush",
+          "description": "The highest possible hand — five highest cards of the same suit",
+          "example": "A♠ K♠ Q♠ J♠ 10♠"
+        },
+        {
+          "rank": 2,
+          "name": "Straight Flush",
+          "description": "Five consecutive cards of the same suit",
+          "example": "7♥ 8♥ 9♥ 10♥ J♥"
+        },
+        {
+          "rank": 3,
+          "name": "Four of a Kind",
+          "description": "Four cards of the same rank",
+          "example": "K♠ K♥ K♦ K♣ 2♠"
+        },
+        {
+          "rank": 4,
+          "name": "Full House",
+          "description": "Three of a kind plus a pair",
+          "example": "Q♠ Q♥ Q♦ 9♣ 9♥"
+        },
+        {
+          "rank": 5,
+          "name": "Flush",
+          "description": "Any five cards of the same suit (not consecutive)",
+          "example": "A♣ J♣ 8♣ 6♣ 3♣"
+        },
+        {
+          "rank": 6,
+          "name": "Straight",
+          "description": "Five consecutive cards of any suits",
+          "example": "6♠ 7♥ 8♦ 9♣ 10♠"
+        },
+        {
+          "rank": 7,
+          "name": "Three of a Kind",
+          "description": "Three cards of the same rank",
+          "example": "J♠ J♥ J♦ 4♣ 7♠"
+        },
+        {
+          "rank": 8,
+          "name": "Two Pair",
+          "description": "Two different pairs",
+          "example": "A♠ A♥ 8♦ 8♣ K♠"
+        },
+        {
+          "rank": 9,
+          "name": "One Pair",
+          "description": "Two cards of the same rank",
+          "example": "K♠ K♥ 9♦ 4♣ 2♠"
+        },
+        {
+          "rank": 10,
+          "name": "High Card",
+          "description": "No combination — highest card plays",
+          "example": "A♠ Q♥ 9♦ 5♣ 2♠"
+        }
+      ],
+      "bettingRounds": [
+        {
+          "name": "Pre-Flop",
+          "cards": "2 hole cards (private)",
+          "description": "First round of betting. Action starts left of the big blind. Players must at least call the big blind to stay in the hand."
+        },
+        {
+          "name": "Flop",
+          "cards": "3 community cards revealed",
+          "description": "Second round. First 3 shared cards are dealt. Action starts from the first active player left of the dealer button."
+        },
+        {
+          "name": "Turn",
+          "cards": "4th community card revealed",
+          "description": "Third round. One more shared card. Bets often double in limit games. Players narrow down their hand possibilities."
+        },
+        {
+          "name": "River",
+          "cards": "5th community card revealed",
+          "description": "Final round. Last shared card is dealt. This is the last chance to bet, bluff, or extract value before showdown."
+        }
+      ],
+      "variations": [
+        {
+          "name": "No-Limit Texas Hold'em",
+          "description": "Players can bet any amount up to all their chips at any time ('all-in'). This is the most popular variant, used in the World Series of Poker Main Event."
+        },
+        {
+          "name": "Pot-Limit Hold'em",
+          "description": "Players can only bet up to the current size of the pot. Builds more slowly than No-Limit but still allows large bets."
+        },
+        {
+          "name": "Limit Hold'em",
+          "description": "Bets and raises are fixed amounts. Pre-flop and flop bets equal the big blind; turn and river bets are doubled."
+        },
+        {
+          "name": "Short Deck Hold'em",
+          "description": "Played with a 36-card deck (2s-5s removed). Hand rankings shift — a flush beats a full house."
+        }
+      ],
+      "sampleHand": {
+        "description": "A classic strong hand scenario showing how community cards change the game.",
+        "holeCards": ["A♠", "K♠"],
+        "communityCards": ["K♦", "K♥", "7♣", "2♦", "A♦"],
+        "action": [
+          {
+            "street": "Pre-Flop",
+            "description": "You're dealt A♠ K♠ (Big Slick). You raise 3x the big blind. One opponent calls."
+          },
+          {
+            "street": "Flop (K♦ K♥ 7♣)",
+            "description": "You flop three Kings! You have trip Kings. You bet half the pot to extract value. Opponent calls."
+          },
+          {
+            "street": "Turn (2♦)",
+            "description": "The 2♦ doesn't help your opponent. You bet again — building the pot with your strong hand. Opponent raises! You call."
+          },
+          {
+            "street": "River (A♦)",
+            "description": "The Ace gives you a Full House: Kings full of Aces (K-K-K-A-A). You move all-in. Opponent calls with K♣ 7♦ (full house K-K-K-7-7). Your Aces beat their Sevens!"
+          }
+        ],
+        "result": "You win with Kings full of Aces (K♠ K♦ K♥ A♠ A♦)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #fafaf9;
+    color: #1c1917;
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Dice face grid layout */
+.dice-face {
+  display: grid;
+  grid-template-areas:
+    "a . c"
+    "e g f"
+    "d . b";
+  width: 56px;
+  height: 56px;
+  background: white;
+  border-radius: 10px;
+  border: 2px solid #d6d3d1;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12), inset 0 1px 2px rgba(255,255,255,0.8);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dice-face.rolling {
+  animation: diceRoll 0.4s ease-out;
+}
+
+.dice-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1c1917;
+  align-self: center;
+  justify-self: center;
+}
+
+/* Playing card styles */
+.playing-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 64px;
+  height: 90px;
+  background: white;
+  border: 1.5px solid #e7e5e4;
+  border-radius: 8px;
+  padding: 6px 7px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  user-select: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.playing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.playing-card .card-corner-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.playing-card .card-corner-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  transform: rotate(180deg);
+  align-self: flex-end;
+}
+
+.playing-card .card-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.4rem;
+}
+
+.card-red { color: #dc2626; }
+.card-black { color: #1c1917; }
+
+.card-back {
+  background: repeating-linear-gradient(
+    45deg,
+    #1e40af,
+    #1e40af 5px,
+    #1d4ed8 5px,
+    #1d4ed8 10px
+  );
+  border-color: #1e40af;
+}
+
+.card-hidden {
+  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+  border-color: #1e40af;
+}
+
+/* Animations */
+@keyframes diceRoll {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-15deg) scale(0.9); }
+  50% { transform: rotate(10deg) scale(1.05); }
+  75% { transform: rotate(-5deg) scale(0.95); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardDeal {
+  from { opacity: 0; transform: translateY(-20px) rotate(-5deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+.fade-in { animation: fadeIn 0.3s ease-out; }
+.card-deal { animation: cardDeal 0.4s ease-out; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
