@@ -1,6 +1,6 @@
 export type GameType = 'dice' | 'card';
 export type Difficulty = 'easy' | 'medium' | 'hard';
-export type Category = 'family' | 'strategy' | 'gambling' | 'casual' | 'drinking' | 'betting';
+export type Category = 'family' | 'strategy' | 'gambling' | 'casual' | 'drinking' | 'betting' | 'party';
 
 export interface SampleRoll {
   roll: number;
@@ -20,6 +20,13 @@ export interface PokerSampleHand {
   description: string;
   holeCards: string[];
   communityCards: string[];
+  action: { street: string; description: string }[];
+  result: string;
+}
+
+export interface RideBusSampleHand {
+  description: string;
+  holeCards: string[];
   action: { street: string; description: string }[];
   result: string;
 }
@@ -94,7 +101,29 @@ export interface PokerGame {
   sampleHand: PokerSampleHand;
 }
 
-export type Game = YahtzeeGame | PokerGame;
+export interface RideBusGame {
+  id: 'ride-the-bus';
+  name: string;
+  type: 'card';
+  deck: string;
+  players: string;
+  playersMin: number;
+  playersMax: number;
+  categories: Category[];
+  difficulty: Difficulty;
+  timeMinutes: number;
+  equipment: string;
+  ageWarning: string;
+  objective: string;
+  setup: GameStep[];
+  gameplay: GameStep[];
+  scoring: string[];
+  strategyTips: string[];
+  variations: Variation[];
+  sampleHand: RideBusSampleHand;
+}
+
+export type Game = YahtzeeGame | PokerGame | RideBusGame;
 
 export interface GamesData {
   games: Game[];

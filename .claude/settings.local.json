@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npm install)",
-      "Bash(npm install tailwindcss @tailwindcss/vite react-router-dom lucide-react)"
+      "Bash(npm install tailwindcss @tailwindcss/vite react-router-dom lucide-react)",
+      "Bash(npm run build)"
     ]
   }
 }

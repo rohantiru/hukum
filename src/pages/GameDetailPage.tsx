@@ -14,9 +14,10 @@ import {
   Play,
 } from 'lucide-react';
 import gamesData from '../data/games.json';
-import type { Game, YahtzeeGame, PokerGame } from '../types/game';
+import type { Game, YahtzeeGame, PokerGame, RideBusGame } from '../types/game';
 import YahtzeeSimulation from '../components/YahtzeeSimulation';
 import PokerSimulation from '../components/PokerSimulation';
+import RideBusSimulation from '../components/RideBusSimulation';
 
 const games = gamesData.games as Game[];
 
@@ -309,6 +310,123 @@ function PokerContent({ game, activeTab }: { game: PokerGame; activeTab: TabId }
   return null;
 }
 
+function RideBusContent({ game, activeTab }: { game: RideBusGame; activeTab: TabId }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        {/* Age warning */}
+        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-2.5">
+          <span className="text-red-500 text-lg shrink-0">⚠️</span>
+          <p className="text-red-700 text-sm font-medium">{game.ageWarning}</p>
+        </div>
+
+        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
+          <h3 className="font-semibold text-orange-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-orange-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+
+        <CollapsibleSection title="Equipment Needed">
+          <div className="flex items-start gap-3">
+            <Package size={18} className="text-stone-400 mt-0.5 shrink-0" />
+            <p className="text-stone-600 text-sm">{game.equipment}</p>
+          </div>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Sample Round — One Player's Night">
+          <p className="text-sm text-stone-500 mb-3 italic">{game.sampleHand.description}</p>
+          <div className="mb-3">
+            <p className="text-xs text-stone-400 mb-2">Final hand collected:</p>
+            <div className="flex gap-1.5 flex-wrap">
+              {game.sampleHand.holeCards.map((c, i) => (
+                <span key={i} className={`font-bold text-base px-2 py-1 rounded border ${c.endsWith('♥') || c.endsWith('♦') ? 'text-red-600 border-red-200 bg-red-50' : 'text-stone-800 border-stone-200 bg-stone-50'}`}>{c}</span>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-2">
+            {game.sampleHand.action.map((a, i) => (
+              <div key={i} className="bg-stone-50 rounded-lg p-3">
+                <div className="text-xs font-bold text-stone-500 mb-0.5">{a.street}</div>
+                <p className="text-sm text-stone-600">{a.description}</p>
+              </div>
+            ))}
+            <div className="bg-red-50 rounded-lg p-3 border border-red-100 text-sm font-semibold text-red-700">
+              {game.sampleHand.result}
+            </div>
+          </div>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Get the game ready in 4 steps:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">The 6 phases of Ride the Bus:</p>
+        <StepList steps={game.gameplay} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-4">
+        <div className="space-y-2">
+          {game.scoring.map((rule, i) => (
+            <div key={i} className="flex gap-3 items-start border border-stone-200 rounded-xl p-3.5">
+              <div className="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                {i + 1}
+              </div>
+              <p className="text-sm text-stone-600">{rule}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mt-4">
+          <h4 className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-3">💡 Strategy Tips</h4>
+          <ul className="space-y-2">
+            {game.strategyTips.map((tip, i) => (
+              <li key={i} className="text-sm text-blue-700 flex gap-2">
+                <span className="shrink-0 mt-0.5">•</span>
+                <span>{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return (
+      <div className="space-y-3">
+        {game.variations.map((v) => (
+          <div key={v.name} className="border border-stone-200 rounded-xl p-4">
+            <h4 className="font-semibold text-stone-800 mb-1">{v.name}</h4>
+            <p className="text-sm text-stone-600">{v.description}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (activeTab === 'simulate') {
+    return <RideBusSimulation />;
+  }
+
+  return null;
+}
+
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>();
   const game = games.find((g) => g.id === id);
@@ -338,7 +456,7 @@ export default function GameDetailPage() {
     { id: 'overview', label: 'Overview', icon: <BookOpen size={14} /> },
     { id: 'setup', label: 'Setup', icon: <Package size={14} /> },
     { id: 'rules', label: 'Rules', icon: <BookOpen size={14} /> },
-    { id: 'scoring', label: isCard ? 'Hand Rankings' : 'Scoring', icon: <Trophy size={14} /> },
+    { id: 'scoring', label: game.id === 'texas-holdem' ? 'Hand Rankings' : game.id === 'ride-the-bus' ? 'Scoring & Tips' : 'Scoring', icon: <Trophy size={14} /> },
     { id: 'variations', label: 'Variations', icon: <Shuffle size={14} /> },
     { id: 'simulate', label: 'Try It', icon: <Play size={14} /> },
   ];
@@ -414,6 +532,9 @@ export default function GameDetailPage() {
         )}
         {game.id === 'texas-holdem' && (
           <PokerContent game={game as PokerGame} activeTab={activeTab} />
+        )}
+        {game.id === 'ride-the-bus' && (
+          <RideBusContent game={game as RideBusGame} activeTab={activeTab} />
         )}
       </div>
     </div>

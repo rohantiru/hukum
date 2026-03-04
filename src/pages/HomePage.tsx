@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, Dices } from 'lucide-react';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import gamesData from '../data/games.json';
 import type { Game, FilterState } from '../types/game';
 import GameCard from '../components/GameCard';
@@ -53,13 +53,21 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 border-b border-stone-200">
-        <div className="max-w-6xl mx-auto px-4 py-10 sm:py-14">
+      <div className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 border-b border-stone-200 overflow-hidden">
+        {/* Subtle dot pattern — rangoli-inspired */}
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #f59e0b 1px, transparent 1px)',
+            backgroundSize: '22px 22px',
+          }}
+        />
+        <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-14">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center">
-              <Dices size={22} className="text-white" />
+            <div className="w-10 h-10 bg-stone-800 rounded-xl flex items-center justify-center shadow-sm">
+              <span className="text-white text-xl leading-none">♠</span>
             </div>
-            <span className="text-amber-700 font-semibold text-sm tracking-wide uppercase">Game Reference</span>
+            <span className="text-amber-700 font-semibold text-sm tracking-wide uppercase">Hukum · Game Reference</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-800 mb-2">
             Card & Dice Game Rules

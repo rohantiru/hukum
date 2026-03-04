@@ -379,5 +379,133 @@
         "result": "You win with Kings full of Aces (K♠ K♦ K♥ A♠ A♦)"
       }
     }
+  ,
+    {
+      "id": "ride-the-bus",
+      "name": "Ride the Bus",
+      "type": "card",
+      "deck": "standard-52",
+      "players": "4–10",
+      "playersMin": 4,
+      "playersMax": 10,
+      "categories": ["drinking", "party", "casual"],
+      "difficulty": "easy",
+      "timeMinutes": 30,
+      "equipment": "Standard 52-card deck",
+      "ageWarning": "This is a drinking game — play responsibly, 21+ only.",
+      "objective": "Avoid being the player with the most wrong guesses across 4 rounds, or you'll 'ride the bus' — a 10-card gauntlet where you must guess red or black in sequence without a single mistake.",
+      "setup": [
+        {
+          "step": 1,
+          "title": "Prepare the deck",
+          "description": "Remove jokers from a standard 52-card deck and shuffle thoroughly. Aces are HIGH throughout the game (above King)."
+        },
+        {
+          "step": 2,
+          "title": "Choose a dealer",
+          "description": "Designate one player as the dealer. The dealer flips and manages all cards but does not participate in guessing rounds. The role rotates each game."
+        },
+        {
+          "step": 3,
+          "title": "Sit in a circle",
+          "description": "All players sit in a circle with their drinks ready. Each player will collect one card per round, building a 4-card hand by the end of the guessing rounds."
+        },
+        {
+          "step": 4,
+          "title": "Understand the flow",
+          "description": "The game has 4 guessing rounds (one card per round), followed by a Pyramid phase, followed by a 'Ride the Bus' penalty round for the player with the most wrong guesses."
+        }
+      ],
+      "gameplay": [
+        {
+          "step": 1,
+          "title": "Round 1 — Red or Black?",
+          "description": "Going around the circle, each player guesses if their next card will be red (♥♦) or black (♠♣). The dealer flips the top card face-up in front of each player. Wrong guess = 1 drink."
+        },
+        {
+          "step": 2,
+          "title": "Round 2 — Higher or Lower?",
+          "description": "Using their Round 1 card as reference, each player guesses if the next card will be higher or lower. Ace is the highest value. Wrong guess = 2 drinks. If the new card exactly matches, drink and guess again."
+        },
+        {
+          "step": 3,
+          "title": "Round 3 — Inside or Outside?",
+          "description": "Players guess if the next card falls between (inside) or outside the range of their two existing cards. Example: with a 3 and 9, 'inside' means you expect a 4–8. Wrong guess = 3 drinks. Matching either card = drink and re-guess."
+        },
+        {
+          "step": 4,
+          "title": "Round 4 — Guess the Suit",
+          "description": "Players guess which suit (♠ ♥ ♦ ♣) their next card will be. It's a pure 25% chance. Wrong guess = 4 drinks."
+        },
+        {
+          "step": 5,
+          "title": "The Pyramid",
+          "description": "Dealer builds a 5-4-3-2-1 pyramid of face-down cards. Flipping from bottom to top, any player who holds a matching rank in their hand can assign drinks to any other player — 1 drink per card on the bottom row, up to 5 drinks for the top card. Cards can be used multiple times across different flips."
+        },
+        {
+          "step": 6,
+          "title": "Ride the Bus",
+          "description": "The player with the most wrong guesses (or most total drinks) across rounds 1–4 must 'ride the bus'. The dealer lays 10 cards face-down in a row. The rider guesses red or black for each card sequentially. Correct = advance to the next card. Wrong = take a drink and restart from card 1. You must get all 10 correct in a row without a single mistake to get off the bus!"
+        }
+      ],
+      "scoring": [
+        "Track wrong guesses per player across all 4 rounds",
+        "The player with the most wrong guesses rides the bus",
+        "If two or more players tie, all tied players ride the bus — taking turns guessing sequentially",
+        "There is no traditional winner — the game is about fun and avoiding the bus!"
+      ],
+      "strategyTips": [
+        "Round 2: If your card is very high (Q, K, A) guess Lower; if very low (2, 3) guess Higher — the odds are in your favor.",
+        "Round 3: The wider the gap between your two cards, the better your 'Inside' odds are.",
+        "Round 4: Pure 25% luck. Some players always pick their favorite suit and commit to it.",
+        "Pyramid: Pay attention to what ranks other players hold so you know who can dish out drinks.",
+        "Bus phase: There's no strategy — just stay calm and hope the cards cooperate!"
+      ],
+      "variations": [
+        {
+          "name": "Irish Poker",
+          "description": "Skip the pyramid and bus phases entirely. Just play the 4 guessing rounds as a simpler standalone drinking game."
+        },
+        {
+          "name": "Mercy Rule",
+          "description": "If the bus rider fails to complete the bus after 5 full restart attempts, the group may show mercy and end the phase."
+        },
+        {
+          "name": "Team Ride",
+          "description": "Players pair up into teams of 2. If one teammate is sent to ride the bus, their partner joins them and they alternate guesses."
+        },
+        {
+          "name": "Double or Nothing",
+          "description": "During the bus, the rider can call 'double or nothing' before a guess. Correct = skip ahead 2 cards. Wrong = go back 2 cards (if possible)."
+        },
+        {
+          "name": "No Pyramid",
+          "description": "Skip the pyramid phase entirely and determine who rides the bus solely based on wrong guess counts from Rounds 1–4."
+        }
+      ],
+      "sampleHand": {
+        "description": "One player's unlucky journey through all 4 rounds — a tough night that leads straight to the bus.",
+        "holeCards": ["7♣", "3♥", "J♠", "K♦"],
+        "action": [
+          {
+            "street": "Round 1",
+            "description": "Guessed Black → flipped 7♣. Correct! No drinks. Starting strong."
+          },
+          {
+            "street": "Round 2",
+            "description": "Had 7♣. Guessed Higher → flipped 3♥. Wrong! 3 is lower than 7. Drink 2."
+          },
+          {
+            "street": "Round 3",
+            "description": "Had 7♣ and 3♥. Guessed Inside (between 3–7) → flipped J♠. Jack is outside the range! Drink 3."
+          },
+          {
+            "street": "Round 4",
+            "description": "Guessed ♥ → flipped K♦. Wrong suit. Drink 4. A brutal round."
+          }
+        ],
+        "result": "Total: 9 drinks, 3 wrong guesses — you're definitely riding the bus tonight! 🚌"
+      }
+    }
   ]
 }

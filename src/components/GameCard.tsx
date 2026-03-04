@@ -19,6 +19,7 @@ const categoryColors: Record<string, string> = {
   gambling: 'bg-rose-50 text-rose-600',
   betting: 'bg-pink-50 text-pink-600',
   drinking: 'bg-lime-50 text-lime-600',
+  party: 'bg-violet-50 text-violet-600',
 };
 
 export default function GameCard({ game }: Props) {
