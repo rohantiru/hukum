@@ -26,11 +26,8 @@ const games = gamesData.games as Game[];
 
 type TabId = 'overview' | 'setup' | 'rules' | 'scoring' | 'variations' | 'simulate';
 
-const difficultyColors: Record<string, string> = {
-  easy: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-  medium: 'bg-amber-100 text-amber-700 border-amber-200',
-  hard: 'bg-red-100 text-red-700 border-red-200',
-};
+const GAMES_WITH_SIMULATION = new Set(['yahtzee', 'texas-holdem', 'ride-the-bus', 'teen-patti', 'blackjack', 'craps']);
+
 
 function CollapsibleSection({ title, children, defaultOpen = true }: {
   title: string;
@@ -54,13 +51,16 @@ function CollapsibleSection({ title, children, defaultOpen = true }: {
 
 function StepList({ steps }: { steps: { step: number; title: string; description: string }[] }) {
   return (
-    <ol className="space-y-4">
-      {steps.map((s) => (
-        <li key={s.step} className="flex gap-4">
-          <div className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold shrink-0 mt-0.5">
+    <ol className="space-y-0">
+      {steps.map((s, idx) => (
+        <li key={s.step} className="flex gap-4 relative">
+          {idx < steps.length - 1 && (
+            <div className="absolute left-3.5 top-7 bottom-0 w-px bg-amber-100" />
+          )}
+          <div className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold shrink-0 mt-0.5 relative z-10">
             {s.step}
           </div>
-          <div>
+          <div className="pb-5">
             <h4 className="font-semibold text-stone-800 mb-0.5">{s.title}</h4>
             <p className="text-stone-600 text-sm leading-relaxed">{s.description}</p>
           </div>
@@ -459,7 +459,7 @@ function StrategyTips({ tips }: { tips: string[] }) {
   );
 }
 
-function TeenPattiContent({ game, activeTab }: { game: TeenPattiGame; activeTab: TabId }) {
+function TeenPattiContent({ game, activeTab, onViewRules }: { game: TeenPattiGame; activeTab: TabId; onViewRules: () => void }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -615,7 +615,7 @@ function TeenPattiContent({ game, activeTab }: { game: TeenPattiGame; activeTab:
   if (activeTab === 'simulate') {
     return (
       <div className="space-y-3">
-        <TeenPattiSimulation />
+        <TeenPattiSimulation onViewRules={onViewRules} />
         <p className="text-xs text-stone-400 leading-relaxed px-1">
           <strong className="text-stone-500">Simulation assumes:</strong> 4-player table · Boot ₹10/player (₹40 starting pot) · Chaal (current stake) ₹20 · Seen costs ₹30 total (boot + chaal), Blind costs ₹20 (boot + half chaal) · Dealer always plays seen and calls at ₹20. Win = collect the full pot.
         </p>
@@ -626,7 +626,7 @@ function TeenPattiContent({ game, activeTab }: { game: TeenPattiGame; activeTab:
   return null;
 }
 
-function BlackjackContent({ game, activeTab }: { game: BlackjackGame; activeTab: TabId }) {
+function BlackjackContent({ game, activeTab, onViewRules }: { game: BlackjackGame; activeTab: TabId; onViewRules: () => void }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -777,13 +777,13 @@ function BlackjackContent({ game, activeTab }: { game: BlackjackGame; activeTab:
   }
 
   if (activeTab === 'simulate') {
-    return <BlackjackSimulation />;
+    return <BlackjackSimulation onViewRules={onViewRules} />;
   }
 
   return null;
 }
 
-function CrapsContent({ game, activeTab }: { game: CrapsGame; activeTab: TabId }) {
+function CrapsContent({ game, activeTab, onViewRules }: { game: CrapsGame; activeTab: TabId; onViewRules: () => void }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -942,7 +942,7 @@ function CrapsContent({ game, activeTab }: { game: CrapsGame; activeTab: TabId }
   }
 
   if (activeTab === 'simulate') {
-    return <CrapsSimulation />;
+    return <CrapsSimulation onViewRules={onViewRules} />;
   }
 
   return null;
@@ -951,7 +951,7 @@ function CrapsContent({ game, activeTab }: { game: CrapsGame; activeTab: TabId }
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>();
   const game = games.find((g) => g.id === id);
-  const [activeTab, setActiveTab] = useState<TabId>('overview');
+  const [activeTab, setActiveTab] = useState<TabId>(GAMES_WITH_SIMULATION.has(id ?? '') ? 'simulate' : 'overview');
 
   if (!game) {
     return (
@@ -967,54 +967,76 @@ export default function GameDetailPage() {
     );
   }
 
-  const isCard = game.type === 'card';
-  const accentFrom = isCard ? 'from-rose-400' : 'from-amber-400';
-  const accentTo = isCard ? 'to-pink-500' : 'to-orange-500';
-  const headerBg = isCard ? 'from-rose-50 via-pink-50 to-rose-50' : 'from-amber-50 via-orange-50 to-amber-50';
-  const accentText = isCard ? 'text-rose-600' : 'text-amber-600';
+  const gameHeaderGradients: Record<string, string> = {
+    'yahtzee': 'from-amber-500 via-orange-500 to-orange-600',
+    'texas-holdem': 'from-slate-700 via-indigo-700 to-indigo-800',
+    'ride-the-bus': 'from-rose-500 via-red-500 to-rose-600',
+    'teen-patti': 'from-yellow-500 via-amber-500 to-amber-600',
+    'blackjack': 'from-emerald-600 via-teal-600 to-teal-700',
+    'craps': 'from-violet-600 via-purple-600 to-purple-700',
+  };
+  const gameHeaderIcons: Record<string, React.ReactNode> = {
+    'yahtzee': <Dices size={32} className="text-white" />,
+    'texas-holdem': <span className="text-4xl text-white">♠</span>,
+    'ride-the-bus': <span className="text-3xl">🚌</span>,
+    'teen-patti': <span className="text-3xl">🃏</span>,
+    'blackjack': <span className="text-3xl font-black text-white">21</span>,
+    'craps': <Dices size={32} className="text-white" />,
+  };
 
-  const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
+  const headerGradient = gameHeaderGradients[game.id] ?? (game.type === 'card' ? 'from-rose-500 to-pink-600' : 'from-amber-500 to-orange-600');
+  const headerIcon = gameHeaderIcons[game.id] ?? (game.type === 'card' ? <span className="text-4xl text-white">♠</span> : <Dices size={32} className="text-white" />);
+  const activePillColors: Record<string, string> = {
+    'yahtzee': 'bg-amber-100 text-amber-700',
+    'texas-holdem': 'bg-indigo-100 text-indigo-700',
+    'ride-the-bus': 'bg-rose-100 text-rose-700',
+    'teen-patti': 'bg-amber-100 text-amber-700',
+    'blackjack': 'bg-emerald-100 text-emerald-700',
+    'craps': 'bg-violet-100 text-violet-700',
+  };
+  const activePill = activePillColors[game.id] ?? 'bg-amber-100 text-amber-700';
+
+  const handleViewRules = () => setActiveTab('rules');
+
+  const allTabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
+    { id: 'simulate', label: 'Try It ✦', icon: <Play size={14} /> },
     { id: 'overview', label: 'Overview', icon: <BookOpen size={14} /> },
     { id: 'setup', label: 'Setup', icon: <Package size={14} /> },
     { id: 'rules', label: 'Rules', icon: <BookOpen size={14} /> },
     { id: 'scoring', label: ({ 'texas-holdem': 'Hand Rankings', 'teen-patti': 'Hand Rankings', 'ride-the-bus': 'Scoring & Tips', 'blackjack': 'Basic Strategy', 'craps': 'Bets' } as Record<string, string>)[game.id] ?? 'Scoring', icon: <Trophy size={14} /> },
     { id: 'variations', label: 'Variations', icon: <Shuffle size={14} /> },
-    { id: 'simulate', label: 'Try It', icon: <Play size={14} /> },
   ];
+  const tabs = GAMES_WITH_SIMULATION.has(game.id) ? allTabs : allTabs.filter(t => t.id !== 'simulate');
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <div className={`bg-gradient-to-br ${headerBg} border-b border-stone-200`}>
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      {/* Header — colorful gradient per game */}
+      <div className={`bg-gradient-to-br ${headerGradient} relative overflow-hidden`}>
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+        <div className="relative max-w-4xl mx-auto px-4 py-6">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-stone-400 hover:text-stone-600 text-sm mb-4 transition-colors"
+            className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-4 transition-colors font-semibold"
           >
             <ArrowLeft size={15} />
             All games
           </Link>
 
           <div className="flex items-start gap-4">
-            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${accentFrom} ${accentTo} flex items-center justify-center shadow-md shrink-0`}>
-              {isCard
-                ? <span className="text-3xl text-white">♠</span>
-                : <Dices size={28} className="text-white" />
-              }
+            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg shrink-0">
+              {headerIcon}
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-800 leading-tight">{game.name}</h1>
-              <div className="flex flex-wrap items-center gap-3 mt-2">
-                <span className={`text-sm font-medium capitalize ${accentText}`}>{game.type} game</span>
-                <span className="text-stone-300">·</span>
-                <span className="flex items-center gap-1 text-sm text-stone-500">
-                  <Users size={13} /> {game.players} players
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight drop-shadow-sm">{game.name}</h1>
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                <span className="flex items-center gap-1 text-sm text-white/80 font-semibold">
+                  <Users size={13} /> {game.players}
                 </span>
-                <span className="text-stone-300">·</span>
-                <span className="flex items-center gap-1 text-sm text-stone-500">
+                <span className="text-white/30">·</span>
+                <span className="flex items-center gap-1 text-sm text-white/80 font-semibold">
                   <Clock size={13} /> ~{game.timeMinutes} min
                 </span>
-                <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border capitalize ${difficultyColors[game.difficulty]}`}>
+                <span className="bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-bold capitalize">
                   {game.difficulty}
                 </span>
               </div>
@@ -1023,19 +1045,19 @@ export default function GameDetailPage() {
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs — pill style */}
       <div className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-stone-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="flex overflow-x-auto gap-0 scrollbar-hide">
+          <div className="flex overflow-x-auto gap-1 py-2 scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={[
-                  'flex items-center gap-1.5 px-4 py-3.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors shrink-0',
+                  'flex items-center gap-1.5 px-4 py-2 text-sm font-bold whitespace-nowrap rounded-xl transition-all shrink-0',
                   activeTab === tab.id
-                    ? `border-current ${accentText}`
-                    : 'border-transparent text-stone-500 hover:text-stone-700 hover:border-stone-300',
+                    ? `${activePill} shadow-sm`
+                    : 'text-stone-500 hover:text-stone-700 hover:bg-stone-100',
                 ].join(' ')}
               >
                 {tab.icon}
@@ -1058,13 +1080,13 @@ export default function GameDetailPage() {
           <RideBusContent game={game as RideBusGame} activeTab={activeTab} />
         )}
         {game.id === 'teen-patti' && (
-          <TeenPattiContent game={game as TeenPattiGame} activeTab={activeTab} />
+          <TeenPattiContent game={game as TeenPattiGame} activeTab={activeTab} onViewRules={handleViewRules} />
         )}
         {game.id === 'blackjack' && (
-          <BlackjackContent game={game as BlackjackGame} activeTab={activeTab} />
+          <BlackjackContent game={game as BlackjackGame} activeTab={activeTab} onViewRules={handleViewRules} />
         )}
         {game.id === 'craps' && (
-          <CrapsContent game={game as CrapsGame} activeTab={activeTab} />
+          <CrapsContent game={game as CrapsGame} activeTab={activeTab} onViewRules={handleViewRules} />
         )}
       </div>
     </div>

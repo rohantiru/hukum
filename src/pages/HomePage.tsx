@@ -53,26 +53,25 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <div className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 border-b border-stone-200 overflow-hidden">
-        {/* Subtle dot pattern — rangoli-inspired */}
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #f59e0b 1px, transparent 1px)',
-            backgroundSize: '22px 22px',
-          }}
-        />
+      <div className="relative bg-gradient-to-br from-amber-500 via-orange-500 to-rose-500 overflow-hidden">
+        {/* Floating decorative card suits */}
+        <span className="float absolute top-4 right-12 text-5xl text-white/15 select-none pointer-events-none" style={{ '--rot': '15deg' } as React.CSSProperties}>♠</span>
+        <span className="float absolute top-8 right-36 text-3xl text-white/10 select-none pointer-events-none" style={{ '--rot': '-8deg', animationDelay: '0.8s' } as React.CSSProperties}>🎲</span>
+        <span className="float absolute bottom-4 right-24 text-4xl text-white/10 select-none pointer-events-none" style={{ '--rot': '6deg', animationDelay: '1.5s' } as React.CSSProperties}>♥</span>
+        <span className="float absolute top-6 left-4 text-4xl text-white/10 select-none pointer-events-none sm:block hidden" style={{ '--rot': '-12deg', animationDelay: '2s' } as React.CSSProperties}>🃏</span>
+        <span className="float absolute bottom-6 left-16 text-3xl text-white/10 select-none pointer-events-none sm:block hidden" style={{ '--rot': '10deg', animationDelay: '0.4s' } as React.CSSProperties}>♦</span>
+
         <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-14">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-stone-800 rounded-xl flex items-center justify-center shadow-sm">
-              <span className="text-white text-xl leading-none">♠</span>
-            </div>
-            <span className="text-amber-700 font-semibold text-sm tracking-wide uppercase">Hukum · Game Reference</span>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              🎮 Game Rules Reference
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-800 mb-2">
-            Master the rules. Own the table.
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white mb-3 leading-tight drop-shadow-sm">
+            Master the rules.<br className="hidden sm:block" />
+            <span className="text-amber-200">Own the table.</span>
           </h1>
-          <p className="text-stone-500 text-lg max-w-xl">
+          <p className="text-white/80 text-base sm:text-lg max-w-xl font-semibold">
             From bluffing in Teen Patti to rolling craps — every game explained, with interactive simulations so you can practice before you play.
           </p>
 
@@ -88,22 +87,22 @@ export default function HomePage() {
                 placeholder="Search games..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-stone-200 rounded-xl text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent shadow-sm"
+                className="w-full pl-10 pr-4 py-3 bg-white border-0 rounded-2xl text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-lg font-semibold"
               />
             </div>
             <button
               onClick={() => setMobileFiltersOpen(true)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-white border border-stone-200 rounded-xl text-stone-600 shadow-sm hover:bg-stone-50"
+              className="lg:hidden flex items-center gap-2 px-4 py-3 bg-white/20 backdrop-blur border border-white/30 rounded-2xl text-white shadow-sm hover:bg-white/30 font-semibold"
             >
               <SlidersHorizontal size={16} />
-              <span className="text-sm font-medium">Filter</span>
+              <span className="text-sm">Filter</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-8 relative z-10">
         <div className="flex gap-6">
           <FilterSidebar
             filters={filters}
@@ -144,10 +143,9 @@ export default function HomePage() {
             )}
 
             {/* CTA: add more games */}
-            <div className="mt-8 text-center bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-6">
-              <p className="text-stone-600 text-sm">
-                More games coming soon! The app is built to easily expand with new entries.
-              </p>
+            <div className="mt-8 text-center bg-gradient-to-r from-amber-400 to-orange-400 rounded-2xl p-6 shadow-md">
+              <p className="text-white font-bold">🎉 More games coming soon!</p>
+              <p className="text-white/80 text-sm mt-1 font-semibold">Beer pong, flip cup, and more drinking games on the way.</p>
             </div>
           </div>
         </div>

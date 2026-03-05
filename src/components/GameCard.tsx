@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dices, Clock, Users, ChevronRight } from 'lucide-react';
+import { Dices, Clock, Users } from 'lucide-react';
 import type { Game } from '../types/game';
 
 interface Props {
@@ -7,107 +7,94 @@ interface Props {
 }
 
 const difficultyColors: Record<string, string> = {
-  easy: 'bg-emerald-100 text-emerald-700',
-  medium: 'bg-amber-100 text-amber-700',
-  hard: 'bg-red-100 text-red-700',
+  easy: 'bg-emerald-400/20 text-emerald-700 border border-emerald-300/50',
+  medium: 'bg-amber-400/20 text-amber-700 border border-amber-300/50',
+  hard: 'bg-red-400/20 text-red-700 border border-red-300/50',
 };
 
-const categoryColors: Record<string, string> = {
-  family: 'bg-blue-50 text-blue-600',
-  casual: 'bg-purple-50 text-purple-600',
-  strategy: 'bg-orange-50 text-orange-600',
-  gambling: 'bg-rose-50 text-rose-600',
-  betting: 'bg-pink-50 text-pink-600',
-  drinking: 'bg-lime-50 text-lime-600',
-  party: 'bg-violet-50 text-violet-600',
-  indian: 'bg-amber-50 text-amber-700',
-};
-
-// Per-game accent gradients for the header band
 const gameGradients: Record<string, string> = {
-  'yahtzee': 'from-amber-400 to-orange-500',
-  'texas-holdem': 'from-slate-500 to-indigo-600',
-  'ride-the-bus': 'from-red-400 to-rose-500',
-  'teen-patti': 'from-yellow-400 to-amber-500',
-  'blackjack': 'from-emerald-400 to-teal-500',
-  'craps': 'from-violet-400 to-purple-600',
+  'yahtzee': 'from-amber-400 via-orange-400 to-orange-500',
+  'texas-holdem': 'from-slate-600 via-indigo-600 to-indigo-700',
+  'ride-the-bus': 'from-rose-400 via-red-500 to-rose-600',
+  'teen-patti': 'from-yellow-400 via-amber-400 to-amber-500',
+  'blackjack': 'from-emerald-500 via-teal-500 to-teal-600',
+  'craps': 'from-violet-500 via-purple-500 to-purple-600',
 };
 
 const gameIcons: Record<string, React.ReactNode> = {
-  'yahtzee': <Dices size={22} className="text-amber-600" />,
-  'texas-holdem': <span className="text-2xl text-indigo-500">♠</span>,
-  'ride-the-bus': <span className="text-2xl">🚌</span>,
-  'teen-patti': <span className="text-2xl">🃏</span>,
-  'blackjack': <span className="text-2xl text-emerald-600">21</span>,
-  'craps': <Dices size={22} className="text-violet-600" />,
+  'yahtzee': <Dices size={36} className="text-white drop-shadow" />,
+  'texas-holdem': <span className="text-5xl drop-shadow">♠</span>,
+  'ride-the-bus': <span className="text-4xl drop-shadow">🚌</span>,
+  'teen-patti': <span className="text-4xl drop-shadow">🃏</span>,
+  'blackjack': <span className="text-4xl font-black text-white drop-shadow" style={{ fontFamily: 'Nunito, sans-serif' }}>21</span>,
+  'craps': <Dices size={36} className="text-white drop-shadow" />,
 };
 
-const gameIconBgs: Record<string, string> = {
-  'yahtzee': 'bg-amber-50',
-  'texas-holdem': 'bg-indigo-50',
-  'ride-the-bus': 'bg-red-50',
-  'teen-patti': 'bg-amber-50',
-  'blackjack': 'bg-emerald-50',
-  'craps': 'bg-violet-50',
+// Decorative background symbols for each card
+const gameDecor: Record<string, string[]> = {
+  'yahtzee': ['⚄', '⚂'],
+  'texas-holdem': ['♦', '♣'],
+  'ride-the-bus': ['🍺', '🎴'],
+  'teen-patti': ['♥', '♦'],
+  'blackjack': ['♠', '♥'],
+  'craps': ['🎲', '🎲'],
 };
 
 export default function GameCard({ game }: Props) {
-  const gradient = gameGradients[game.id] ?? (game.type === 'card' ? 'from-rose-400 to-pink-500' : 'from-amber-400 to-orange-500');
-  const icon = gameIcons[game.id] ?? (game.type === 'card' ? <span className="text-2xl text-rose-500">♠</span> : <Dices size={22} className="text-amber-600" />);
-  const iconBg = gameIconBgs[game.id] ?? (game.type === 'card' ? 'bg-rose-50' : 'bg-amber-50');
+  const gradient = gameGradients[game.id] ?? 'from-stone-500 to-stone-600';
+  const icon = gameIcons[game.id] ?? <Dices size={36} className="text-white" />;
+  const decor = gameDecor[game.id] ?? [];
   const tagline = 'tagline' in game ? (game as Game & { tagline?: string }).tagline : undefined;
 
   return (
     <Link
       to={`/game/${game.id}`}
-      className="group block bg-white rounded-2xl border border-stone-200 hover:border-stone-300 hover:shadow-xl transition-all duration-200 overflow-hidden"
+      className="group block rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 border border-white/60"
     >
-      {/* Header accent band */}
-      <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
-
-      <div className="p-5">
-        {/* Icon + title row */}
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <div className="flex items-center gap-3">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${iconBg}`}>
-              {icon}
-            </div>
-            <div>
-              <h3 className="font-bold text-stone-800 text-lg leading-tight group-hover:text-stone-900">{game.name}</h3>
-              <span className="text-xs text-stone-400 capitalize">{game.type} game</span>
-            </div>
-          </div>
-          <ChevronRight size={18} className="text-stone-300 group-hover:text-stone-500 group-hover:translate-x-0.5 transition-all mt-1 flex-shrink-0" />
-        </div>
-
-        {/* Tagline */}
-        {tagline && (
-          <p className="text-sm text-stone-400 italic mb-3 leading-snug">{tagline}</p>
+      {/* Colorful header panel */}
+      <div className={`relative bg-gradient-to-br ${gradient} px-5 pt-6 pb-5 overflow-hidden`}>
+        {/* Decorative large background symbols */}
+        {decor[0] && (
+          <span className="absolute -bottom-2 -right-1 text-6xl opacity-15 select-none pointer-events-none rotate-12">
+            {decor[0]}
+          </span>
+        )}
+        {decor[1] && (
+          <span className="absolute top-1 right-8 text-3xl opacity-10 select-none pointer-events-none -rotate-6">
+            {decor[1]}
+          </span>
         )}
 
-        {/* Stats row */}
-        <div className="flex items-center gap-4 text-sm text-stone-500 mb-3">
-          <span className="flex items-center gap-1.5">
-            <Users size={14} />
+        {/* Icon + name */}
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
+            {icon}
+          </div>
+          <div className="min-w-0">
+            <h3 className="font-extrabold text-white text-xl leading-tight drop-shadow-sm">{game.name}</h3>
+            {tagline && (
+              <p className="text-white/75 text-xs mt-0.5 truncate font-medium">{tagline}</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* White info strip */}
+      <div className="bg-white px-5 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3 text-xs text-stone-500 font-semibold">
+          <span className="flex items-center gap-1">
+            <Users size={12} className="text-stone-400" />
             {game.players}
           </span>
-          <span className="flex items-center gap-1.5">
-            <Clock size={14} />
+          <span className="text-stone-200">|</span>
+          <span className="flex items-center gap-1">
+            <Clock size={12} className="text-stone-400" />
             ~{game.timeMinutes} min
           </span>
         </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5">
-          <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${difficultyColors[game.difficulty]}`}>
-            {game.difficulty}
-          </span>
-          {game.categories.slice(0, 2).map((cat) => (
-            <span key={cat} className={`text-xs px-2 py-0.5 rounded-full capitalize ${categoryColors[cat] ?? 'bg-stone-100 text-stone-600'}`}>
-              {cat}
-            </span>
-          ))}
-        </div>
+        <span className={`text-xs px-2.5 py-0.5 rounded-full font-bold capitalize ${difficultyColors[game.difficulty]}`}>
+          {game.difficulty}
+        </span>
       </div>
     </Link>
   );

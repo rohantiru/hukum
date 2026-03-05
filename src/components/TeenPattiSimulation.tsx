@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import PlayingCard from './PlayingCard';
 
 const SUITS = ['♠', '♥', '♦', '♣'] as const;
@@ -92,13 +92,15 @@ const NUM_PLAYERS = 4;
 const CHAAL = 20; // current stake
 const STARTING_BANKROLL = 100;
 
-export default function TeenPattiSimulation() {
+export default function TeenPattiSimulation({ onViewRules }: { onViewRules?: () => void } = {}) {
   const [phase, setPhase] = useState<Phase>('deal');
   const [playerCards, setPlayerCards] = useState<Card[]>([]);
   const [dealerCards, setDealerCards] = useState<Card[]>([]);
   const [seenChoice, setSeenChoice] = useState<'seen' | 'blind' | null>(null);
   const [pot, setPot] = useState(BOOT * NUM_PLAYERS);
   const [bankroll, setBankroll] = useState(STARTING_BANKROLL);
+  const [roundsPlayed, setRoundsPlayed] = useState(0);
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
   const deal = useCallback(() => {
     setPlayerCards(drawHand());
@@ -136,6 +138,10 @@ export default function TeenPattiSimulation() {
     if (bankroll <= 0) setBankroll(STARTING_BANKROLL);
   };
 
+  useEffect(() => {
+    if (phase === 'result') setRoundsPlayed(prev => prev + 1);
+  }, [phase]);
+
   const playerName = getHandName(playerCards);
   const dealerName = getHandName(dealerCards);
   const playerScore = getHandScore(playerCards);
@@ -160,6 +166,18 @@ export default function TeenPattiSimulation() {
           </div>
         </div>
       </div>
+
+      {roundsPlayed >= 2 && !nudgeDismissed && onViewRules && (
+        <div className="mx-5 mt-3 flex items-center justify-between gap-3 bg-white/10 border border-white/20 rounded-xl px-4 py-2.5">
+          <p className="text-white/70 text-sm">
+            Need a refresher?{' '}
+            <button onClick={onViewRules} className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors">
+              View the rules →
+            </button>
+          </p>
+          <button onClick={() => setNudgeDismissed(true)} className="text-white/40 hover:text-white/70 transition-colors text-xl leading-none shrink-0" aria-label="Dismiss">×</button>
+        </div>
+      )}
 
       <div className="p-5 space-y-5">
         {phase === 'deal' && (

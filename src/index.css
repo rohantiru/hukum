@@ -8,9 +8,11 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background-color: #fafaf9;
+    background-color: #fdf8f0;
+    background-image: radial-gradient(circle, #f0e6d3 1px, transparent 1px);
+    background-size: 24px 24px;
     color: #1c1917;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -134,6 +136,12 @@
 
 .fade-in { animation: fadeIn 0.3s ease-out; }
 .card-deal { animation: cardDeal 0.4s ease-out; }
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-8px) rotate(var(--rot, 0deg)); }
+}
+.float { animation: floatUp 4s ease-in-out infinite; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }

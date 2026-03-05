@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import DiceFace from './DiceFace';
 
 type Phase = 'idle' | 'comeOut' | 'pointPhase';
@@ -30,7 +30,7 @@ const diceOdds: Record<number, number> = {
   2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 5, 9: 4, 10: 3, 11: 2, 12: 1,
 };
 
-export default function CrapsSimulation() {
+export default function CrapsSimulation({ onViewRules }: { onViewRules?: () => void } = {}) {
   const [phase, setPhase] = useState<Phase>('idle');
   const [dice, setDice] = useState<[number, number]>([1, 1]);
   const [point, setPoint] = useState<number | null>(null);
@@ -38,6 +38,8 @@ export default function CrapsSimulation() {
   const [rollResult, setRollResult] = useState<string>('');
   const [result, setResult] = useState<Result>(null);
   const [rollHistory, setRollHistory] = useState<{ dice: [number, number]; total: number; note: string }[]>([]);
+  const [roundsPlayed, setRoundsPlayed] = useState(0);
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
   const roll = useCallback(() => {
     if (rolling) return;
@@ -110,6 +112,10 @@ export default function CrapsSimulation() {
     sevenOut: 'text-red-300 bg-red-500/20 border-red-500/40',
   };
 
+  useEffect(() => {
+    if (result !== null) setRoundsPlayed(prev => prev + 1);
+  }, [result]);
+
   const isStarted = phase !== 'idle' || rollHistory.length > 0;
   const currentTotal = dice[0] + dice[1];
 
@@ -131,6 +137,18 @@ export default function CrapsSimulation() {
           </div>
         </div>
       </div>
+
+      {roundsPlayed >= 2 && !nudgeDismissed && onViewRules && (
+        <div className="mx-5 mt-3 flex items-center justify-between gap-3 bg-white/10 border border-white/20 rounded-xl px-4 py-2.5">
+          <p className="text-white/70 text-sm">
+            Need a refresher?{' '}
+            <button onClick={onViewRules} className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors">
+              View the rules →
+            </button>
+          </p>
+          <button onClick={() => setNudgeDismissed(true)} className="text-white/40 hover:text-white/70 transition-colors text-xl leading-none shrink-0" aria-label="Dismiss">×</button>
+        </div>
+      )}
 
       <div className="p-5 space-y-4">
         {/* Dice display */}

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import PlayingCard from './PlayingCard';
 
 const SUITS = ['♠', '♥', '♦', '♣'] as const;
@@ -59,7 +59,7 @@ function getStrategyHint(playerHand: Card[], dealerUp: Card): string {
   return 'Hit — dealer is strong';
 }
 
-export default function BlackjackSimulation() {
+export default function BlackjackSimulation({ onViewRules }: { onViewRules?: () => void } = {}) {
   const [phase, setPhase] = useState<Phase>('idle');
   const [playerHand, setPlayerHand] = useState<Card[]>([]);
   const [dealerHand, setDealerHand] = useState<Card[]>([]);
@@ -67,6 +67,8 @@ export default function BlackjackSimulation() {
   const [dealerRevealed, setDealerRevealed] = useState(false);
   const [chips, setChips] = useState(100);
   const [bet, setBet] = useState(10);
+  const [roundsPlayed, setRoundsPlayed] = useState(0);
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
   const dealNew = useCallback(() => {
     const p: Card[] = [randomCard(), randomCard()];
@@ -139,15 +141,19 @@ export default function BlackjackSimulation() {
     if (chips < 10) setChips(100);
   };
 
+  useEffect(() => {
+    if (phase === 'result') setRoundsPlayed(prev => prev + 1);
+  }, [phase]);
+
   const playerTotal = playerHand.length ? handTotal(playerHand) : 0;
   const dealerTotal = dealerHand.length ? handTotal(dealerHand) : 0;
 
   const resultConfig: Record<Result, { label: string; color: string; emoji: string; desc: string }> = {
     blackjack: { label: 'Blackjack!', color: 'text-amber-300 border-amber-500/50 bg-amber-500/20', emoji: '🃏', desc: `You win ₹${Math.floor(bet * 1.5)} bonus (3:2 payout)` },
-    win: { label: 'You Win!', color: 'text-emerald-300 border-emerald-500/50 bg-emerald-500/20', emoji: '🎉', desc: `+$${bet} profit` },
+    win: { label: 'You Win!', color: 'text-emerald-300 border-emerald-500/50 bg-emerald-500/20', emoji: '🎉', desc: `+₹${bet} profit` },
     push: { label: 'Push — Tie!', color: 'text-stone-300 border-stone-500/50 bg-stone-500/20', emoji: '🤝', desc: 'Bet returned' },
-    lose: { label: 'Dealer Wins', color: 'text-red-300 border-red-500/50 bg-red-500/20', emoji: '😬', desc: `-$${bet}` },
-    bust: { label: 'Bust!', color: 'text-red-300 border-red-500/50 bg-red-500/20', emoji: '💥', desc: `Over 21 — lost $${bet}` },
+    lose: { label: 'Dealer Wins', color: 'text-red-300 border-red-500/50 bg-red-500/20', emoji: '😬', desc: `-₹${bet}` },
+    bust: { label: 'Bust!', color: 'text-red-300 border-red-500/50 bg-red-500/20', emoji: '💥', desc: `Over 21 — lost ₹${bet}` },
   };
 
   return (
@@ -162,11 +168,23 @@ export default function BlackjackSimulation() {
           <div className="flex items-center gap-2">
             <div className="bg-white/10 rounded-lg px-3 py-1.5 text-center">
               <div className="text-white/50 text-xs">Chips</div>
-              <div className="text-white font-bold">${chips}</div>
+              <div className="text-white font-bold">₹{chips}</div>
             </div>
           </div>
         </div>
       </div>
+
+      {roundsPlayed >= 2 && !nudgeDismissed && onViewRules && (
+        <div className="mx-5 mt-3 flex items-center justify-between gap-3 bg-white/10 border border-white/20 rounded-xl px-4 py-2.5">
+          <p className="text-white/70 text-sm">
+            Need a refresher?{' '}
+            <button onClick={onViewRules} className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors">
+              View the rules →
+            </button>
+          </p>
+          <button onClick={() => setNudgeDismissed(true)} className="text-white/40 hover:text-white/70 transition-colors text-xl leading-none shrink-0" aria-label="Dismiss">×</button>
+        </div>
+      )}
 
       <div className="p-5 space-y-4">
         {phase === 'idle' && (
@@ -189,7 +207,7 @@ export default function BlackjackSimulation() {
                       bet === b ? 'bg-emerald-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'
                     } disabled:opacity-30 disabled:cursor-not-allowed`}
                   >
-                    ${b}
+                    ₹{b}
                   </button>
                 ))}
               </div>
@@ -199,7 +217,7 @@ export default function BlackjackSimulation() {
               disabled={chips < bet}
               className="w-full py-3 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-500 transition-all active:scale-95 disabled:opacity-50"
             >
-              Deal (Bet ${bet})
+              Deal (Bet ₹{bet})
             </button>
           </div>
         )}
@@ -281,7 +299,7 @@ export default function BlackjackSimulation() {
                   disabled={chips < bet}
                   className="py-3 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-500 transition-all active:scale-95 disabled:opacity-50"
                 >
-                  Deal Again (${bet})
+                  Deal Again (₹{bet})
                 </button>
                 <button
                   onClick={reset}
