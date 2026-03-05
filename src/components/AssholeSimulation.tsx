@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 
-// Card ranks: 3=lowest, 4-K, A=13, 2=14 (highest)
+// Card ranks: 2=lowest, 3, 4...K, A=14 (highest)
 const RANK_NAMES: Record<number, string> = {
-  3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8',
-  9: '9', 10: '10', 11: 'J', 12: 'Q', 13: 'K', 14: 'A', 15: '2',
+  2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8',
+  9: '9', 10: '10', 11: 'J', 12: 'Q', 13: 'K', 14: 'A',
 };
 const SUITS = ['♠', '♥', '♦', '♣'];
 
@@ -14,7 +14,7 @@ function mkCard(rank: number): Card {
 }
 
 function dealHand(count: number): Card[] {
-  const ranks = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15];
+  const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14];
   const shuffled = [...ranks].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count).map(r => mkCard(r));
 }
@@ -117,7 +117,6 @@ export default function AssholeSimulation({ onViewRules }: { onViewRules?: () =>
     const selRank = playerHand[selected[0]].rank;
     const selCount = selected.length;
     const pileCount = pile.length;
-    if (selRank === 15) return true; // 2 always clears
     if (selCount > pileCount) return true; // More cards beats fewer (pairs beat singles)
     if (selCount < pileCount) return false; // Fewer cards can't beat more
     return selRank > pile[0].rank; // Same count: higher rank wins
@@ -127,8 +126,9 @@ export default function AssholeSimulation({ onViewRules }: { onViewRules?: () =>
     if (!canPlay()) return;
     const played = selected.map(i => playerHand[i]);
     const newHand = playerHand.filter((_, i) => !selected.includes(i));
-    const clears = played[0].rank === 15 || (played.length === 4); // 2 or four-of-a-kind
-    const newPile = clears ? null : played;
+    // Pile only clears when all players pass — playing never auto-clears
+    const clears = false;
+    const newPile = played;
     setPile(newPile);
     setPlayerHand(newHand);
     setSelected([]);
@@ -165,11 +165,8 @@ export default function AssholeSimulation({ onViewRules }: { onViewRules?: () =>
       const validPlay = cpuRanks.find(r => r > effectiveMinRank);
       if (validPlay && Math.random() > 0.3) {
         const cpuPlayed = Array(qty).fill(null).map(() => mkCard(validPlay));
-        const cpuClears = validPlay === 15 || qty === 4;
-        setPile(cpuClears ? null : cpuPlayed);
-        const cpuLog = cpuClears
-          ? `CPU played ${qty > 1 ? `${qty}x ` : ''}${RANK_NAMES[validPlay]} — pile cleared!`
-          : `CPU played ${qty > 1 ? `${qty}x ` : ''}${RANK_NAMES[validPlay]}.`;
+        setPile(cpuPlayed);
+        const cpuLog = `CPU played ${qty > 1 ? `${qty}x ` : ''}${RANK_NAMES[validPlay]}.`;
         setRoundLog(prev => [...prev, cpuLog]);
         setCpuCount(c => Math.max(0, c - qty));
 
@@ -212,12 +209,11 @@ export default function AssholeSimulation({ onViewRules }: { onViewRules?: () =>
       // CPU may play a pair to beat a single
       const qty = pileQty <= 1 && Math.random() > 0.5 ? 2 : (pileQty || 1);
       const effectiveMinRank = qty > pileQty ? 0 : minRank;
-      const validPlay = [11, 12, 13, 14, 15].find(r => r > effectiveMinRank && Math.random() > 0.4);
+      const validPlay = [11, 12, 13, 14].find(r => r > effectiveMinRank && Math.random() > 0.4);
       if (validPlay) {
         const cpuPlayed = Array(qty).fill(null).map(() => mkCard(validPlay));
-        const cpuClears = validPlay === 15 || qty === 4;
-        setPile(cpuClears ? null : cpuPlayed);
-        setRoundLog(prev => [...prev, `CPU played ${qty > 1 ? `${qty}x ` : ''}${RANK_NAMES[validPlay]}${cpuClears ? ' — pile cleared!' : '.'}`]);
+        setPile(cpuPlayed);
+        setRoundLog(prev => [...prev, `CPU played ${qty > 1 ? `${qty}x ` : ''}${RANK_NAMES[validPlay]}.`]);
         setCpuCount(c => Math.max(0, c - qty));
       } else {
         setRoundLog(prev => [...prev, 'CPU passes — pile cleared!']);
@@ -310,7 +306,7 @@ export default function AssholeSimulation({ onViewRules }: { onViewRules?: () =>
           </div>
           {pile && pile.length > 0 && (
             <p className="text-xs text-stone-400 mt-1">
-              Pairs beat singles · 2s clear the pile
+              Pairs beat singles · pile clears when all pass
             </p>
           )}
         </div>
@@ -364,7 +360,7 @@ export default function AssholeSimulation({ onViewRules }: { onViewRules?: () =>
               {playerHand.length === 0 ? '🏆 You emptied your hand first!' : playerIsWinning ? '👑 You had fewer cards — well played!' : '😤 CPU had fewer cards this round'}
             </p>
             <p className="text-xs text-stone-400 mt-1">
-              {playerHand.length === 0 ? 'President! Best seat next round 🎉' : playerIsWinning ? 'Strong finish — keep the pressure on!' : 'Careful with those 2s and Aces — save them for key moments'}
+              {playerHand.length === 0 ? 'President! Best seat next round 🎉' : playerIsWinning ? 'Strong finish — keep the pressure on!' : 'Save your Aces and face cards — use them to clear stubborn piles!'}
             </p>
             <button
               onClick={init}

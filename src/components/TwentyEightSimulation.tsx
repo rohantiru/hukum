@@ -5,7 +5,8 @@ const RANKS_28 = ['7', '8', '9', '10', 'J', 'Q', 'K', 'A'] as const;
 type Suit = typeof SUITS[number];
 type Rank28 = typeof RANKS_28[number];
 
-const RANK_ORDER: Record<Rank28, number> = { '7': 0, '8': 1, '9': 2, '10': 3, 'J': 4, 'Q': 5, 'K': 6, 'A': 7 };
+// Trick-winning hierarchy: J > 9 > A > 10 > K > Q > 8 > 7
+const RANK_ORDER: Record<Rank28, number> = { '7': 0, '8': 1, 'Q': 2, 'K': 3, '10': 4, 'A': 5, '9': 6, 'J': 7 };
 const CARD_POINTS: Record<Rank28, number> = { 'J': 3, '9': 2, 'A': 1, '10': 1, 'Q': 0, 'K': 0, '8': 0, '7': 0 };
 
 interface Card28 { rank: Rank28; suit: Suit; }

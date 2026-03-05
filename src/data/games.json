@@ -679,7 +679,7 @@
       "gameplay": [
         { "step": 1, "title": "Lead a play", "description": "The leader plays one card, a pair, or three-of-a-kind face-up. This sets the 'quantity and rank' bar for others to beat." },
         { "step": 2, "title": "Beat or pass", "description": "Going clockwise, each player must beat the pile or pass. More cards beats fewer — a pair of any rank beats a single. When playing the same quantity, cards must be strictly higher rank." },
-        { "step": 3, "title": "Clear the pile", "description": "If everyone passes, or someone plays a 2, the pile is cleared. The last player to play leads the next pile with anything they like." },
+        { "step": 3, "title": "Clear the pile", "description": "When all remaining players pass with no one able to beat the pile, the pile is cleared. No card auto-clears — the pile only clears when no higher play is possible. The last player to have played leads next." },
         { "step": 4, "title": "Empty your hand", "description": "When you play your last card you're done for the round. Leave the table — your finish position is your role next round." },
         { "step": 5, "title": "Assign roles", "description": "Roles in finish order: President, Vice President, Neutral(s), Vice Asshole, Asshole. Each role carries perks or penalties next round." }
       ],
@@ -694,17 +694,17 @@
         "A pair (or more cards) beats a single — more cards always beats fewer, regardless of rank",
         "When playing the same quantity, cards must be strictly higher in rank than the current pile",
         "Passing is always allowed — you can skip any turn",
-        "A 2 always clears the pile regardless of what's there, and the player of the 2 leads next",
-        "Four-of-a-kind also clears the pile in many house rules",
-        "If everyone passes with no one able to beat the pile, the pile clears and the last player to play leads next",
+        "Card order is A > K > Q > J > 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2 — Aces are the strongest single cards",
+        "The pile ONLY clears when all remaining players pass — no card automatically clears the pile",
+        "When the pile clears, the last player who played leads the next pile with any card they choose",
         "Once you play your last card, you're out for the round — your finish position is your role next round",
         "The Asshole must deal all cards in subsequent rounds"
       ],
       "strategyTips": [
         "Lead with low pairs or triples early — they're hard to beat and clear weaker hands",
-        "Save your 2s strategically — use them to clear dangerous piles when you can lead next",
+        "Save your Aces and Kings — use them to break difficult piles when others can't beat you",
         "As President, open with strong combos to lock out weaker players early",
-        "As Asshole, watch what's played and identify when a 2 can win you the pile cleanly",
+        "As Asshole, force everyone to pass by playing high cards — the pile clears and you lead next",
         "Count passes carefully — if everyone passes on a 9, your 10 takes the pile"
       ],
       "variations": [
@@ -736,7 +736,7 @@
         { "step": 1, "title": "Bidding", "description": "Players bid how many points their team will score this round (min 15, max 28). Each bid must be higher than the previous. The highest bidder wins the right to choose trump." },
         { "step": 2, "title": "Trump is hidden", "description": "The winning bidder privately knows the trump suit but keeps it secret from everyone. Trump is not announced at the start." },
         { "step": 3, "title": "Play tricks", "description": "The player to dealer's right leads the first trick. Players must follow the led suit if they have it. If they can't, they may reveal trump by playing a trump card — this is how trump is announced." },
-        { "step": 4, "title": "Win tricks", "description": "Highest card of the led suit wins the trick — unless trump is played. If trump cards appear, the highest trump wins. The trick winner leads the next trick." },
+        { "step": 4, "title": "Win tricks", "description": "Highest card of the led suit wins the trick — unless trump is played. The trick hierarchy is J > 9 > A > 10 > K > Q > 8 > 7 (Jacks are unbeatable!). If trump cards appear, the highest trump using this same hierarchy wins. The trick winner leads the next trick." },
         { "step": 5, "title": "Score the round", "description": "After all 8 tricks, count point cards (J=3, 9=2, A=1, 10=1) in each team's won tricks. Bidding team wins if they reach their bid; otherwise the other team wins the round." }
       ],
       "cardValues": [
@@ -762,7 +762,8 @@
         "Must follow the led suit if you have it — no shortcuts",
         "If you cannot follow suit, you may play trump (which reveals the trump suit to all) or any other card",
         "Once trump is revealed, it stays known for the rest of the round",
-        "The highest trump card wins any trick that contains trump",
+        "Card hierarchy for winning tricks: J > 9 > A > 10 > K > Q > 8 > 7 — Jacks beat everything!",
+        "The highest trump card wins any trick that contains trump (using the same J > 9 > A > 10 > K > Q > 8 > 7 order)",
         "Partners sit opposite each other and cannot communicate about their cards",
         "The trick winner always leads the next trick",
         "Scoring is round-based — keep track of wins across multiple rounds for match play"
