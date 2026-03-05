@@ -45,9 +45,6 @@ export default function DiceFace({ value, rolling, kept, onClick, size = 'md' }:
         sz.outer,
         sz.padding,
         rolling ? 'rolling' : '',
-        kept
-          ? 'ring-2 ring-amber-400 ring-offset-2 bg-amber-50'
-          : 'bg-white hover:ring-2 hover:ring-stone-300 hover:ring-offset-1',
         onClick ? 'cursor-pointer' : 'cursor-default',
       ]
         .filter(Boolean)
@@ -56,10 +53,11 @@ export default function DiceFace({ value, rolling, kept, onClick, size = 'md' }:
         display: 'grid',
         gridTemplateAreas: `"a . c" "e g f" "d . b"`,
         borderRadius: '10px',
-        border: kept ? '2px solid #f59e0b' : '2px solid #d6d3d1',
+        background: kept ? 'rgba(57,255,20,0.12)' : 'rgba(5,22,14,0.85)',
+        border: kept ? '2px solid #39FF14' : '2px solid rgba(57,255,20,0.4)',
         boxShadow: kept
-          ? '0 2px 8px rgba(245,158,11,0.2)'
-          : '0 2px 8px rgba(0,0,0,0.10)',
+          ? '0 0 12px rgba(57,255,20,0.45)'
+          : '0 2px 8px rgba(0,0,0,0.4)',
       }}
       disabled={!onClick}
       aria-label={`Die showing ${value}`}
@@ -71,7 +69,11 @@ export default function DiceFace({ value, rolling, kept, onClick, size = 'md' }:
         >
           {dots.includes(area) && (
             <div
-              className={`${sz.dot} rounded-full ${kept ? 'bg-amber-600' : 'bg-stone-800'}`}
+              className={`${sz.dot} rounded-full`}
+              style={{
+                background: '#39FF14',
+                boxShadow: '0 0 4px rgba(57,255,20,0.8)',
+              }}
             />
           )}
         </div>

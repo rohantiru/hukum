@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -15,22 +15,11 @@ import {
 } from 'lucide-react';
 import gamesData from '../data/games.json';
 import type { Game, YahtzeeGame, PokerGame, RideBusGame, TeenPattiGame, BlackjackGame, CrapsGame, FlipCupGame, AssholeGame, TwentyEightGame, KaaliTeeriGame } from '../types/game';
-import YahtzeeSimulation from '../components/YahtzeeSimulation';
-import PokerSimulation from '../components/PokerSimulation';
-import RideBusSimulation from '../components/RideBusSimulation';
-import TeenPattiSimulation from '../components/TeenPattiSimulation';
-import BlackjackSimulation from '../components/BlackjackSimulation';
-import CrapsSimulation from '../components/CrapsSimulation';
-import FlipCupSimulation from '../components/FlipCupSimulation';
-import AssholeSimulation from '../components/AssholeSimulation';
-import TwentyEightSimulation from '../components/TwentyEightSimulation';
-import KaaliTeeriSimulation from '../components/KaaliTeeriSimulation';
+import { simulationRegistry, SIMULATED_GAMES } from '../engine/registry';
 
 const games = gamesData.games as Game[];
 
 type TabId = 'overview' | 'setup' | 'rules' | 'scoring' | 'variations' | 'simulate';
-
-const GAMES_WITH_SIMULATION = new Set(['yahtzee', 'texas-holdem', 'ride-the-bus', 'teen-patti', 'blackjack', 'craps', 'flip-cup', 'asshole', 'twenty-eight', 'kaali-teeri']);
 
 
 function CollapsibleSection({ title, children, defaultOpen = true }: {
@@ -209,10 +198,6 @@ function YahtzeeContent({ game, activeTab }: { game: YahtzeeGame; activeTab: Tab
     );
   }
 
-  if (activeTab === 'simulate') {
-    return <YahtzeeSimulation />;
-  }
-
   return null;
 }
 
@@ -314,10 +299,6 @@ function PokerContent({ game, activeTab }: { game: PokerGame; activeTab: TabId }
         ))}
       </div>
     );
-  }
-
-  if (activeTab === 'simulate') {
-    return <PokerSimulation />;
   }
 
   return null;
@@ -433,10 +414,6 @@ function RideBusContent({ game, activeTab }: { game: RideBusGame; activeTab: Tab
     );
   }
 
-  if (activeTab === 'simulate') {
-    return <RideBusSimulation />;
-  }
-
   return null;
 }
 
@@ -469,7 +446,7 @@ function StrategyTips({ tips }: { tips: string[] }) {
   );
 }
 
-function TeenPattiContent({ game, activeTab, onViewRules }: { game: TeenPattiGame; activeTab: TabId; onViewRules: () => void }) {
+function TeenPattiContent({ game, activeTab }: { game: TeenPattiGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -622,21 +599,10 @@ function TeenPattiContent({ game, activeTab, onViewRules }: { game: TeenPattiGam
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return (
-      <div className="space-y-3">
-        <TeenPattiSimulation onViewRules={onViewRules} />
-        <p className="text-xs text-[#d1fae5]/38 leading-relaxed px-1">
-          <strong className="text-[#d1fae5]/48">Simulation assumes:</strong> 4-player table · Boot ₹10/player (₹40 starting pot) · Chaal (current stake) ₹20 · Seen costs ₹30 total (boot + chaal), Blind costs ₹20 (boot + half chaal) · Dealer always plays seen and calls at ₹20. Win = collect the full pot.
-        </p>
-      </div>
-    );
-  }
-
   return null;
 }
 
-function BlackjackContent({ game, activeTab, onViewRules }: { game: BlackjackGame; activeTab: TabId; onViewRules: () => void }) {
+function BlackjackContent({ game, activeTab }: { game: BlackjackGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -786,14 +752,10 @@ function BlackjackContent({ game, activeTab, onViewRules }: { game: BlackjackGam
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return <BlackjackSimulation onViewRules={onViewRules} />;
-  }
-
   return null;
 }
 
-function CrapsContent({ game, activeTab, onViewRules }: { game: CrapsGame; activeTab: TabId; onViewRules: () => void }) {
+function CrapsContent({ game, activeTab }: { game: CrapsGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -951,14 +913,10 @@ function CrapsContent({ game, activeTab, onViewRules }: { game: CrapsGame; activ
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return <CrapsSimulation onViewRules={onViewRules} />;
-  }
-
   return null;
 }
 
-function FlipCupContent({ game, activeTab, onViewRules }: { game: FlipCupGame; activeTab: TabId; onViewRules: () => void }) {
+function FlipCupContent({ game, activeTab }: { game: FlipCupGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -1018,14 +976,10 @@ function FlipCupContent({ game, activeTab, onViewRules }: { game: FlipCupGame; a
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return <FlipCupSimulation onViewRules={onViewRules} />;
-  }
-
   return null;
 }
 
-function AssholeContent({ game, activeTab, onViewRules }: { game: AssholeGame; activeTab: TabId; onViewRules: () => void }) {
+function AssholeContent({ game, activeTab }: { game: AssholeGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -1103,14 +1057,10 @@ function AssholeContent({ game, activeTab, onViewRules }: { game: AssholeGame; a
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return <AssholeSimulation onViewRules={onViewRules} />;
-  }
-
   return null;
 }
 
-function TwentyEightContent({ game, activeTab, onViewRules }: { game: TwentyEightGame; activeTab: TabId; onViewRules: () => void }) {
+function TwentyEightContent({ game, activeTab }: { game: TwentyEightGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -1201,14 +1151,10 @@ function TwentyEightContent({ game, activeTab, onViewRules }: { game: TwentyEigh
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return <TwentyEightSimulation onViewRules={onViewRules} />;
-  }
-
   return null;
 }
 
-function KaaliTeeriContent({ game, activeTab, onViewRules }: { game: KaaliTeeriGame; activeTab: TabId; onViewRules: () => void }) {
+function KaaliTeeriContent({ game, activeTab }: { game: KaaliTeeriGame; activeTab: TabId }) {
   if (activeTab === 'overview') {
     return (
       <div className="space-y-4">
@@ -1300,17 +1246,13 @@ function KaaliTeeriContent({ game, activeTab, onViewRules }: { game: KaaliTeeriG
     return <VariationCards variations={game.variations} />;
   }
 
-  if (activeTab === 'simulate') {
-    return <KaaliTeeriSimulation onViewRules={onViewRules} />;
-  }
-
   return null;
 }
 
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>();
   const game = games.find((g) => g.id === id);
-  const [activeTab, setActiveTab] = useState<TabId>(GAMES_WITH_SIMULATION.has(id ?? '') ? 'simulate' : 'overview');
+  const [activeTab, setActiveTab] = useState<TabId>(SIMULATED_GAMES.has(id ?? '') ? 'simulate' : 'overview');
 
   if (!game) {
     return (
@@ -1365,7 +1307,7 @@ export default function GameDetailPage() {
     { id: 'scoring', label: ({ 'texas-holdem': 'Hand Rankings', 'teen-patti': 'Hand Rankings', 'ride-the-bus': 'Scoring & Tips', 'blackjack': 'Basic Strategy', 'craps': 'Bets', 'flip-cup': 'Tips', 'asshole': 'Roles', 'twenty-eight': 'Card Points', 'kaali-teeri': 'Special Cards' } as Record<string, string>)[game.id] ?? 'Scoring', icon: <Trophy size={14} /> },
     { id: 'variations', label: 'Variations', icon: <Shuffle size={14} /> },
   ];
-  const tabs = GAMES_WITH_SIMULATION.has(game.id) ? allTabs : allTabs.filter(t => t.id !== 'simulate');
+  const tabs = SIMULATED_GAMES.has(game.id) ? allTabs : allTabs.filter(t => t.id !== 'simulate');
 
   return (
     <div className="min-h-screen">
@@ -1444,35 +1386,55 @@ export default function GameDetailPage() {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 fade-in">
-        {game.id === 'yahtzee' && (
+        {/* Simulate tab: rendered centrally via registry (lazy-loaded per game) */}
+        {activeTab === 'simulate' && simulationRegistry[game.id] && (() => {
+          const entry = simulationRegistry[game.id];
+          const SimComponent = entry.component;
+          return (
+            <Suspense fallback={<div className="text-center py-12" style={{ color: 'rgba(209,250,229,0.5)' }}>Loading simulation…</div>}>
+              {entry.footnote ? (
+                <div className="space-y-3">
+                  <SimComponent onViewRules={handleViewRules} />
+                  <p className="text-xs text-[#d1fae5]/38 leading-relaxed px-1">
+                    <strong className="text-[#d1fae5]/48">Simulation assumes:</strong> {entry.footnote}
+                  </p>
+                </div>
+              ) : (
+                <SimComponent onViewRules={handleViewRules} />
+              )}
+            </Suspense>
+          );
+        })()}
+        {/* Rules / overview tabs: routed per-game content component */}
+        {activeTab !== 'simulate' && game.id === 'yahtzee' && (
           <YahtzeeContent game={game as YahtzeeGame} activeTab={activeTab} />
         )}
-        {game.id === 'texas-holdem' && (
+        {activeTab !== 'simulate' && game.id === 'texas-holdem' && (
           <PokerContent game={game as PokerGame} activeTab={activeTab} />
         )}
-        {game.id === 'ride-the-bus' && (
+        {activeTab !== 'simulate' && game.id === 'ride-the-bus' && (
           <RideBusContent game={game as RideBusGame} activeTab={activeTab} />
         )}
-        {game.id === 'teen-patti' && (
-          <TeenPattiContent game={game as TeenPattiGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'teen-patti' && (
+          <TeenPattiContent game={game as TeenPattiGame} activeTab={activeTab} />
         )}
-        {game.id === 'blackjack' && (
-          <BlackjackContent game={game as BlackjackGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'blackjack' && (
+          <BlackjackContent game={game as BlackjackGame} activeTab={activeTab} />
         )}
-        {game.id === 'craps' && (
-          <CrapsContent game={game as CrapsGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'craps' && (
+          <CrapsContent game={game as CrapsGame} activeTab={activeTab} />
         )}
-        {game.id === 'flip-cup' && (
-          <FlipCupContent game={game as FlipCupGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'flip-cup' && (
+          <FlipCupContent game={game as FlipCupGame} activeTab={activeTab} />
         )}
-        {game.id === 'asshole' && (
-          <AssholeContent game={game as AssholeGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'asshole' && (
+          <AssholeContent game={game as AssholeGame} activeTab={activeTab} />
         )}
-        {game.id === 'twenty-eight' && (
-          <TwentyEightContent game={game as TwentyEightGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'twenty-eight' && (
+          <TwentyEightContent game={game as TwentyEightGame} activeTab={activeTab} />
         )}
-        {game.id === 'kaali-teeri' && (
-          <KaaliTeeriContent game={game as KaaliTeeriGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        {activeTab !== 'simulate' && game.id === 'kaali-teeri' && (
+          <KaaliTeeriContent game={game as KaaliTeeriGame} activeTab={activeTab} />
         )}
       </div>
     </div>

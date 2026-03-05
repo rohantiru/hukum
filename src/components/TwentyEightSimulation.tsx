@@ -10,7 +10,7 @@ const RANK_ORDER: Record<Rank28, number> = { '7': 0, '8': 1, 'Q': 2, 'K': 3, '10
 const CARD_POINTS: Record<Rank28, number> = { 'J': 3, '9': 2, 'A': 1, '10': 1, 'Q': 0, 'K': 0, '8': 0, '7': 0 };
 
 interface Card28 { rank: Rank28; suit: Suit; }
-const PLAYER_NAMES = ['You', 'Left', 'Partner', 'Right'];
+const PLAYER_NAMES = ['Player', 'Left', 'Partner', 'Right'];
 
 function buildDeck(): Card28[] {
   const deck: Card28[] = [];
@@ -286,7 +286,7 @@ export default function TwentyEightSimulation({ onViewRules }: { onViewRules?: (
         {/* Score row */}
         <div className="flex gap-3">
           <div className="flex-1 bg-teal-50 rounded-xl p-3 text-center border border-teal-100">
-            <p className="text-xs text-teal-500 font-semibold">Your team</p>
+            <p className="text-xs text-teal-500 font-semibold">Player team</p>
             <p className="text-2xl font-extrabold text-teal-700">{playerTeamScore}</p>
             <p className="text-xs text-teal-400">bid: {bid}</p>
           </div>
@@ -349,7 +349,7 @@ export default function TwentyEightSimulation({ onViewRules }: { onViewRules?: (
           <div>
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-stone-400 font-semibold uppercase tracking-wide">
-                Your Hand ({playerHand.length} cards)
+                Player's Hand ({playerHand.length} cards)
               </p>
               <p className="text-xs text-amber-600">{ptsInHand} pts in hand</p>
             </div>
@@ -383,7 +383,7 @@ export default function TwentyEightSimulation({ onViewRules }: { onViewRules?: (
           <div className="space-y-2">
             <div className="bg-stone-50 rounded-xl p-3 border border-stone-100 text-center">
               <p className="text-xs text-stone-400">
-                Your team bid <strong className="text-teal-700">{bid} pts</strong> · Trump is hidden until someone plays it
+                Player team bid <strong className="text-teal-700">{bid} pts</strong> · Trump is hidden until someone plays it
               </p>
             </div>
             <button
@@ -422,11 +422,11 @@ export default function TwentyEightSimulation({ onViewRules }: { onViewRules?: (
           <div className={`rounded-xl p-4 border-2 ${playerTeamScore >= bid ? 'bg-teal-50 border-teal-300' : 'bg-red-50 border-red-200'}`}>
             <p className={`font-extrabold text-center text-lg ${playerTeamScore >= bid ? 'text-teal-700' : 'text-red-600'}`}>
               {playerTeamScore >= bid
-                ? `🏆 Your team wins! (${playerTeamScore}/${bid} pts)`
+                ? `🏆 Player team wins! (${playerTeamScore}/${bid} pts)`
                 : `😤 Fell short — needed ${bid}, got ${playerTeamScore}`}
             </p>
             <p className="text-xs text-stone-400 text-center mt-1">
-              Your team: {playerTeamScore} pts · Opponents: {oppTeamScore} pts
+              Player team: {playerTeamScore} pts · Opponents: {oppTeamScore} pts
               {trumpRevealed ? ` · Trump was ${trump}` : ' · Trump was never revealed'}
             </p>
             <button

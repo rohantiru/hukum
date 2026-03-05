@@ -75,18 +75,6 @@ export default function Navbar() {
               All Games
             </Link>
 
-            <span
-              className="text-xs px-3 py-1 rounded-full font-bold"
-              style={{
-                color: '#39FF14',
-                background: 'rgba(57, 255, 20, 0.08)',
-                border: '1px solid rgba(57, 255, 20, 0.28)',
-                textShadow: '0 0 8px rgba(57, 255, 20, 0.6)',
-              }}
-            >
-              9 games
-            </span>
-
             {/* Drunk Mode Toggle */}
             <button
               onClick={toggleDrunkMode}

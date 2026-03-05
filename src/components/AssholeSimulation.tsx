@@ -13,10 +13,24 @@ function mkCard(rank: number): Card {
   return { rank, suit: SUITS[Math.floor(Math.random() * 4)] };
 }
 
+function buildDeck(): Card[] {
+  const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  const deck: Card[] = [];
+  for (const suit of SUITS) for (const rank of ranks) deck.push({ rank, suit });
+  return deck;
+}
+
+function shuffleDeck<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function dealHand(count: number): Card[] {
-  const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14];
-  const shuffled = [...ranks].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count).map(r => mkCard(r));
+  return shuffleDeck(buildDeck()).slice(0, count);
 }
 
 

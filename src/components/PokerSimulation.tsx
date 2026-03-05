@@ -3,16 +3,25 @@ import { ChevronRight, RotateCcw } from 'lucide-react';
 import PlayingCard from './PlayingCard';
 
 type Street = 'preflop' | 'flop' | 'turn' | 'river' | 'showdown';
-
 const STREETS: Street[] = ['preflop', 'flop', 'turn', 'river', 'showdown'];
 
-const DECK_54 = (() => {
+const RANK_ORDER = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+
+// Hand categories — higher = better
+const CAT = { HIGH_CARD: 0, ONE_PAIR: 1, TWO_PAIR: 2, THREE_OF_A_KIND: 3, STRAIGHT: 4, FLUSH: 5, FULL_HOUSE: 6, FOUR_OF_A_KIND: 7, STRAIGHT_FLUSH: 8, ROYAL_FLUSH: 9 };
+
+interface HandEval {
+  cat: number;
+  tb: number[];  // tiebreaker values ordered by importance (pair rank first, then kickers)
+  label: string;
+}
+
+function buildDeck(): string[] {
   const suits = ['♠', '♥', '♦', '♣'];
-  const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
   const deck: string[] = [];
-  for (const suit of suits) for (const rank of ranks) deck.push(rank + suit);
+  for (const suit of suits) for (const rank of RANK_ORDER) deck.push(rank + suit);
   return deck;
-})();
+}
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -23,205 +32,163 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function getHandRank(cards: string[]): string {
-  if (cards.length < 5) return '';
-  const suits = cards.map((c) => c.slice(-1));
-  const ranks = cards.map((c) => c.slice(0, -1));
-  const rankOrder = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-  const vals = ranks.map((r) => rankOrder.indexOf(r)).sort((a, b) => b - a);
-  const counts: Record<number, number> = {};
-  for (const v of vals) counts[v] = (counts[v] ?? 0) + 1;
-  const freq = Object.values(counts).sort((a, b) => b - a);
+/** Evaluate exactly 5 cards. Returns category + tiebreaker for proper comparison. */
+function rankFive(cards: string[]): HandEval {
+  const suits = cards.map(c => c.slice(-1));
+  const vals = cards.map(c => RANK_ORDER.indexOf(c.slice(0, -1))).sort((a, b) => b - a);
+
+  // Frequency map
+  const freq: Record<number, number> = {};
+  for (const v of vals) freq[v] = (freq[v] ?? 0) + 1;
+
+  // Sort groups: by count descending, then rank descending
+  // This naturally puts pairs before kickers, quads before kickers, etc.
+  const groups = Object.entries(freq)
+    .map(([v, c]) => [Number(v), c] as [number, number])
+    .sort((a, b) => b[1] - a[1] || b[0] - a[0]);
+  const tb = groups.map(g => g[0]);
+  const counts = groups.map(g => g[1]);
+
   const isFlush = new Set(suits).size === 1;
   const isSeq = vals[0] - vals[4] === 4 && new Set(vals).size === 5;
-  const lowAce = JSON.stringify([...new Set(vals)].sort((a,b)=>a-b)) === JSON.stringify([0,1,2,3,12]);
+  const isWheel = new Set(vals).size === 5 && JSON.stringify([...vals].sort((a,b)=>a-b)) === JSON.stringify([0,1,2,3,12]);
 
-  if (isFlush && (isSeq || lowAce)) {
-    if (vals[0] === 12 && !lowAce) return '👑 Royal Flush';
-    return '🌊 Straight Flush';
+  if (isFlush && isSeq) return { cat: vals[0] === 12 ? CAT.ROYAL_FLUSH : CAT.STRAIGHT_FLUSH, tb: [vals[0]], label: vals[0] === 12 ? '👑 Royal Flush' : '🌊 Straight Flush' };
+  if (isFlush && isWheel) return { cat: CAT.STRAIGHT_FLUSH, tb: [3], label: '🌊 Straight Flush (Wheel)' };
+  if (counts[0] === 4) return { cat: CAT.FOUR_OF_A_KIND, tb, label: '🎯 Four of a Kind' };
+  if (counts[0] === 3 && counts[1] === 2) return { cat: CAT.FULL_HOUSE, tb, label: '🏠 Full House' };
+  if (isFlush) return { cat: CAT.FLUSH, tb: vals, label: '♥ Flush' };
+  if (isSeq) return { cat: CAT.STRAIGHT, tb: [vals[0]], label: '⬆️ Straight' };
+  if (isWheel) return { cat: CAT.STRAIGHT, tb: [3], label: '⬆️ Straight (Wheel)' };
+  if (counts[0] === 3) return { cat: CAT.THREE_OF_A_KIND, tb, label: '🎲 Three of a Kind' };
+  if (counts[0] === 2 && counts[1] === 2) return { cat: CAT.TWO_PAIR, tb, label: '👥 Two Pair' };
+  if (counts[0] === 2) return { cat: CAT.ONE_PAIR, tb, label: '🃏 One Pair' };
+  return { cat: CAT.HIGH_CARD, tb: vals, label: '🔢 High Card' };
+}
+
+/** Pick the best 5-card hand from 7 cards (all C(7,5)=21 combos). */
+function evaluateHand(cards: string[]): HandEval {
+  let best: HandEval = { cat: -1, tb: [], label: '' };
+  for (let i = 0; i < cards.length; i++) {
+    for (let j = i + 1; j < cards.length; j++) {
+      const five = cards.filter((_, k) => k !== i && k !== j);
+      const r = rankFive(five);
+      if (r.cat > best.cat) { best = r; continue; }
+      if (r.cat === best.cat) {
+        for (let k = 0; k < Math.max(r.tb.length, best.tb.length); k++) {
+          const rv = r.tb[k] ?? -1, bv = best.tb[k] ?? -1;
+          if (rv > bv) { best = r; break; }
+          if (rv < bv) break;
+        }
+      }
+    }
   }
-  if (freq[0] === 4) return '🎯 Four of a Kind';
-  if (freq[0] === 3 && freq[1] === 2) return '🏠 Full House';
-  if (isFlush) return '♥ Flush';
-  if (isSeq || lowAce) return '⬆️ Straight';
-  if (freq[0] === 3) return '🎲 Three of a Kind';
-  if (freq[0] === 2 && freq[1] === 2) return '👥 Two Pair';
-  if (freq[0] === 2) return '🃏 One Pair';
-  return '🔢 High Card';
+  return best;
 }
 
-interface HandScenario {
-  label: string;
-  holeCards: string[];
-  community: string[];
-  actions: { street: Street; pot: number; action: string }[];
+/** Compare two evaluated hands. Returns 1 (a wins), -1 (b wins), 0 (tie). */
+function compareHands(a: HandEval, b: HandEval): 1 | -1 | 0 {
+  if (a.cat !== b.cat) return a.cat > b.cat ? 1 : -1;
+  for (let i = 0; i < Math.max(a.tb.length, b.tb.length); i++) {
+    const av = a.tb[i] ?? -1, bv = b.tb[i] ?? -1;
+    if (av !== bv) return av > bv ? 1 : -1;
+  }
+  return 0;
 }
 
-function generateScenario(): HandScenario {
-  const deck = shuffle(DECK_54);
-  const hole = [deck[0], deck[1]];
-  const community = [deck[2], deck[3], deck[4], deck[5], deck[6]];
-
-  // Simple AI-based action generation
-  const actions: { street: Street; pot: number; action: string }[] = [
-    {
-      street: 'preflop',
-      pot: 15,
-      action: `You're dealt ${hole[0]} ${hole[1]}. You raise to 6 BB. Opponent calls.`,
-    },
-    {
-      street: 'flop',
-      pot: 27,
-      action: `Flop: ${community[0]} ${community[1]} ${community[2]}. You check. Opponent bets 12. You call.`,
-    },
-    {
-      street: 'turn',
-      pot: 51,
-      action: `Turn: ${community[3]}. You bet 20. Opponent calls.`,
-    },
-    {
-      street: 'river',
-      pot: 91,
-      action: `River: ${community[4]}. You bet 35. Opponent folds. You win the pot!`,
-    },
-    {
-      street: 'showdown',
-      pot: 91,
-      action: '',
-    },
-  ];
-
-  return { label: 'Random hand', holeCards: hole, community, actions };
+function dealNewHand() {
+  const deck = shuffle(buildDeck());
+  return {
+    playerHole: [deck[0], deck[1]],
+    opponentHole: [deck[2], deck[3]],
+    community: [deck[4], deck[5], deck[6], deck[7], deck[8]],
+    blinds: 10 + Math.floor(Math.random() * 3) * 5, // ₹10, ₹15 or ₹20 big blind
+  };
 }
 
-const PRESET_SCENARIOS: HandScenario[] = [
-  {
-    label: 'Big Slick (A♠ K♠)',
-    holeCards: ['A♠', 'K♠'],
-    community: ['K♦', 'K♥', '7♣', '2♦', 'A♦'],
-    actions: [
-      { street: 'preflop', pot: 15, action: "You're dealt A♠ K♠ (Big Slick!). Raise to 3× BB. Opponent calls." },
-      { street: 'flop', pot: 21, action: 'Flop: K♦ K♥ 7♣ — You hit three Kings! Bet half pot. Opponent calls.' },
-      { street: 'turn', pot: 45, action: 'Turn: 2♦ — Blank card. You bet again. Opponent raises. You call.' },
-      { street: 'river', pot: 115, action: 'River: A♦ — Full house! Kings full of Aces. You go all-in. Opponent calls.' },
-      { street: 'showdown', pot: 115, action: '' },
-    ],
-  },
-  {
-    label: 'Bluff with 7-2 offsuit',
-    holeCards: ['7♠', '2♦'],
-    community: ['A♥', 'K♠', 'Q♣', '9♦', '3♥'],
-    actions: [
-      { street: 'preflop', pot: 9, action: "You're dealt 7♠ 2♦ (worst hand!). You call the big blind from the button." },
-      { street: 'flop', pot: 9, action: 'Flop: A♥ K♠ Q♣ — Missed completely. Opponent checks. You bet as a bluff! Opponent calls.' },
-      { street: 'turn', pot: 25, action: 'Turn: 9♦ — Still nothing. Opponent checks. You fire another barrel (bluff). Opponent folds!' },
-      { street: 'river', pot: 25, action: "River never reached — opponent folded. You win with 7-high! Bluff successful." },
-      { street: 'showdown', pot: 25, action: '' },
-    ],
-  },
-  {
-    label: 'Set Mining (5♣ 5♦)',
-    holeCards: ['5♣', '5♦'],
-    community: ['5♥', 'K♠', '2♦', 'J♣', '7♥'],
-    actions: [
-      { street: 'preflop', pot: 9, action: "Dealt 5♣ 5♦ — a small pair. Call pre-flop, hoping to flop a set." },
-      { street: 'flop', pot: 9, action: 'Flop: 5♥ K♠ 2♦ — Set of Fives! Slow-play: check. Opponent bets. You raise. Opponent calls.' },
-      { street: 'turn', pot: 55, action: 'Turn: J♣ — You lead out with a 2/3 pot bet. Opponent calls.' },
-      { street: 'river', pot: 115, action: 'River: 7♥ — Board bricked. You move all-in for value. Opponent snap-calls with K-K!' },
-      { street: 'showdown', pot: 230, action: '' },
-    ],
-  },
-];
+const streetLabel: Record<Street, string> = {
+  preflop: 'Pre-Flop', flop: 'Flop', turn: 'Turn', river: 'River', showdown: 'Showdown',
+};
+
+const streetNote: Record<Street, string> = {
+  preflop: 'Blinds posted · players bet before seeing community cards',
+  flop: '3 community cards dealt · first round of betting',
+  turn: '4th community card · second round of betting',
+  river: '5th (final) community card · last round of betting',
+  showdown: 'All cards revealed · best 5-card hand wins',
+};
 
 export default function PokerSimulation() {
-  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [hand, setHand] = useState(() => dealNewHand());
   const [street, setStreet] = useState<Street>('preflop');
-  const [scenario, setScenario] = useState<HandScenario>(PRESET_SCENARIOS[0]);
 
   const streetIdx = STREETS.indexOf(street);
-  const currentAction = scenario.actions.find((a) => a.street === street);
+
   const visibleCommunity = [
-    street === 'preflop' ? [] : scenario.community.slice(0, 3),
-    street === 'turn' || street === 'river' || street === 'showdown' ? scenario.community.slice(3, 4) : [],
-    street === 'river' || street === 'showdown' ? scenario.community.slice(4, 5) : [],
-  ].flat();
+    ...(street === 'preflop' ? [] : hand.community.slice(0, 3)),
+    ...(street === 'turn' || street === 'river' || street === 'showdown' ? hand.community.slice(3, 4) : []),
+    ...(street === 'river' || street === 'showdown' ? hand.community.slice(4, 5) : []),
+  ];
 
-  const allFive = scenario.community.slice(0, 5);
-  const bestHand = street === 'showdown'
-    ? getHandRank([...scenario.holeCards, ...allFive])
-    : null;
+  const bb = hand.blinds;
+  const pot = street === 'preflop' ? bb * 3
+    : street === 'flop' ? bb * 3 + bb * 4
+    : street === 'turn' ? bb * 3 + bb * 4 + bb * 9
+    : bb * 3 + bb * 4 + bb * 9 + bb * 16;
 
-  const advance = () => {
-    const next = STREETS[streetIdx + 1];
-    if (next) setStreet(next);
-  };
+  const playerEval = street === 'showdown' ? evaluateHand([...hand.playerHole, ...hand.community]) : null;
+  const oppEval = street === 'showdown' ? evaluateHand([...hand.opponentHole, ...hand.community]) : null;
+  const result = (playerEval && oppEval) ? compareHands(playerEval, oppEval) : null;
 
-  const reset = (idx?: number) => {
-    const i = idx ?? scenarioIdx;
-    const s = i === PRESET_SCENARIOS.length ? generateScenario() : PRESET_SCENARIOS[i];
-    setScenario(s);
-    setStreet('preflop');
-    if (idx !== undefined) setScenarioIdx(idx);
-  };
-
-  const streetLabel: Record<Street, string> = {
-    preflop: 'Pre-Flop',
-    flop: 'Flop',
-    turn: 'Turn',
-    river: 'River',
-    showdown: 'Showdown',
-  };
+  const reset = () => { setHand(dealNewHand()); setStreet('preflop'); };
+  const advance = () => { const next = STREETS[streetIdx + 1]; if (next) setStreet(next); };
 
   return (
     <div className="space-y-5">
-      {/* Scenario picker */}
-      <div className="flex flex-wrap gap-2">
-        {PRESET_SCENARIOS.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => reset(i)}
-            className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${
-              scenarioIdx === i && scenario.label === s.label
-                ? 'bg-rose-500 text-white border-rose-500'
-                : 'bg-white text-stone-600 border-stone-200 hover:border-rose-300 hover:text-rose-600'
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
-        <button
-          onClick={() => {
-            setScenarioIdx(PRESET_SCENARIOS.length);
-            reset(PRESET_SCENARIOS.length);
-          }}
-          className="text-sm px-3 py-1.5 rounded-lg border bg-white text-stone-600 border-stone-200 hover:border-purple-300 hover:text-purple-600 transition-colors"
-        >
-          🎲 Random hand
-        </button>
-      </div>
-
       {/* Table */}
       <div className="bg-gradient-to-br from-emerald-800 to-emerald-900 rounded-2xl p-5 shadow-xl border border-emerald-700">
         {/* Street progress */}
-        <div className="flex items-center justify-center gap-1 mb-5">
+        <div className="flex items-center justify-center gap-1 mb-4">
           {STREETS.filter(s => s !== 'showdown').map((s, i) => (
             <div key={s} className="flex items-center gap-1">
               <div className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
-                STREETS.indexOf(street) >= i
-                  ? 'bg-white text-emerald-800'
-                  : 'bg-emerald-700/50 text-emerald-400'
-              }`}>
-                {streetLabel[s]}
-              </div>
+                STREETS.indexOf(street) >= i ? 'bg-white text-emerald-800' : 'bg-emerald-700/50 text-emerald-400'
+              }`}>{streetLabel[s]}</div>
               {i < 3 && <ChevronRight size={12} className="text-emerald-600" />}
             </div>
           ))}
         </div>
 
+        {/* Street note */}
+        <p className="text-emerald-400 text-xs text-center mb-4 italic">{streetNote[street]}</p>
+
+        {/* Opponent hand */}
+        <div className="mb-4">
+          <p className="text-emerald-300 text-xs text-center mb-2 font-medium uppercase tracking-wider">Opponent's Hand</p>
+          <div className="flex justify-center gap-3">
+            {street === 'showdown' ? (
+              hand.opponentHole.map((card, i) => (
+                <div key={i} className="card-deal" style={{ animationDelay: `${i * 0.1}s` }}>
+                  <PlayingCard card={card} size="md" />
+                </div>
+              ))
+            ) : (
+              <><PlayingCard hidden size="md" /><PlayingCard hidden size="md" /></>
+            )}
+          </div>
+          {street === 'showdown' && oppEval && (
+            <div className="text-center mt-2 fade-in">
+              <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                result === -1 ? 'bg-yellow-400 text-yellow-900' : 'bg-emerald-700 text-emerald-200'
+              }`}>{oppEval.label}</span>
+            </div>
+          )}
+        </div>
+
         {/* Community cards */}
-        <div className="mb-5">
+        <div className="mb-4">
           <p className="text-emerald-300 text-xs text-center mb-2 font-medium uppercase tracking-wider">Community Cards</p>
-          <div className="flex justify-center gap-2 flex-wrap min-h-[90px] items-center">
+          <div className="flex justify-center gap-2 flex-wrap min-h-[80px] items-center">
             {street === 'preflop' ? (
               <span className="text-emerald-400 text-sm italic">Waiting for flop…</span>
             ) : (
@@ -232,61 +199,66 @@ export default function PokerSimulation() {
                   </div>
                 ))}
                 {Array.from({ length: 5 - visibleCommunity.length }).map((_, i) => (
-                  <PlayingCard key={`hidden-${i}`} hidden />
+                  <PlayingCard key={`h-${i}`} hidden />
                 ))}
               </>
             )}
           </div>
         </div>
 
-        {/* Pot */}
-        {currentAction && (
-          <div className="text-center mb-4">
-            <span className="bg-yellow-400/20 text-yellow-300 text-sm font-semibold px-3 py-1 rounded-full border border-yellow-400/30">
-              💰 Pot: {currentAction.pot} BB
-            </span>
-          </div>
-        )}
+        {/* Pot + explanation */}
+        <div className="text-center mb-4">
+          <span className="bg-yellow-400/20 text-yellow-300 text-sm font-semibold px-3 py-1 rounded-full border border-yellow-400/30">
+            💰 Pot: ₹{pot}
+          </span>
+          <p className="text-emerald-500 text-xs mt-1.5">
+            Big blind ₹{bb} · {
+              street === 'preflop' ? `3 BB in blinds (₹${bb * 3})`
+              : street === 'flop' ? `+4 BB flop bets (₹${bb*4})`
+              : street === 'turn' ? `+9 BB turn bets (₹${bb*9})`
+              : street === 'river' ? `+16 BB river bets (₹${bb*16})`
+              : 'final pot'
+            }
+          </p>
+        </div>
 
-        {/* Hole cards */}
+        {/* Player hand */}
         <div>
           <p className="text-emerald-300 text-xs text-center mb-2 font-medium uppercase tracking-wider">Your Hand</p>
           <div className="flex justify-center gap-3">
-            {scenario.holeCards.map((card, i) => (
+            {hand.playerHole.map((card, i) => (
               <div key={i} className="card-deal" style={{ animationDelay: `${i * 0.1}s` }}>
                 <PlayingCard card={card} size="md" />
               </div>
             ))}
           </div>
-          {bestHand && (
-            <div className="text-center mt-3 fade-in">
-              <span className="bg-yellow-400 text-yellow-900 text-sm font-bold px-4 py-1.5 rounded-full shadow-md">
-                {bestHand}
-              </span>
+          {street === 'showdown' && playerEval && (
+            <div className="text-center mt-2 fade-in">
+              <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                result === 1 ? 'bg-yellow-400 text-yellow-900' : 'bg-emerald-700 text-emerald-200'
+              }`}>{playerEval.label}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Action narrative */}
-      {currentAction && (
-        <div className={`rounded-xl p-4 border fade-in ${
-          street === 'showdown'
-            ? 'bg-amber-50 border-amber-200'
-            : 'bg-white border-stone-200'
+      {/* Winner banner */}
+      {street === 'showdown' && result !== null && (
+        <div className={`rounded-xl p-4 border-2 text-center fade-in ${
+          result === 1 ? 'bg-yellow-50 border-yellow-300'
+          : result === -1 ? 'bg-red-50 border-red-200'
+          : 'bg-stone-50 border-stone-200'
         }`}>
-          <div className="flex items-start gap-2">
-            <span className="text-sm font-bold text-stone-500 shrink-0 mt-0.5">
-              {streetLabel[street]}:
-            </span>
-            <p className="text-sm text-stone-700 leading-relaxed">
-              {street === 'showdown'
-                ? bestHand
-                  ? `Showdown! Your best hand: ${bestHand} using ${scenario.holeCards.join(' ')} with community cards.`
-                  : 'Hand complete.'
-                : currentAction.action}
-            </p>
-          </div>
+          <p className={`font-extrabold text-lg ${
+            result === 1 ? 'text-yellow-700' : result === -1 ? 'text-red-600' : 'text-stone-600'
+          }`}>
+            {result === 1 ? `🏆 You win! +₹${pot}`
+            : result === -1 ? `😤 Opponent wins (${oppEval!.label})`
+            : '🤝 Split pot — identical hands!'}
+          </p>
+          {result === 1 && playerEval && oppEval && (
+            <p className="text-xs text-stone-500 mt-1">{playerEval.label} beats {oppEval.label}</p>
+          )}
         </div>
       )}
 
@@ -302,7 +274,7 @@ export default function PokerSimulation() {
           </button>
         )}
         <button
-          onClick={() => reset()}
+          onClick={reset}
           className={`flex items-center gap-2 py-2.5 px-4 bg-white border border-stone-200 hover:bg-stone-50 text-stone-600 font-medium rounded-xl transition-colors ${street === 'showdown' ? 'flex-1 justify-center' : ''}`}
         >
           <RotateCcw size={14} />
@@ -313,7 +285,7 @@ export default function PokerSimulation() {
       {/* Hand rankings quick ref */}
       <div className="bg-white rounded-xl border border-stone-200 overflow-hidden">
         <div className="px-4 py-2.5 bg-stone-50 border-b border-stone-200">
-          <h4 className="text-xs font-semibold text-stone-500 uppercase tracking-wider">Hand Rankings (best to worst)</h4>
+          <h4 className="text-xs font-semibold text-stone-500 uppercase tracking-wider">Hand Rankings (best → worst)</h4>
         </div>
         <div className="p-3 grid grid-cols-2 gap-x-4 gap-y-0.5">
           {[

@@ -84,7 +84,7 @@ export default function HomePage() {
           style={{ color: 'rgba(225, 179, 0, 0.1)', '--rot': '10deg', animationDelay: '0.4s' } as React.CSSProperties}>♦</span>
 
         <div className="relative max-w-6xl mx-auto px-4 py-8 sm:py-10">
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-2 leading-tight">
+          <h1 className="text-2xl sm:text-4xl font-extrabold mb-2 leading-tight">
             <span style={{ color: '#d1fae5' }}>Master the rules.</span>
             <br className="hidden sm:block" />
             <span style={{ color: '#39FF14', textShadow: '0 0 20px rgba(57, 255, 20, 0.45)' }}>
@@ -183,21 +183,6 @@ export default function HomePage() {
             )}
 
             {/* CTA */}
-            <div
-              className="mt-10 text-center rounded-2xl p-6"
-              style={{
-                background: 'rgba(5, 22, 14, 0.7)',
-                border: '1px solid rgba(225, 179, 0, 0.2)',
-                boxShadow: '0 0 20px rgba(225, 179, 0, 0.06)',
-              }}
-            >
-              <p className="font-bold" style={{ color: '#E1B300', textShadow: '0 0 10px rgba(225, 179, 0, 0.4)' }}>
-                🎉 More games coming soon!
-              </p>
-              <p className="text-sm mt-1" style={{ color: 'rgba(209, 250, 229, 0.5)' }}>
-                Beer pong, flip cup, and more drinking games on the way.
-              </p>
-            </div>
           </div>
         </div>
       </div>
