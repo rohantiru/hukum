@@ -608,6 +608,177 @@
           { "rollNumber": 4, "dice": [3, 4], "total": 7, "phase": "Point Phase", "result": "Seven Out! Pass Line loses.", "betStatus": "Lost $10", "shooterStatus": "Loses dice — next player becomes the new shooter" }
         ]
       }
+    },
+    {
+      "id": "flip-cup",
+      "name": "Flip Cup",
+      "tagline": "Chug, flip, and pray your teammates aren't terrible",
+      "type": "other",
+      "players": "4–20+",
+      "playersMin": 4,
+      "playersMax": 20,
+      "categories": ["drinking", "party", "casual"],
+      "difficulty": "easy",
+      "timeMinutes": 20,
+      "equipment": "Plastic cups, long table, beer or drinks (21+)",
+      "ageWarning": "This is a drinking game intended for players 21 and over. Drink responsibly. Never drink and drive.",
+      "objective": "Be the first team to have all players successfully chug their drink and flip their cup upside-down by flicking the rim from the table's edge.",
+      "setup": [
+        { "step": 1, "title": "Set up the table", "description": "Two teams line up on opposite sides of a long table, facing each other. Same number of players per team." },
+        { "step": 2, "title": "Fill the cups", "description": "Fill each plastic cup about 1/3 to 1/2 full with beer or another drink." },
+        { "step": 3, "title": "Assign order", "description": "Each player faces their direct opponent across the table. Designate which end of the table starts first." },
+        { "step": 4, "title": "Touch cups", "description": "All players tap cups together in a toast before the race begins." }
+      ],
+      "gameplay": [
+        { "step": 1, "title": "Countdown and chug", "description": "On 'Go!', the first player on each team drinks their entire cup as fast as possible." },
+        { "step": 2, "title": "Flip the cup", "description": "Place the cup right-side-up on the table edge with a slight overhang. Use one finger to flick the rim upward, flipping it upside-down onto the table." },
+        { "step": 3, "title": "Pass the relay", "description": "Once a cup lands successfully upside-down, the next teammate may start drinking. No skipping!" },
+        { "step": 4, "title": "Win the round", "description": "The first team to have all players flip their cups successfully wins the round. First to 3 rounds wins the match." }
+      ],
+      "rules": [
+        "You must finish your drink completely before attempting to flip the cup",
+        "The cup must start right-side-up on the table edge — not held in the air",
+        "Only one finger may touch the cup when flipping",
+        "Keep re-flipping until the cup lands upside-down — no giving up mid-flip",
+        "The next player cannot drink until the previous player's cup is successfully flipped",
+        "If a cup falls off the table, replace it upright and continue"
+      ],
+      "strategyTips": [
+        "A slight overhang of about 1/4 cup length over the edge gives the best flip angle",
+        "A quick flick of one finger under the rim is more reliable than a big arm motion",
+        "Don't chug too fast — spilling means you lose time cleaning up",
+        "Steady eye contact with the cup during the flip improves accuracy significantly",
+        "Practice flipping with water before the party if you've never done it before"
+      ],
+      "variations": [
+        { "name": "Civil War", "description": "No relay — all players on both teams drink and flip simultaneously. Absolute chaos." },
+        { "name": "Battle Flip Cup (1v1)", "description": "Two people race head-to-head, first to win 3 flips wins." },
+        { "name": "Survivor Flip Cup", "description": "Losers are eliminated each round until one member remains per team." },
+        { "name": "Around the World", "description": "Relay loops back from the last player to the first. First team to reach a target score wins." }
+      ]
+    },
+    {
+      "id": "asshole",
+      "name": "Asshole",
+      "tagline": "Get rid of your cards, or get stuck doing everyone's bidding",
+      "type": "card",
+      "deck": "Standard 52-card deck",
+      "players": "4–10",
+      "playersMin": 4,
+      "playersMax": 10,
+      "categories": ["drinking", "party", "casual"],
+      "difficulty": "medium",
+      "timeMinutes": 45,
+      "objective": "Be the first player to get rid of all your cards. First out is President. Last out is the Asshole.",
+      "cardRanking": "3 is lowest, then 4 through King, then Ace. 2 is the highest card and always clears the pile. A pair of any rank beats a single — more cards always beats fewer.",
+      "setup": [
+        { "step": 1, "title": "Deal all cards", "description": "Shuffle and deal all 52 cards to players as evenly as possible. It's fine if some players have one more card." },
+        { "step": 2, "title": "First round start", "description": "In the very first game, the player with the 3♣ leads. After that, roles from the previous round determine who starts." },
+        { "step": 3, "title": "Card exchange (round 2+)", "description": "President gets the 2 best cards from Asshole, and gives back 2 of their choice. VP and Vice Asshole swap 1 card each." }
+      ],
+      "gameplay": [
+        { "step": 1, "title": "Lead a play", "description": "The leader plays one card, a pair, or three-of-a-kind face-up. This sets the 'quantity and rank' bar for others to beat." },
+        { "step": 2, "title": "Beat or pass", "description": "Going clockwise, each player must beat the pile or pass. More cards beats fewer — a pair of any rank beats a single. When playing the same quantity, cards must be strictly higher rank." },
+        { "step": 3, "title": "Clear the pile", "description": "If everyone passes, or someone plays a 2, the pile is cleared. The last player to play leads the next pile with anything they like." },
+        { "step": 4, "title": "Empty your hand", "description": "When you play your last card you're done for the round. Leave the table — your finish position is your role next round." },
+        { "step": 5, "title": "Assign roles", "description": "Roles in finish order: President, Vice President, Neutral(s), Vice Asshole, Asshole. Each role carries perks or penalties next round." }
+      ],
+      "roles": [
+        { "name": "President", "description": "Winner of the previous round.", "perks": "Leads first, receives 2 best cards from Asshole, chooses their seat. Can hand drinks to any player at any time." },
+        { "name": "Vice President", "description": "Second player to finish.", "perks": "Swaps 1 card with Vice Asshole. Can hand drinks to any player except the President." },
+        { "name": "Neutral", "description": "Players who finished in the middle.", "perks": "No card exchange, no special drink privileges — play on equal footing." },
+        { "name": "Vice Asshole", "description": "Second-to-last to finish.", "perks": "Must give their best card to Vice President. No drink privileges." },
+        { "name": "Asshole", "description": "Last player to finish.", "perks": "Must deal cards, give 2 best cards to President, sit in the worst seat. Anyone can give the Asshole a drink at any time." }
+      ],
+      "rules": [
+        "A pair (or more cards) beats a single — more cards always beats fewer, regardless of rank",
+        "When playing the same quantity, cards must be strictly higher in rank than the current pile",
+        "Passing is always allowed — you can skip any turn",
+        "A 2 always clears the pile regardless of what's there, and the player of the 2 leads next",
+        "Four-of-a-kind also clears the pile in many house rules",
+        "If everyone passes with no one able to beat the pile, the pile clears and the last player to play leads next",
+        "Once you play your last card, you're out for the round — your finish position is your role next round",
+        "The Asshole must deal all cards in subsequent rounds"
+      ],
+      "strategyTips": [
+        "Lead with low pairs or triples early — they're hard to beat and clear weaker hands",
+        "Save your 2s strategically — use them to clear dangerous piles when you can lead next",
+        "As President, open with strong combos to lock out weaker players early",
+        "As Asshole, watch what's played and identify when a 2 can win you the pile cleanly",
+        "Count passes carefully — if everyone passes on a 9, your 10 takes the pile"
+      ],
+      "variations": [
+        { "name": "President (No Drinking)", "description": "The classic non-drinking version, sometimes called 'President', 'Scum', or 'Kings' depending on region." },
+        { "name": "Revolution", "description": "Playing four-of-a-kind reverses the card ranking for the rest of that pile (low is now high)." },
+        { "name": "Jokers Wild", "description": "Add 2 jokers to the deck. Jokers beat everything including 2s and always clear the pile." },
+        { "name": "Drinking Rules (Standard)", "description": "President can hand drinks to anyone. VP can hand drinks to anyone except President. Asshole can be given drinks by anyone at any time — no limit." }
+      ]
+    },
+    {
+      "id": "twenty-eight",
+      "name": "28",
+      "tagline": "South India's favourite trick-taker — bid smart, hide your trump",
+      "type": "card",
+      "deck": "32 cards: 7, 8, 9, 10, J, Q, K, A in all 4 suits",
+      "players": "4",
+      "playersMin": 4,
+      "playersMax": 4,
+      "categories": ["indian", "strategy", "casual"],
+      "difficulty": "hard",
+      "timeMinutes": 45,
+      "objective": "Bid to win a target number of card points. The deck contains exactly 28 points (J=3, 9=2, A=1, 10=1). Your team wins if you meet your bid — otherwise opponents win the round.",
+      "setup": [
+        { "step": 1, "title": "Form two teams", "description": "4 players split into 2 teams of 2, sitting opposite each other at the table." },
+        { "step": 2, "title": "Deal 8 cards each", "description": "Deal 4 cards to each player first, then 4 more. Each player holds exactly 8 cards." },
+        { "step": 3, "title": "Start bidding", "description": "The player to the dealer's right bids first. Going clockwise, players bid or raise. Minimum bid is 15, maximum is 28." }
+      ],
+      "gameplay": [
+        { "step": 1, "title": "Bidding", "description": "Players bid how many points their team will score this round (min 15, max 28). Each bid must be higher than the previous. The highest bidder wins the right to choose trump." },
+        { "step": 2, "title": "Trump is hidden", "description": "The winning bidder privately knows the trump suit but keeps it secret from everyone. Trump is not announced at the start." },
+        { "step": 3, "title": "Play tricks", "description": "The player to dealer's right leads the first trick. Players must follow the led suit if they have it. If they can't, they may reveal trump by playing a trump card — this is how trump is announced." },
+        { "step": 4, "title": "Win tricks", "description": "Highest card of the led suit wins the trick — unless trump is played. If trump cards appear, the highest trump wins. The trick winner leads the next trick." },
+        { "step": 5, "title": "Score the round", "description": "After all 8 tricks, count point cards (J=3, 9=2, A=1, 10=1) in each team's won tricks. Bidding team wins if they reach their bid; otherwise the other team wins the round." }
+      ],
+      "cardValues": [
+        { "rank": "Jack (J)", "points": 3 },
+        { "rank": "Nine (9)", "points": 2 },
+        { "rank": "Ace (A)", "points": 1 },
+        { "rank": "Ten (10)", "points": 1 },
+        { "rank": "King (K)", "points": 0 },
+        { "rank": "Queen (Q)", "points": 0 },
+        { "rank": "Eight (8)", "points": 0 },
+        { "rank": "Seven (7)", "points": 0 }
+      ],
+      "bidding": [
+        "Minimum bid is 15, maximum is 28 (all points in the deck)",
+        "The player to the dealer's right bids first, going clockwise",
+        "Each new bid must be strictly higher than the previous",
+        "Passing is allowed at any point — once you pass, you cannot re-enter bidding",
+        "The highest bidder wins the right to secretly choose the trump suit",
+        "If your team meets or exceeds the bid in points, you win the round",
+        "A bid of 28 (all points) is called a 'double' — if you win, opponents score nothing; if you lose, your team scores nothing"
+      ],
+      "rules": [
+        "Must follow the led suit if you have it — no shortcuts",
+        "If you cannot follow suit, you may play trump (which reveals the trump suit to all) or any other card",
+        "Once trump is revealed, it stays known for the rest of the round",
+        "The highest trump card wins any trick that contains trump",
+        "Partners sit opposite each other and cannot communicate about their cards",
+        "The trick winner always leads the next trick",
+        "Scoring is round-based — keep track of wins across multiple rounds for match play"
+      ],
+      "strategyTips": [
+        "Don't bid high without at least a Jack or Nine — those are the big point cards",
+        "Count the Jacks early in a round — whoever holds more Jacks has massive scoring potential",
+        "As the bidding team, try to reveal trump yourself before opponents are forced to — control the timing",
+        "Lead low cards when scouting opponents' hands — see what suit they can't follow",
+        "Your partner is your lifeline — lead their strong suit once you identify it"
+      ],
+      "variations": [
+        { "name": "Double (Dubul)", "description": "Bidding 28 (all points) is a 'double'. Win it and opponents score zero for the round. Lose and your team scores zero." },
+        { "name": "56", "description": "Played like 28 but with a full 52-card deck. Same point cards (J=3, 9=2, A=1, 10=1) giving 56 total points." },
+        { "name": "309 (Kerala Variant)", "description": "A popular variant where the trump suit is determined at the start (not hidden), and bidding includes special 'double' and 'triple' stakes." }
+      ]
     }
   ]
 }

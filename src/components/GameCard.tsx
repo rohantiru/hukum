@@ -19,6 +19,10 @@ const gameGradients: Record<string, string> = {
   'teen-patti': 'from-yellow-400 via-amber-400 to-amber-500',
   'blackjack': 'from-emerald-500 via-teal-500 to-teal-600',
   'craps': 'from-violet-500 via-purple-500 to-purple-600',
+  'flip-cup': 'from-sky-400 via-blue-500 to-blue-600',
+  'asshole': 'from-purple-500 via-pink-500 to-pink-600',
+  'twenty-eight': 'from-teal-500 via-cyan-500 to-cyan-600',
+  'kaali-teeri': 'from-stone-700 via-stone-800 to-stone-900',
 };
 
 const gameIcons: Record<string, React.ReactNode> = {
@@ -28,6 +32,10 @@ const gameIcons: Record<string, React.ReactNode> = {
   'teen-patti': <span className="text-4xl drop-shadow">🃏</span>,
   'blackjack': <span className="text-4xl font-black text-white drop-shadow" style={{ fontFamily: 'Nunito, sans-serif' }}>21</span>,
   'craps': <Dices size={36} className="text-white drop-shadow" />,
+  'flip-cup': <span className="text-4xl drop-shadow">🍺</span>,
+  'asshole': <span className="text-5xl drop-shadow text-white">♠</span>,
+  'twenty-eight': <span className="text-4xl font-black text-white drop-shadow" style={{ fontFamily: 'Nunito, sans-serif' }}>28</span>,
+  'kaali-teeri': <span className="text-3xl font-black text-amber-300 drop-shadow">3♠</span>,
 };
 
 // Decorative background symbols for each card
@@ -38,6 +46,10 @@ const gameDecor: Record<string, string[]> = {
   'teen-patti': ['♥', '♦'],
   'blackjack': ['♠', '♥'],
   'craps': ['🎲', '🎲'],
+  'flip-cup': ['🥤', '🍺'],
+  'asshole': ['♣', '♦'],
+  'twenty-eight': ['♦', '♥'],
+  'kaali-teeri': ['♠', '3'],
 };
 
 export default function GameCard({ game }: Props) {

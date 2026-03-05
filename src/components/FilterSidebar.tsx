@@ -145,6 +145,11 @@ export default function FilterSidebar({
           onChange={() => toggleType('dice')}
           label="🎲 Dice games"
         />
+        <CheckItem
+          checked={filters.types.includes('other')}
+          onChange={() => toggleType('other')}
+          label="🎯 Other"
+        />
       </Section>
 
       {/* Difficulty */}

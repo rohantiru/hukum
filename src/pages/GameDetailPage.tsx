@@ -14,19 +14,23 @@ import {
   Play,
 } from 'lucide-react';
 import gamesData from '../data/games.json';
-import type { Game, YahtzeeGame, PokerGame, RideBusGame, TeenPattiGame, BlackjackGame, CrapsGame } from '../types/game';
+import type { Game, YahtzeeGame, PokerGame, RideBusGame, TeenPattiGame, BlackjackGame, CrapsGame, FlipCupGame, AssholeGame, TwentyEightGame, KaaliTeeriGame } from '../types/game';
 import YahtzeeSimulation from '../components/YahtzeeSimulation';
 import PokerSimulation from '../components/PokerSimulation';
 import RideBusSimulation from '../components/RideBusSimulation';
 import TeenPattiSimulation from '../components/TeenPattiSimulation';
 import BlackjackSimulation from '../components/BlackjackSimulation';
 import CrapsSimulation from '../components/CrapsSimulation';
+import FlipCupSimulation from '../components/FlipCupSimulation';
+import AssholeSimulation from '../components/AssholeSimulation';
+import TwentyEightSimulation from '../components/TwentyEightSimulation';
+import KaaliTeeriSimulation from '../components/KaaliTeeriSimulation';
 
 const games = gamesData.games as Game[];
 
 type TabId = 'overview' | 'setup' | 'rules' | 'scoring' | 'variations' | 'simulate';
 
-const GAMES_WITH_SIMULATION = new Set(['yahtzee', 'texas-holdem', 'ride-the-bus', 'teen-patti', 'blackjack', 'craps']);
+const GAMES_WITH_SIMULATION = new Set(['yahtzee', 'texas-holdem', 'ride-the-bus', 'teen-patti', 'blackjack', 'craps', 'flip-cup', 'asshole', 'twenty-eight', 'kaali-teeri']);
 
 
 function CollapsibleSection({ title, children, defaultOpen = true }: {
@@ -948,6 +952,355 @@ function CrapsContent({ game, activeTab, onViewRules }: { game: CrapsGame; activ
   return null;
 }
 
+function FlipCupContent({ game, activeTab, onViewRules }: { game: FlipCupGame; activeTab: TabId; onViewRules: () => void }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-2.5">
+          <span className="text-red-500 text-lg shrink-0">⚠️</span>
+          <p className="text-red-700 text-sm font-medium">{game.ageWarning}</p>
+        </div>
+        <div className="bg-sky-50 rounded-xl p-4 border border-sky-100">
+          <h3 className="font-semibold text-sky-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-sky-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+        <div className="bg-stone-50 rounded-xl p-4 border border-stone-200">
+          <h4 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
+            <Package size={16} /> Equipment
+          </h4>
+          <p className="text-stone-600 text-sm">{game.equipment}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Set up Flip Cup in 4 steps:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">How a round of Flip Cup plays out:</p>
+        <StepList steps={game.gameplay} />
+        <CollapsibleSection title="Full Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.rules.map((r, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-sky-500">›</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return <StrategyTips tips={game.strategyTips} />;
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return <FlipCupSimulation onViewRules={onViewRules} />;
+  }
+
+  return null;
+}
+
+function AssholeContent({ game, activeTab, onViewRules }: { game: AssholeGame; activeTab: TabId; onViewRules: () => void }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
+          <h3 className="font-semibold text-purple-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-purple-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+        <CollapsibleSection title="Card Ranking">
+          <p className="text-sm text-stone-600">{game.cardRanking}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'].map((r, i, arr) => (
+              <span key={r} className={`text-xs px-2 py-1 rounded font-mono font-bold border ${i === arr.length - 1 ? 'bg-purple-100 text-purple-700 border-purple-300' : 'bg-stone-50 text-stone-600 border-stone-200'}`}>
+                {r}
+              </span>
+            ))}
+          </div>
+          <p className="text-xs text-purple-600 mt-2">↑ 2 is the highest card — clears the pile</p>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">How to start an Asshole game:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">The flow of an Asshole round:</p>
+        <StepList steps={game.gameplay} />
+        <CollapsibleSection title="General Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.rules.map((r, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-purple-500">›</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-3">
+        <p className="text-stone-500 text-sm">Roles assigned after each round based on finishing order:</p>
+        {game.roles.map((role) => (
+          <div key={role.name} className="border border-stone-200 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-1">
+              <h4 className="font-bold text-stone-800">{role.name}</h4>
+              <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${role.name === 'President' ? 'bg-amber-100 text-amber-700' : role.name === 'Asshole' ? 'bg-red-100 text-red-700' : 'bg-stone-100 text-stone-600'}`}>
+                {role.name === 'President' ? '🏆 Best' : role.name === 'Asshole' ? '😤 Worst' : '·'}
+              </span>
+            </div>
+            <p className="text-sm text-stone-600 mb-1">{role.description}</p>
+            <p className="text-xs text-blue-700 bg-blue-50 rounded px-2 py-1">{role.perks}</p>
+          </div>
+        ))}
+        <StrategyTips tips={game.strategyTips} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return <AssholeSimulation onViewRules={onViewRules} />;
+  }
+
+  return null;
+}
+
+function TwentyEightContent({ game, activeTab, onViewRules }: { game: TwentyEightGame; activeTab: TabId; onViewRules: () => void }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-teal-50 rounded-xl p-4 border border-teal-100">
+          <h3 className="font-semibold text-teal-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-teal-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+        <CollapsibleSection title="Card Point Values">
+          <div className="grid grid-cols-2 gap-2">
+            {game.cardValues.map((cv) => (
+              <div key={cv.rank} className={`rounded-lg p-2.5 flex items-center justify-between border ${cv.points > 0 ? 'bg-amber-50 border-amber-100' : 'bg-stone-50 border-stone-200'}`}>
+                <span className="font-semibold text-stone-700 text-sm">{cv.rank}</span>
+                <span className={`text-sm font-extrabold ${cv.points > 0 ? 'text-amber-600' : 'text-stone-300'}`}>
+                  {cv.points > 0 ? `+${cv.points} pts` : '0 pts'}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-stone-400 mt-2 text-center">Total: 28 points in the deck</p>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Setting up a game of 28:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">How a round of 28 unfolds:</p>
+        <StepList steps={game.gameplay} />
+        <CollapsibleSection title="Bidding Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.bidding.map((b, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-teal-500">›</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+        <CollapsibleSection title="General Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.rules.map((r, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-teal-500">›</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-3">
+        <p className="text-stone-500 text-sm">Card points — only these 4 ranks score:</p>
+        <div className="grid grid-cols-2 gap-3">
+          {game.cardValues.filter(cv => cv.points > 0).map((cv) => (
+            <div key={cv.rank} className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+              <p className="text-xl font-extrabold text-amber-700">{cv.points}</p>
+              <p className="text-sm font-semibold text-stone-700">{cv.rank}</p>
+              <p className="text-xs text-stone-400">points</p>
+            </div>
+          ))}
+        </div>
+        <div className="bg-teal-50 border border-teal-100 rounded-xl p-3 text-center">
+          <p className="text-sm font-semibold text-teal-700">Total in deck: <span className="font-extrabold text-teal-900 text-lg">28</span> points</p>
+          <p className="text-xs text-teal-600 mt-1">Bid between 15–28 to win the right to set trump</p>
+        </div>
+        <StrategyTips tips={game.strategyTips} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return <TwentyEightSimulation onViewRules={onViewRules} />;
+  }
+
+  return null;
+}
+
+function KaaliTeeriContent({ game, activeTab, onViewRules }: { game: KaaliTeeriGame; activeTab: TabId; onViewRules: () => void }) {
+  if (activeTab === 'overview') {
+    return (
+      <div className="space-y-4">
+        <div className="bg-stone-900 rounded-xl p-4 border border-stone-700">
+          <div className="flex items-start gap-3">
+            <span className="text-3xl font-black text-amber-300 shrink-0">3♠</span>
+            <div>
+              <h3 className="font-extrabold text-white text-base mb-1">The Kaali Teeri Rule</h3>
+              <p className="text-stone-300 text-sm leading-relaxed">{game.specialCards[0]}</p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+          <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+            <Trophy size={16} /> Objective
+          </h3>
+          <p className="text-slate-900 text-sm leading-relaxed">{game.objective}</p>
+        </div>
+        <CollapsibleSection title="Special Cards">
+          <div className="space-y-2">
+            {game.specialCards.map((sc, i) => (
+              <div key={i} className={`rounded-lg p-3 border ${i === 0 ? 'bg-stone-900 border-stone-700' : 'bg-stone-50 border-stone-200'}`}>
+                <p className={`text-sm leading-relaxed ${i === 0 ? 'text-stone-200' : 'text-stone-600'}`}>{sc}</p>
+              </div>
+            ))}
+          </div>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'setup') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">Setting up Kaali Teeri:</p>
+        <StepList steps={game.setup} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'rules') {
+    return (
+      <div className="space-y-4">
+        <p className="text-stone-500 text-sm">How a round of Kaali Teeri is played:</p>
+        <StepList steps={game.gameplay} />
+        <CollapsibleSection title="Bidding Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.bidding.map((b, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-stone-500">›</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+        <CollapsibleSection title="General Rules" defaultOpen={false}>
+          <ul className="space-y-1.5">
+            {game.rules.map((r, i) => (
+              <li key={i} className="text-sm text-stone-600 flex gap-2">
+                <span className="shrink-0 text-stone-500">›</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
+  if (activeTab === 'scoring') {
+    return (
+      <div className="space-y-3">
+        <p className="text-stone-500 text-sm">Cards that change the game:</p>
+        {game.specialCards.map((sc, i) => (
+          <div key={i} className={`rounded-xl p-4 border ${i === 0 ? 'bg-stone-900 border-stone-700' : 'bg-stone-50 border-stone-200'}`}>
+            <p className={`text-sm leading-relaxed ${i === 0 ? 'text-stone-200' : 'text-stone-600'}`}>{sc}</p>
+          </div>
+        ))}
+        <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+          <p className="text-sm font-semibold text-slate-700">Each trick = <span className="font-extrabold text-lg">10</span> points</p>
+          <p className="text-xs text-slate-500 mt-1">First team to 250 points wins the match</p>
+        </div>
+        <StrategyTips tips={game.strategyTips} />
+      </div>
+    );
+  }
+
+  if (activeTab === 'variations') {
+    return <VariationCards variations={game.variations} />;
+  }
+
+  if (activeTab === 'simulate') {
+    return <KaaliTeeriSimulation onViewRules={onViewRules} />;
+  }
+
+  return null;
+}
+
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>();
   const game = games.find((g) => g.id === id);
@@ -974,6 +1327,10 @@ export default function GameDetailPage() {
     'teen-patti': 'from-yellow-500 via-amber-500 to-amber-600',
     'blackjack': 'from-emerald-600 via-teal-600 to-teal-700',
     'craps': 'from-violet-600 via-purple-600 to-purple-700',
+    'flip-cup': 'from-sky-500 via-blue-500 to-blue-600',
+    'asshole': 'from-purple-600 via-pink-600 to-pink-700',
+    'twenty-eight': 'from-teal-500 via-cyan-600 to-cyan-700',
+    'kaali-teeri': 'from-stone-700 via-stone-800 to-stone-900',
   };
   const gameHeaderIcons: Record<string, React.ReactNode> = {
     'yahtzee': <Dices size={32} className="text-white" />,
@@ -982,6 +1339,10 @@ export default function GameDetailPage() {
     'teen-patti': <span className="text-3xl">🃏</span>,
     'blackjack': <span className="text-3xl font-black text-white">21</span>,
     'craps': <Dices size={32} className="text-white" />,
+    'flip-cup': <span className="text-3xl">🍺</span>,
+    'asshole': <span className="text-3xl">♠</span>,
+    'twenty-eight': <span className="text-3xl font-black text-white">28</span>,
+    'kaali-teeri': <span className="text-2xl font-black text-amber-300">3♠</span>,
   };
 
   const headerGradient = gameHeaderGradients[game.id] ?? (game.type === 'card' ? 'from-rose-500 to-pink-600' : 'from-amber-500 to-orange-600');
@@ -993,6 +1354,10 @@ export default function GameDetailPage() {
     'teen-patti': 'bg-amber-100 text-amber-700',
     'blackjack': 'bg-emerald-100 text-emerald-700',
     'craps': 'bg-violet-100 text-violet-700',
+    'flip-cup': 'bg-sky-100 text-sky-700',
+    'asshole': 'bg-purple-100 text-purple-700',
+    'twenty-eight': 'bg-teal-100 text-teal-700',
+    'kaali-teeri': 'bg-stone-200 text-stone-700',
   };
   const activePill = activePillColors[game.id] ?? 'bg-amber-100 text-amber-700';
 
@@ -1003,7 +1368,7 @@ export default function GameDetailPage() {
     { id: 'overview', label: 'Overview', icon: <BookOpen size={14} /> },
     { id: 'setup', label: 'Setup', icon: <Package size={14} /> },
     { id: 'rules', label: 'Rules', icon: <BookOpen size={14} /> },
-    { id: 'scoring', label: ({ 'texas-holdem': 'Hand Rankings', 'teen-patti': 'Hand Rankings', 'ride-the-bus': 'Scoring & Tips', 'blackjack': 'Basic Strategy', 'craps': 'Bets' } as Record<string, string>)[game.id] ?? 'Scoring', icon: <Trophy size={14} /> },
+    { id: 'scoring', label: ({ 'texas-holdem': 'Hand Rankings', 'teen-patti': 'Hand Rankings', 'ride-the-bus': 'Scoring & Tips', 'blackjack': 'Basic Strategy', 'craps': 'Bets', 'flip-cup': 'Tips', 'asshole': 'Roles', 'twenty-eight': 'Card Points', 'kaali-teeri': 'Special Cards' } as Record<string, string>)[game.id] ?? 'Scoring', icon: <Trophy size={14} /> },
     { id: 'variations', label: 'Variations', icon: <Shuffle size={14} /> },
   ];
   const tabs = GAMES_WITH_SIMULATION.has(game.id) ? allTabs : allTabs.filter(t => t.id !== 'simulate');
@@ -1087,6 +1452,18 @@ export default function GameDetailPage() {
         )}
         {game.id === 'craps' && (
           <CrapsContent game={game as CrapsGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        )}
+        {game.id === 'flip-cup' && (
+          <FlipCupContent game={game as FlipCupGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        )}
+        {game.id === 'asshole' && (
+          <AssholeContent game={game as AssholeGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        )}
+        {game.id === 'twenty-eight' && (
+          <TwentyEightContent game={game as TwentyEightGame} activeTab={activeTab} onViewRules={handleViewRules} />
+        )}
+        {game.id === 'kaali-teeri' && (
+          <KaaliTeeriContent game={game as KaaliTeeriGame} activeTab={activeTab} onViewRules={handleViewRules} />
         )}
       </div>
     </div>

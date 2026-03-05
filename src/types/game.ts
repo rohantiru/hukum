@@ -1,4 +1,4 @@
-export type GameType = 'dice' | 'card';
+export type GameType = 'dice' | 'card' | 'other';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type Category = 'family' | 'strategy' | 'gambling' | 'casual' | 'drinking' | 'betting' | 'party' | 'indian';
 
@@ -299,7 +299,109 @@ export interface CrapsGame {
   };
 }
 
-export type Game = YahtzeeGame | PokerGame | RideBusGame | TeenPattiGame | BlackjackGame | CrapsGame;
+// Flip Cup
+export interface FlipCupGame {
+  id: 'flip-cup';
+  name: string;
+  tagline?: string;
+  type: 'other';
+  players: string;
+  playersMin: number;
+  playersMax: number;
+  categories: Category[];
+  difficulty: Difficulty;
+  timeMinutes: number;
+  equipment: string;
+  ageWarning: string;
+  objective: string;
+  setup: GameStep[];
+  gameplay: GameStep[];
+  rules: string[];
+  strategyTips: string[];
+  variations: Variation[];
+}
+
+// Asshole
+export interface AssholeRole {
+  name: string;
+  description: string;
+  perks: string;
+}
+
+export interface AssholeGame {
+  id: 'asshole';
+  name: string;
+  tagline?: string;
+  type: 'card';
+  deck: string;
+  players: string;
+  playersMin: number;
+  playersMax: number;
+  categories: Category[];
+  difficulty: Difficulty;
+  timeMinutes: number;
+  objective: string;
+  cardRanking: string;
+  setup: GameStep[];
+  gameplay: GameStep[];
+  roles: AssholeRole[];
+  rules: string[];
+  strategyTips: string[];
+  variations: Variation[];
+}
+
+// 28
+export interface TwentyEightCardValue {
+  rank: string;
+  points: number;
+}
+
+export interface TwentyEightGame {
+  id: 'twenty-eight';
+  name: string;
+  tagline?: string;
+  type: 'card';
+  deck: string;
+  players: string;
+  playersMin: number;
+  playersMax: number;
+  categories: Category[];
+  difficulty: Difficulty;
+  timeMinutes: number;
+  objective: string;
+  setup: GameStep[];
+  gameplay: GameStep[];
+  cardValues: TwentyEightCardValue[];
+  rules: string[];
+  bidding: string[];
+  strategyTips: string[];
+  variations: Variation[];
+}
+
+// Kaali Teeri (250)
+export interface KaaliTeeriGame {
+  id: 'kaali-teeri';
+  name: string;
+  tagline?: string;
+  type: 'card';
+  deck: string;
+  players: string;
+  playersMin: number;
+  playersMax: number;
+  categories: Category[];
+  difficulty: Difficulty;
+  timeMinutes: number;
+  objective: string;
+  setup: GameStep[];
+  gameplay: GameStep[];
+  rules: string[];
+  specialCards: string[];
+  bidding: string[];
+  strategyTips: string[];
+  variations: Variation[];
+}
+
+export type Game = YahtzeeGame | PokerGame | RideBusGame | TeenPattiGame | BlackjackGame | CrapsGame | FlipCupGame | AssholeGame | TwentyEightGame | KaaliTeeriGame;
 
 export interface GamesData {
   games: Game[];

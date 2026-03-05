@@ -27,7 +27,7 @@ export default function Navbar() {
               All Games
             </Link>
             <span className="text-xs bg-gradient-to-r from-amber-400 to-orange-400 text-white px-3 py-1 rounded-full font-bold shadow-sm">
-              6 games
+              9 games
             </span>
           </div>
         </div>
