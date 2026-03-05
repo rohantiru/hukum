@@ -87,7 +87,7 @@ export default function GameCard({ game }: Props) {
         to={`/game/${game.id}`}
         className={[
           'group block rounded-2xl overflow-hidden transition-all duration-200 glass-card',
-          isDrinking ? 'neon-magenta' : 'neon-lime',
+          isDrinking ? 'neon-magenta jitter-drinking' : 'neon-lime',
         ].join(' ')}
       >
         {/* Colorful header panel */}

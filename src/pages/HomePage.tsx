@@ -83,32 +83,14 @@ export default function HomePage() {
         <span className="float absolute bottom-6 left-16 text-3xl select-none pointer-events-none sm:block hidden"
           style={{ color: 'rgba(225, 179, 0, 0.1)', '--rot': '10deg', animationDelay: '0.4s' } as React.CSSProperties}>♦</span>
 
-        <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-14">
-          <div className="flex items-center gap-2 mb-4">
-            <span
-              className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
-              style={{
-                color: '#39FF14',
-                background: 'rgba(57, 255, 20, 0.08)',
-                border: '1px solid rgba(57, 255, 20, 0.25)',
-                textShadow: '0 0 8px rgba(57, 255, 20, 0.5)',
-              }}
-            >
-              🎮 Game Rules Reference
-            </span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-3 leading-tight">
+        <div className="relative max-w-6xl mx-auto px-4 py-8 sm:py-10">
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-2 leading-tight">
             <span style={{ color: '#d1fae5' }}>Master the rules.</span>
             <br className="hidden sm:block" />
             <span style={{ color: '#39FF14', textShadow: '0 0 20px rgba(57, 255, 20, 0.45)' }}>
               Own the table.
             </span>
           </h1>
-
-          <p className="text-base sm:text-lg max-w-xl font-semibold" style={{ color: 'rgba(209, 250, 229, 0.65)' }}>
-            From bluffing in Teen Patti to rolling craps — every game explained, with interactive simulations so you can practice before you play.
-          </p>
 
           {/* Search bar */}
           <div className="mt-6 flex gap-3 max-w-lg">
@@ -170,14 +152,6 @@ export default function HomePage() {
 
           {/* Games grid */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-sm" style={{ color: 'rgba(209, 250, 229, 0.45)' }}>
-                Showing{' '}
-                <span className="font-semibold" style={{ color: '#39FF14' }}>{filtered.length}</span>{' '}
-                {filtered.length === 1 ? 'game' : 'games'}
-              </p>
-            </div>
-
             {filtered.length === 0 ? (
               <div
                 className="text-center py-20 rounded-2xl"
