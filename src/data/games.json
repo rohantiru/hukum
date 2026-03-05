@@ -670,7 +670,7 @@
       "difficulty": "medium",
       "timeMinutes": 45,
       "objective": "Be the first player to get rid of all your cards. First out is President. Last out is the Asshole.",
-      "cardRanking": "3 is lowest, then 4 through King, then Ace. 2 is the highest card and always clears the pile. A pair of any rank beats a single — more cards always beats fewer.",
+      "cardRanking": "2 is the lowest card, then 3 through King, then Ace is highest. A pair of any rank beats a single — more cards always beats fewer.",
       "setup": [
         { "step": 1, "title": "Deal all cards", "description": "Shuffle and deal all 52 cards to players as evenly as possible. It's fine if some players have one more card." },
         { "step": 2, "title": "First round start", "description": "In the very first game, the player with the 3♣ leads. After that, roles from the previous round determine who starts." },

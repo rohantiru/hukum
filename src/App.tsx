@@ -6,7 +6,7 @@ import GameDetailPage from './pages/GameDetailPage';
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-stone-50">
+      <div className="min-h-screen" style={{ background: '#05160E' }}>
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />

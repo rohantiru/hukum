@@ -85,7 +85,7 @@ export default function HomePage() {
 
         <div className="relative max-w-6xl mx-auto px-4 py-8 sm:py-10">
           <h1 className="text-2xl sm:text-4xl font-extrabold mb-2 leading-tight">
-            <span style={{ color: '#d1fae5' }}>Master the rules.</span>
+            <span style={{ color: '#d1fae5' }}>Master the rules.</span>{' '}
             <br className="hidden sm:block" />
             <span style={{ color: '#39FF14', textShadow: '0 0 20px rgba(57, 255, 20, 0.45)' }}>
               Own the table.
